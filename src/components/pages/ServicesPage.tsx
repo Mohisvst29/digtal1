@@ -15,6 +15,16 @@ export default function ServicesPage() {
   const heading = t('services_heading', 'هندسة الحلول وبناء الريادة الطبية الرقمية');
   const description = t('services_description', 'باقات متكاملة ومصممة خصيصاً للعيادات والمراكز والمستشفيات التخصصية الطموحة لضمان نمو تدفق المرضى بأعلى معايير الالتزام الطبي والمهني.');
 
+  const getServicePath = (slug: string) => {
+    if (slug === 'identity') return 'services/digital-medicalidentity';
+    if (slug === 'social') return 'services/medical-socialmedia';
+    if (slug === 'seo') return 'services/medical-seo';
+    if (slug === 'ppc') return 'services/paid-ads';
+    if (slug === 'reputation') return 'services/reputation-management';
+    if (slug === 'web') return 'services/medical-website';
+    return `services/${slug}`;
+  };
+
   const getHref = (path: string) => {
     if (locale === 'en') {
       return path === '' ? '/en' : `/en/${path}`;
@@ -115,7 +125,7 @@ export default function ServicesPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
+      <main className={`flex-grow pt-32 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Services Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
@@ -241,7 +251,7 @@ export default function ServicesPage() {
                     {serv.slug !== 'identity' && <div />}
                     
                     <Link 
-                      href={getHref(`services/${serv.slug}`)} 
+                      href={getHref(getServicePath(serv.slug))} 
                       className="group flex items-center gap-1.5 text-cyan-400 hover:text-white font-bold text-xs cursor-pointer"
                     >
                       {isRtl ? 'عرض تفاصيل الخدمة' : 'View Service Details'}

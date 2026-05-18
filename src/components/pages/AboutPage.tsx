@@ -27,7 +27,7 @@ export default function AboutPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-20 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
+      <main className={`flex-grow pt-20 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* About Hero Section */}
         <section className="relative min-h-[500px] flex items-center justify-center py-20 px-6 md:px-12 bg-slate-950/30">

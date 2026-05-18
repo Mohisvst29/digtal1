@@ -112,7 +112,7 @@ export default function ContactPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-40 pb-24 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
+      <main className={`flex-grow pt-40 pb-24 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Contact Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 mb-12 select-none">

@@ -30,7 +30,7 @@ export default function HomePage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-20 overflow-x-hidden text-right selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
+      <main className={`flex-grow pt-20 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center pt-10 pb-16 overflow-hidden">
@@ -165,14 +165,13 @@ export default function HomePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               
-              {/* Dynamic services from original site */}
               {[
-                { key: 'identity', icon: 'medical_information', path: 'services/identity', arName: 'الهوية الطبية', enName: 'Clinical Brand Identity', arDesc: 'صياغة علامة تجارية فاخرة عيادية توازن بين السلطة السريرية وقبول المرضى.', enDesc: 'Establishing elite healthcare visual identity that inspires trust and high-end authority.' },
-                { key: 'social', icon: 'share_reviews', path: 'services/social', arName: 'الاستراتيجية الاجتماعية', enName: 'Medical Social Content', arDesc: 'بناء مجتمعات المرضى من خلال محتوى تعليمي مرئي عالي القبول وذو عائد كبير.', enDesc: 'Growing patient engagement and clinic presence via clinical-authority visual posts.' },
-                { key: 'seo', icon: 'travel_explore', path: 'services/seo', arName: 'السيو الطبي', enName: 'Healthcare SEO', arDesc: 'السيطرة التامة على نتائج محركات البحث بالرياض للكلمات المفتاحية عالية النية وعياداتك.', enDesc: 'Dominating search results in Riyadh for high-value transactional clinical search phrases.' },
-                { key: 'ads', icon: 'ads_click', path: 'services/ppc', arName: 'الإعلانات المستهدفة', enName: 'Targeted Patient Ads', arDesc: 'حملات إعلانية مدفوعة دقيقة تقلل من تكلفة جذب المريض وتملأ غرف الاستشارة.', enDesc: 'High-conversion paid campaigns on Meta & Google targeting verified active inquiries.' },
-                { key: 'reputation', icon: 'verified', path: 'services/reputation', arName: 'إدارة السمعة الطبية', enName: 'Reputation Governance', arDesc: 'بناء وحماية المرجعية الرقمية للأطباء والعيادات وجمع تقييمات المرضى الإيجابية.', enDesc: 'Governing and expanding clinical stars, reviews, and professional credibility automatic tools.' },
-                { key: 'web', icon: 'web', path: 'services/web', arName: 'المواقع الطبية الفاخرة', enName: 'High-End Medical Web', arDesc: 'مواقع ويب طبية ذكية وسريعة متكاملة مع أنظمة الحجوزات ومتوافقة مع المعايير الطبية.', enDesc: 'Ultra-fast booking systems and interactive responsive interfaces with direct conversions.' }
+                { key: 'identity', icon: 'medical_information', path: 'services/digital-medicalidentity', arName: 'الهوية الطبية', enName: 'Clinical Brand Identity', arDesc: 'صياغة علامة تجارية فاخرة عيادية توازن بين السلطة السريرية وقبول المرضى.', enDesc: 'Establishing elite healthcare visual identity that inspires trust and high-end authority.' },
+                { key: 'social', icon: 'share_reviews', path: 'services/medical-socialmedia', arName: 'الاستراتيجية الاجتماعية', enName: 'Medical Social Content', arDesc: 'بناء مجتمعات المرضى من خلال محتوى تعليمي مرئي عالي القبول وذو عائد كبير.', enDesc: 'Growing patient engagement and clinic presence via clinical-authority visual posts.' },
+                { key: 'seo', icon: 'travel_explore', path: 'services/medical-seo', arName: 'السيو الطبي', enName: 'Healthcare SEO', arDesc: 'السيطرة التامة على نتائج محركات البحث بالرياض للكلمات المفتاحية عالية النية وعياداتك.', enDesc: 'Dominating search results in Riyadh for high-value transactional clinical search phrases.' },
+                { key: 'ads', icon: 'ads_click', path: 'services/paid-ads', arName: 'الإعلانات المستهدفة', enName: 'Targeted Patient Ads', arDesc: 'حملات إعلانية مدفوعة دقيقة تقلل من تكلفة جذب المريض وتملأ غرف الاستشارة.', enDesc: 'High-conversion paid campaigns on Meta & Google targeting verified active inquiries.' },
+                { key: 'reputation', icon: 'verified', path: 'services/reputation-management', arName: 'إدارة السمعة الطبية', enName: 'Reputation Governance', arDesc: 'بناء وحماية المرجعية الرقمية للأطباء والعيادات وجمع تقييمات المرضى الإيجابية.', enDesc: 'Governing and expanding clinical stars, reviews, and professional credibility automatic tools.' },
+                { key: 'web', icon: 'web', path: 'services/medical-website', arName: 'المواقع الطبية الفاخرة', enName: 'High-End Medical Web', arDesc: 'مواقع ويب طبية ذكية وسريعة متكاملة مع أنظمة الحجوزات ومتوافقة مع المعايير الطبية.', enDesc: 'Ultra-fast booking systems and interactive responsive interfaces with direct conversions.' }
               ].map((serv) => (
                 <div key={serv.key} className="glass-card p-8 rounded-2xl group hover:-translate-y-2 select-none flex flex-col">
                   <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors duration-300 text-cyan-400">

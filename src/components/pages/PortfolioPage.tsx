@@ -116,7 +116,7 @@ export default function PortfolioPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
+      <main className={`flex-grow pt-32 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Portfolio Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">

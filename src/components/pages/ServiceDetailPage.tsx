@@ -254,7 +254,15 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     }
   };
 
-  const currentService = SERVICE_DATA[slug];
+  let normalizedSlug = slug;
+  if (slug === 'digital-medicalidentity') normalizedSlug = 'identity';
+  else if (slug === 'medical-socialmedia') normalizedSlug = 'social';
+  else if (slug === 'medical-seo') normalizedSlug = 'seo';
+  else if (slug === 'paid-ads') normalizedSlug = 'ppc';
+  else if (slug === 'reputation-management') normalizedSlug = 'reputation';
+  else if (slug === 'medical-website') normalizedSlug = 'web';
+
+  const currentService = SERVICE_DATA[normalizedSlug];
 
   if (!currentService) {
     return (
@@ -296,7 +304,7 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 pb-24 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className={`flex-grow pt-32 pb-24 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900`}>
         
         {/* Service Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 relative select-none">
