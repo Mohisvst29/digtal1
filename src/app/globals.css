@@ -76,3 +76,51 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Infinite Marquee animations */
+@keyframes marquee-ltr {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+
+@keyframes marquee-rtl {
+  0% { transform: translateX(-33.33%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 25s linear infinite;
+}
+
+.animate-marquee-rtl {
+  display: flex;
+  width: max-content;
+  animation: marquee-rtl 25s linear infinite;
+}
+
+/* Beautiful Floating Medical & Digital Background Icons */
+@keyframes float-diag-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(15px, -20px) rotate(15deg); }
+}
+@keyframes float-diag-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-20px, -15px) rotate(-10deg); }
+}
+@keyframes float-diag-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(10px, 20px) rotate(8deg); }
+}
+
+.animate-float-diag-1 {
+  animation: float-diag-1 12s ease-in-out infinite;
+}
+.animate-float-diag-2 {
+  animation: float-diag-2 15s ease-in-out infinite;
+}
+.animate-float-diag-3 {
+  animation: float-diag-3 10s ease-in-out infinite;
+}
+

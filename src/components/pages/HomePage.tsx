@@ -37,6 +37,26 @@ export default function HomePage() {
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-400 opacity-[0.05] blur-[120px] rounded-full"></div>
             <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-400 opacity-[0.03] blur-[120px] rounded-full"></div>
+            
+            {/* Floating Medical and Social Media Digital Icons */}
+            <div className="absolute top-[18%] left-[10%] text-cyan-400/20 text-3xl md:text-4xl animate-float-diag-1 select-none pointer-events-none">
+              <span className="material-symbols-outlined">stethoscope</span>
+            </div>
+            <div className="absolute top-[28%] right-[12%] text-cyan-400/15 text-2xl md:text-3xl animate-float-diag-2 select-none pointer-events-none">
+              <span className="material-symbols-outlined">ads_click</span>
+            </div>
+            <div className="absolute bottom-[35%] left-[18%] text-cyan-400/25 text-3xl md:text-4xl animate-float-diag-3 select-none pointer-events-none">
+              <span className="material-symbols-outlined">trending_up</span>
+            </div>
+            <div className="absolute bottom-[20%] right-[22%] text-cyan-400/20 text-3xl md:text-4xl animate-float-diag-1 select-none pointer-events-none">
+              <span className="material-symbols-outlined">medical_information</span>
+            </div>
+            <div className="absolute top-[50%] left-[8%] text-cyan-400/15 text-2xl md:text-3xl animate-float-diag-2 select-none pointer-events-none">
+              <span className="material-symbols-outlined">share</span>
+            </div>
+            <div className="absolute top-[45%] right-[8%] text-cyan-400/20 text-3xl md:text-4xl animate-float-diag-3 select-none pointer-events-none">
+              <span className="material-symbols-outlined">clinical_notes</span>
+            </div>
           </div>
           
           <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -137,19 +157,68 @@ export default function HomePage() {
         </section>
 
         {/* Partners Marquee / Monochrome Icons */}
-        <section className="py-12 border-y border-white/5 bg-slate-950/30 select-none">
-          <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <p className="text-center text-xs font-bold text-slate-400 tracking-wider mb-8">
-              {t('home_partners_title', 'قنوات وشراكات التسويق المعتمدة للعيادات')}
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:opacity-50 transition-opacity">
-              <span className="text-lg md:text-2xl font-extrabold text-white font-mono">Google Partners</span>
-              <span className="text-lg md:text-2xl font-extrabold text-white font-mono">Meta Business</span>
-              <span className="text-lg md:text-2xl font-extrabold text-white font-mono">TikTok Ads</span>
-              <span className="text-lg md:text-2xl font-extrabold text-white font-mono">Snapchat Ads</span>
-            </div>
-          </div>
-        </section>
+        {(() => {
+          let partners: { name: string; logo: string }[] = [];
+          try {
+            const rawJson = t('home_partners_json', '');
+            if (rawJson) {
+              partners = JSON.parse(rawJson);
+            }
+          } catch (e) {}
+          if (!partners || partners.length === 0) {
+            partners = [
+              { name: 'Google Partners', logo: '' },
+              { name: 'Meta Business', logo: '' },
+              { name: 'TikTok Ads', logo: '' },
+              { name: 'Snapchat Ads', logo: '' },
+            ];
+          }
+          const marqueeClass = isRtl ? 'animate-marquee-rtl' : 'animate-marquee-ltr';
+          return (
+            <section className="py-12 border-y border-white/5 bg-slate-950/30 overflow-hidden select-none">
+              <div className="max-w-7xl mx-auto px-6 md:px-12 mb-6">
+                <p className="text-center text-xs font-bold text-slate-400 tracking-wider">
+                  {t('home_partners_title', 'قنوات وشراكات التسويق المعتمدة للعيادات')}
+                </p>
+              </div>
+              
+              <div className="relative w-full overflow-hidden flex">
+                <div className={`flex gap-16 items-center whitespace-nowrap ${marqueeClass} duration-[30s] hover:[animation-play-state:paused] pointer-events-auto`}>
+                  {/* First Set */}
+                  {partners.map((partner, idx) => (
+                    <div key={`p1-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                      {partner.logo ? (
+                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                      ) : (
+                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                      )}
+                    </div>
+                  ))}
+                  {/* Duplicate Set for infinite loop */}
+                  {partners.map((partner, idx) => (
+                    <div key={`p2-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                      {partner.logo ? (
+                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                      ) : (
+                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                      )}
+                    </div>
+                  ))}
+                  {/* Third Set */}
+                  {partners.map((partner, idx) => (
+                    <div key={`p3-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                      {partner.logo ? (
+                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                      ) : (
+                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         {/* Dynamic Services grid */}
         <section className="py-24">

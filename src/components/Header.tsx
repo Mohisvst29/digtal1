@@ -51,7 +51,7 @@ export default function Header() {
       targetPath = pathname.startsWith('/en') ? pathname.replace('/en', '') : pathname;
       if (targetPath === '') targetPath = '/';
     }
-    router.push(targetPath);
+    window.location.href = targetPath;
   };
 
   return (

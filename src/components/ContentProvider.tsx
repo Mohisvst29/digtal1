@@ -276,6 +276,9 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
       const json = await res.json();
       if (json.status === 'success') {
         setData(json);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('site_content_cache', JSON.stringify(json));
+        }
       }
     } catch (e) {
       console.error('Failed to load content context:', e);
@@ -285,6 +288,21 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
   };
 
   useEffect(() => {
+    // SWR Speed Hack: Load from localStorage cache immediately
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem('site_content_cache');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (parsed && parsed.content) {
+            setData(parsed);
+            setLoading(false);
+          }
+        } catch (e) {
+          // Silent catch
+        }
+      }
+    }
     refreshData();
   }, []);
 

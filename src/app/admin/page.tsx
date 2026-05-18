@@ -107,7 +107,7 @@ interface Service {
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
-  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou'>('general');
+  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners'>('general');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -137,11 +137,15 @@ export default function AdminDashboardPage() {
     newPassword: '',
   });
 
-  // Verify Admin Auth Session & Fetch Dataset
+  // Verify Admin Auth Session & Fetch Dataset in Parallel
   useEffect(() => {
     async function initDashboard() {
       try {
-        const authRes = await fetch('/api/auth/me');
+        const [authRes, dataRes] = await Promise.all([
+          fetch('/api/auth/me'),
+          fetch('/api/content')
+        ]);
+        
         if (!authRes.ok) {
           router.replace('/admin/login');
           return;
@@ -152,8 +156,7 @@ export default function AdminDashboardPage() {
           return;
         }
 
-        // Authenticated! Now fetch entire CMS dataset
-        const dataRes = await fetch('/api/content');
+        // Authenticated! Now read the fetched dataset
         if (dataRes.ok) {
           const data = await dataRes.json();
           if (data.status === 'success') {
@@ -548,16 +551,7 @@ export default function AdminDashboardPage() {
     reader.readAsText(file);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-cyan-400 font-sans">
-        <div className="flex flex-col items-center gap-4 animate-pulse">
-          <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-base font-bold tracking-wider">جاري تهيئة لوحة التحكم الطبية ومزامنة MongoDB...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   // Helper renderer to render custom input box
   const renderInput = (key: string, label: string, isEn: boolean = false, isTextArea: boolean = false) => {
@@ -758,10 +752,21 @@ export default function AdminDashboardPage() {
         </div>
       </aside>
 
+      {/* Sleek top glowing progress bar */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-1 bg-cyan-400 animate-pulse z-[300]"></div>
+      )}
+
       {/* Main Panel Content Container */}
       <main className="flex-grow bg-slate-950 p-6 md:p-10 overflow-y-auto max-w-full">
-        
-        {/* Top greeting bar */}
+        {loading ? (
+          <div className="min-h-[60vh] flex flex-col items-center justify-center text-cyan-400 gap-4">
+            <div className="w-12 h-12 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xs font-bold text-slate-400 tracking-wider">جاري مزامنة قواعد البيانات الطبية...</p>
+          </div>
+        ) : (
+          <>
+            {/* Top greeting bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-slate-850">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-white">لوحة الإشراف العام</h1>
@@ -860,6 +865,7 @@ export default function AdminDashboardPage() {
                 { key: 'faq', label: '❓ صفحة الأسئلة الشائعة' },
                 { key: 'contact', label: '📞 صفحة اتصل بنا' },
                 { key: 'thankyou', label: '🎉 صفحة الشكر' },
+                { key: 'partners', label: '🤝 شركاء النجاح والقنوات' },
               ].map((subTab) => {
                 const isActive = activeSubTab === subTab.key;
                 return (
@@ -883,6 +889,7 @@ export default function AdminDashboardPage() {
                 <h2 className="text-lg font-extrabold text-white">
                   {activeSubTab === 'general' && '⚙️ تعديل الهوية، الشعار، الألوان والبيانات العامة'}
                   {activeSubTab === 'home' && '🏠 تعديل نصوص وبانرات وهيدرات الصفحة الرئيسية'}
+                  {activeSubTab === 'partners' && '🤝 تعديل شركاء النجاح والقنوات الإعلانية المتحركة'}
                   {activeSubTab === 'about' && '🏢 تعديل رؤية ورسالة ومميزات صفحة من نحن'}
                   {activeSubTab === 'services' && '🦷 تعديل باقات وعناوين صفحة الخدمات'}
                   {activeSubTab === 'portfolio' && '📈 تعديل هيدر صفحة قصص النجاح ومؤشرات الأداء'}
@@ -1086,6 +1093,158 @@ export default function AdminDashboardPage() {
                   {renderInput('thankyou_btn_en', 'نص زر التوجيه بالإنجليزية', true)}
                 </div>
               )}
+
+              {/* SUB TAB: PARTNERS & CHANNELS */}
+              {activeSubTab === 'partners' && (() => {
+                let parsedPartners: { name: string; logo: string }[] = [];
+                try {
+                  const rawJson = content['home_partners_json'] || '';
+                  if (rawJson) {
+                    parsedPartners = JSON.parse(rawJson);
+                  }
+                } catch (e) {}
+                if (!parsedPartners || parsedPartners.length === 0) {
+                  parsedPartners = [
+                    { name: 'Google Partners', logo: '' },
+                    { name: 'Meta Business', logo: '' },
+                    { name: 'TikTok Ads', logo: '' },
+                    { name: 'Snapchat Ads', logo: '' },
+                  ];
+                }
+
+                return (
+                  <div className="space-y-8 animate-fade-in text-right">
+                    {/* Intro text */}
+                    <div className="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
+                      <h3 className="text-sm font-bold text-white mb-2">🤝 إدارة شركاء النجاح والقنوات الإعلانية المتحركة</h3>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        تسمح لك هذه اللوحة بإضافة وتعديل شركاء النجاح أو القنوات التلفزيونية والإعلانية التي تظهر في الشريط المتحرك بالصفحة الرئيسية للموقع. يمكنك رفع الشعارات عبر تبويب "مكتبة الصور" ثم اختيارها من القائمة المنسدلة هنا أو كتابة الرابط مباشرة.
+                      </p>
+                    </div>
+
+                    {/* Editor Form & List Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      {/* Left: Partners List */}
+                      <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+                        <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                          <h4 className="text-xs font-black text-slate-300">القنوات والشركاء المضافين حالياً ({parsedPartners.length})</h4>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newPartners = [...parsedPartners, { name: 'قناة جديدة', logo: '' }];
+                              setContent({ ...content, home_partners_json: JSON.stringify(newPartners) });
+                            }}
+                            className="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 font-bold px-3 py-1.5 rounded-xl text-[10px] transition-all flex items-center gap-1 cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-[12px]">add</span>
+                            <span>إضافة شريك جديد</span>
+                          </button>
+                        </div>
+
+                        {parsedPartners.length === 0 ? (
+                          <p className="text-xs text-slate-500 text-center py-6">لا يوجد قنوات حالياً. اضغط على إضافة لإدراج قناة جديدة.</p>
+                        ) : (
+                          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                            {parsedPartners.map((partner, idx) => (
+                              <div key={idx} className="flex items-center justify-between bg-slate-950 p-4 rounded-2xl border border-slate-850 hover:border-slate-800 transition-all">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden shrink-0">
+                                    {partner.logo ? (
+                                      <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                                    ) : (
+                                      <span className="material-symbols-outlined text-slate-600 text-lg">image</span>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="text"
+                                      value={partner.name}
+                                      placeholder="اسم القناة أو الشريك"
+                                      onChange={(e) => {
+                                        const copy = [...parsedPartners];
+                                        copy[idx].name = e.target.value;
+                                        setContent({ ...content, home_partners_json: JSON.stringify(copy) });
+                                      }}
+                                      className="bg-transparent border-b border-transparent focus:border-cyan-400 text-xs font-bold text-white focus:outline-none py-0.5 transition-all text-right"
+                                    />
+                                    <p className="text-[9px] text-slate-500 truncate max-w-[200px] mt-0.5">{partner.logo || 'لا يوجد شعار (سيظهر كاسم نصي)'}</p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  {/* Select Logo dropdown from Media library */}
+                                  <select
+                                    value={partner.logo}
+                                    onChange={(e) => {
+                                      const copy = [...parsedPartners];
+                                      copy[idx].logo = e.target.value;
+                                      setContent({ ...content, home_partners_json: JSON.stringify(copy) });
+                                    }}
+                                    className="bg-slate-900 border border-slate-800 text-[10px] text-slate-300 rounded-xl py-1.5 px-3 focus:outline-none focus:border-cyan-400 transition-all cursor-pointer text-right"
+                                  >
+                                    <option value="">-- اختر شعاراً من المكتبة --</option>
+                                    {media.map((m: any) => (
+                                      <option key={m.url} value={m.url}>{m.filename || m.public_id}</option>
+                                    ))}
+                                  </select>
+
+                                  {/* Delete Button */}
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const copy = parsedPartners.filter((_, i) => i !== idx);
+                                      setContent({ ...content, home_partners_json: JSON.stringify(copy) });
+                                    }}
+                                    className="text-rose-500 hover:bg-rose-500/10 p-1.5 rounded-xl transition-all cursor-pointer flex items-center justify-center shrink-0"
+                                    title="حذف الشريك"
+                                  >
+                                    <span className="material-symbols-outlined text-sm">delete</span>
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Right: Preview & Guide Card */}
+                      <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-6">
+                        <h4 className="text-xs font-black text-slate-300 pb-4 border-b border-slate-800">📊 شريط المعاينة التفاعلي</h4>
+                        
+                        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 space-y-4">
+                          <p className="text-[10px] text-slate-500 font-bold">معاينة حية للمظهر في الصفحة الرئيسية:</p>
+                          <div className="py-4 border-y border-white/5 bg-slate-900/40 overflow-hidden select-none flex justify-center items-center gap-6">
+                            {parsedPartners.slice(0, 4).map((p, idx) => (
+                              <div key={idx} className="flex items-center gap-1.5 opacity-60">
+                                {p.logo ? (
+                                  <img src={p.logo} alt={p.name} className="h-5 object-contain grayscale invert" />
+                                ) : (
+                                  <span className="text-[10px] font-extrabold text-white font-mono">{p.name}</span>
+                                )}
+                              </div>
+                            ))}
+                            {parsedPartners.length > 4 && (
+                              <span className="text-[9px] text-slate-500 font-bold">+{parsedPartners.length - 4} أخرى</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="bg-cyan-500/5 border border-cyan-500/10 p-5 rounded-2xl space-y-3">
+                          <h5 className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                            <span className="material-symbols-outlined text-sm">info</span>
+                            <span>نصائح للاستخدام الأمثل</span>
+                          </h5>
+                          <ul className="text-[10px] text-slate-400 space-y-2 list-disc list-inside leading-relaxed text-right">
+                            <li>يفضل استخدام شعارات ذات خلفية شفافة بالكامل (PNG).</li>
+                            <li>تتحول الشعارات تلقائياً إلى اللون الأبيض الأحادي المتناسق لتلائم المظهر السينمائي الفاخر للموقع.</li>
+                            <li>عند مسح الشعار لشريك معين، سيقوم الموقع تلقائياً بعرض اسمه كنص عريض ذو طابع كلاسيكي أنيق.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
             </div>
           </div>
@@ -2444,6 +2603,8 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
+          </>
+        )}
       </main>
     </div>
   );
