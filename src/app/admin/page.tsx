@@ -972,12 +972,6 @@ export default function AdminDashboardPage() {
 
       {/* Main Panel Content Container */}
       <main className="flex-grow bg-slate-950 p-6 md:p-10 overflow-y-auto max-w-full">
-        {loading ? (
-          <div className="min-h-[60vh] flex flex-col items-center justify-center text-cyan-400 gap-4">
-            <div className="w-12 h-12 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-xs font-bold text-slate-400 tracking-wider">جاري مزامنة قواعد البيانات الطبية...</p>
-          </div>
-        ) : (
           <>
             {/* Top greeting bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-slate-850">
@@ -986,8 +980,17 @@ export default function AdminDashboardPage() {
             <p className="text-xs text-slate-400 mt-1">تعديل المقالات، والتحكم المطلق بكامل نصوص وتفاصيل الموقع والمزامنة مع قواعد البيانات</p>
           </div>
           <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 py-2.5 px-4 rounded-2xl text-xs font-semibold text-cyan-400 animate-fade-in">
-            <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shrink-0"></span>
-            <span>MongoDB & Cloudinary: نشط وسحابي</span>
+            {loading ? (
+              <>
+                <div className="w-3.5 h-3.5 border border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
+                <span>جاري مزامنة البيانات...</span>
+              </>
+            ) : (
+              <>
+                <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shrink-0"></span>
+                <span>MongoDB & Cloudinary: نشط وسحابي</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -3311,7 +3314,6 @@ export default function AdminDashboardPage() {
         )}
 
           </>
-        )}
       </main>
     </div>
   );

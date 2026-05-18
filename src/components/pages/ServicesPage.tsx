@@ -290,15 +290,15 @@ export default function ServicesPage() {
                   </div>
 
                   {/* Actions row */}
-                  <div className={`mt-auto border-t border-white/5 pt-6 flex ${isRtl ? 'justify-between' : 'justify-between'} items-center`}>
+                  <div className={`mt-auto border-t border-white/5 pt-6 flex ${isRtl ? 'justify-between' : 'justify-between'} items-center relative z-10`}>
                     {serv.slug === 'identity' && (isRtl ? serv.tags : ['Strategy', 'Visual design'])?.map((t: any, i: number) => (
-                      <span key={i} className="px-3 py-1 bg-white/5 rounded text-[10px] text-slate-400 font-semibold uppercase">{t}</span>
+                      <span key={i} className="px-3 py-1 bg-white/10 border border-white/10 rounded text-[10px] text-slate-200 font-bold uppercase">{t}</span>
                     ))}
                     {serv.slug !== 'identity' && <div />}
                     
                     <Link 
                       href={getHref(getServicePath(serv.slug))} 
-                      className="group flex items-center gap-1.5 text-cyan-400 hover:text-white font-bold text-xs cursor-pointer"
+                      className="group flex items-center gap-1.5 text-cyan-300 hover:text-white font-extrabold text-xs cursor-pointer"
                     >
                       {isRtl ? 'عرض تفاصيل الخدمة' : 'View Service Details'}
                       <span className={`material-symbols-outlined text-sm ${isRtl ? 'rotate-180' : ''} group-hover:translate-x-1 transition-transform`}>

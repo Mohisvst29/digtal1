@@ -12,7 +12,7 @@ interface ServiceDetailProps {
 }
 
 export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
-  const { t, locale } = useContent();
+  const { t, locale, data } = useContent();
 
   const isRtl = locale === 'ar';
 
@@ -262,7 +262,49 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
   else if (slug === 'reputation-management') normalizedSlug = 'reputation';
   else if (slug === 'medical-website') normalizedSlug = 'web';
 
-  const currentService = SERVICE_DATA[normalizedSlug];
+  const rawService = SERVICE_DATA[normalizedSlug];
+  const dbService = data?.services?.find((s: any) => s.slug === normalizedSlug || s.slug === slug);
+
+  // Smart local text selector that extracts the right locale section if separated by a pipe
+  const selectLocalText = (text: string) => {
+    if (!text) return '';
+    if (text.includes('|')) {
+      const parts = text.split('|');
+      return isRtl ? parts[0].trim() : parts[1].trim();
+    }
+    return text;
+  };
+
+  const currentService = rawService || dbService ? {
+    icon: dbService?.icon || rawService?.icon || 'clinical_notes',
+    tag: dbService ? (isRtl ? dbService.tag_ar : dbService.tag_en) : (rawService?.tag ? selectLocalText(rawService.tag) : ''),
+    title: dbService ? (isRtl ? dbService.title_ar : dbService.title_en) : (rawService?.title ? selectLocalText(rawService.title) : ''),
+    desc: dbService ? (isRtl ? dbService.desc_ar : dbService.desc_en) : (rawService?.desc ? selectLocalText(rawService.desc) : ''),
+    btnText: dbService ? (isRtl ? dbService.btnText_ar : dbService.btnText_en) : (rawService?.btnText ? selectLocalText(rawService.btnText) : ''),
+    benefitTitle: dbService ? (isRtl ? dbService.benefitTitle_ar : dbService.benefitTitle_en) : (rawService?.benefitTitle ? selectLocalText(rawService.benefitTitle) : ''),
+    benefitDesc: dbService ? (isRtl ? dbService.benefitDesc_ar : dbService.benefitDesc_en) : (rawService?.benefitDesc ? selectLocalText(rawService.benefitDesc) : ''),
+    benefits: dbService && dbService.benefits && dbService.benefits.length > 0 
+      ? dbService.benefits.map((b: any) => ({
+          icon: b.icon || 'verified',
+          title: isRtl ? b.title_ar : b.title_en,
+          desc: isRtl ? b.desc_ar : b.desc_en
+        }))
+      : (rawService?.benefits || []).map((b: any) => ({
+          icon: b.icon || 'verified',
+          title: selectLocalText(b.title),
+          desc: selectLocalText(b.desc)
+        })),
+    strategyTitle: dbService ? (isRtl ? dbService.strategyTitle_ar : dbService.strategyTitle_en) : (rawService?.strategyTitle ? selectLocalText(rawService.strategyTitle) : ''),
+    strategies: dbService && dbService.strategies && dbService.strategies.length > 0
+      ? dbService.strategies.map((s: any) => ({
+          title: isRtl ? s.title_ar : s.title_en,
+          desc: isRtl ? s.desc_ar : s.desc_en
+        }))
+      : (rawService?.strategies || []).map((s: any) => ({
+          title: selectLocalText(s.title),
+          desc: selectLocalText(s.desc)
+        }))
+  } : null;
 
   if (!currentService) {
     return (
@@ -279,26 +321,19 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     );
   }
 
-  // Smart local text selector that extracts the right locale section if separated by a pipe
-  const selectLocalText = (text: string) => {
-    if (!text) return '';
-    if (text.includes('|')) {
-      const parts = text.split('|');
-      return isRtl ? parts[0].trim() : parts[1].trim();
-    }
-    return text;
+  const defaultImages: Record<string, string> = {
+    seo: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
+    ppc: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    social: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800",
+    web: "https://images.unsplash.com/photo-1547119944-ac76f6dbd485?auto=format&fit=crop&q=80&w=800",
+    reputation: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+    identity: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800"
   };
 
-  const resolvedBenefits = (currentService.benefits || []).map(b => ({
-    icon: b?.icon || 'verified',
-    title: selectLocalText(b?.title || ''),
-    desc: selectLocalText(b?.desc || '')
-  }));
+  const serviceImage = dbService?.image || defaultImages[normalizedSlug] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800";
 
-  const resolvedStrategies = (currentService.strategies || []).map(s => ({
-    title: selectLocalText(s?.title || ''),
-    desc: selectLocalText(s?.desc || '')
-  }));
+  const resolvedBenefits = currentService.benefits || [];
+  const resolvedStrategies = currentService.strategies || [];
 
   return (
     <>
@@ -318,29 +353,52 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
             {isRtl ? 'العودة للخدمات الرقمية' : 'Back to Digital Services'}
           </Link>
           
-          <div className={`flex items-center gap-4 mb-8 ${isRtl ? 'justify-start' : 'justify-start'}`}>
-            <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-cyan-400/20">
-              <span className="material-symbols-outlined text-cyan-400 text-4xl">{currentService.icon}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Service Text details */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className={`flex items-center gap-4 mb-2 ${isRtl ? 'justify-start' : 'justify-start'}`}>
+                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-cyan-400/20">
+                  <span className="material-symbols-outlined text-cyan-400 text-4xl">{currentService.icon}</span>
+                </div>
+                <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3 py-1.5 rounded-lg">
+                  {currentService.tag}
+                </span>
+              </div>
+              
+              <h1 className={`text-3xl md:text-5xl font-extrabold text-white leading-[1.2] ${isRtl ? 'text-right' : 'text-left'}`}>
+                {currentService.title}
+              </h1>
+              
+              <p className={`text-base md:text-lg text-slate-300 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
+                {currentService.desc}
+              </p>
+              
+              <div className="pt-4">
+                <Link 
+                  href={getHref('contact')} 
+                  className="inline-block bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-5 rounded-xl font-bold text-sm shadow-[0_0_30px_rgba(0,218,243,0.3)] hover:scale-[1.03] transition-transform cursor-pointer"
+                >
+                  {currentService.btnText}
+                </Link>
+              </div>
             </div>
-            <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3 py-1.5 rounded-lg">
-              {selectLocalText(currentService.tag)}
-            </span>
+
+            {/* Service Dynamic Image with premium glassmorphic visual showcase */}
+            <div className="lg:col-span-5 relative w-full group">
+              {/* Glowing Background Ring */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-indigo-500 rounded-[2.5rem] opacity-30 blur-2xl group-hover:scale-105 transition-all duration-500"></div>
+              
+              <div className="relative bg-slate-900/60 border border-white/10 p-3 rounded-[2.5rem] backdrop-blur-xl shadow-2xl transition-all duration-500 group-hover:-translate-y-1">
+                <div className="aspect-[4/3] rounded-[2rem] overflow-hidden bg-slate-950 border border-slate-800">
+                  <img 
+                    src={serviceImage} 
+                    alt={currentService.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <h1 className={`text-3xl md:text-5xl font-extrabold text-white mb-6 leading-[1.2] max-w-4xl ${isRtl ? 'text-right' : 'text-left'}`}>
-            {selectLocalText(currentService.title)}
-          </h1>
-          
-          <p className={`text-base md:text-lg text-slate-300 max-w-2xl mb-12 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
-            {selectLocalText(currentService.desc)}
-          </p>
-          
-          <Link 
-            href={getHref('contact')} 
-            className="inline-block bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-5 rounded-xl font-bold text-sm shadow-[0_0_30px_rgba(0,218,243,0.3)] hover:scale-[1.03] transition-transform cursor-pointer"
-          >
-            {selectLocalText(currentService.btnText)}
-          </Link>
         </section>
 
         {/* Benefits & Strategies Content Grid */}
