@@ -415,7 +415,7 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
               </p>
               
               <div className="space-y-6">
-                {resolvedBenefits.map((b, i) => (
+                {resolvedBenefits.map((b: any, i: number) => (
                   <div key={i} className={`flex gap-4 items-start ${isRtl ? 'text-right' : 'text-left'}`}>
                     <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
                       <span className="material-symbols-outlined text-lg">{b.icon}</span>
@@ -445,7 +445,7 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
             </h3>
             
             <ul className="space-y-6">
-              {resolvedStrategies.map((strat, i) => (
+              {resolvedStrategies.map((strat: any, i: number) => (
                 <li key={i} className={`border-b border-white/5 last:border-0 pb-5 last:pb-0 ${isRtl ? 'text-right' : 'text-left'}`}>
                   <h4 className="text-cyan-400 font-bold mb-2 text-sm md:text-base">{strat.title}</h4>
                   <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{strat.desc}</p>
