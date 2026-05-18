@@ -7,6 +7,8 @@ import Testimonial from '@/models/Testimonial';
 import Portfolio from '@/models/Portfolio';
 import Media from '@/models/Media';
 import Lead from '@/models/Lead';
+import FAQ from '@/models/FAQ';
+import Service from '@/models/Service';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
@@ -50,7 +52,13 @@ export async function GET() {
     // 5. Fetch media library URLs
     const media = await Media.find({}).sort({ createdAt: -1 });
 
-    // 6. Fetch leads / consults (STRICTLY FOR LOGGED IN ADMIN ONLY)
+    // 6. Fetch FAQs
+    const faqs = await FAQ.find({}).sort({ order: 1, createdAt: 1 });
+
+    // 7. Fetch Services
+    const services = await Service.find({}).sort({ order: 1, createdAt: 1 });
+
+    // 8. Fetch leads / consults (STRICTLY FOR LOGGED IN ADMIN ONLY)
     let leads: any[] = [];
     const isAdmin = await checkAdminAuth();
     if (isAdmin) {
@@ -65,6 +73,8 @@ export async function GET() {
       portfolio,
       media,
       leads,
+      faqs,
+      services,
     });
   } catch (e: any) {
     console.error('Error fetching site content:', e);

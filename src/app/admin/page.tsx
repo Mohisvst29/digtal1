@@ -55,9 +55,58 @@ interface MediaItem {
   sizeBytes: number;
 }
 
+interface FAQ {
+  _id: string;
+  question_ar: string;
+  question_en: string;
+  answer_ar: string;
+  answer_en: string;
+  order: number;
+}
+
+interface Service {
+  _id: string;
+  slug: string;
+  icon: string;
+  colSpan: string;
+  order: number;
+  tags_ar: string[];
+  tags_en: string[];
+  title_ar: string;
+  title_en: string;
+  desc_ar: string;
+  desc_en: string;
+  tag_ar: string;
+  tag_en: string;
+  btnText_ar: string;
+  btnText_en: string;
+  benefitTitle_ar: string;
+  benefitTitle_en: string;
+  benefitDesc_ar: string;
+  benefitDesc_en: string;
+  benefits: {
+    icon: string;
+    title_ar: string;
+    title_en: string;
+    desc_ar: string;
+    desc_en: string;
+  }[];
+  strategyTitle_ar: string;
+  strategyTitle_en: string;
+  strategies: {
+    title_ar: string;
+    title_en: string;
+    desc_ar: string;
+    desc_en: string;
+  }[];
+  extraType: string;
+  extraData_ar: any;
+  extraData_en: any;
+}
+
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
+  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
   const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou'>('general');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -70,11 +119,15 @@ export default function AdminDashboardPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [portfolio, setPortfolio] = useState<Portfolio[]>([]);
   const [media, setMedia] = useState<MediaItem[]>([]);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
 
   // Modals / forms states
   const [articleForm, setArticleForm] = useState<Partial<Article> | null>(null);
   const [testimonialForm, setTestimonialForm] = useState<Partial<Testimonial> | null>(null);
   const [portfolioForm, setPortfolioForm] = useState<Partial<Portfolio> | null>(null);
+  const [faqForm, setFaqForm] = useState<Partial<FAQ> | null>(null);
+  const [serviceForm, setServiceForm] = useState<Partial<Service> | null>(null);
   const [mediaUploading, setMediaUploading] = useState(false);
 
   // Security Credentials form
@@ -110,6 +163,8 @@ export default function AdminDashboardPage() {
             setPortfolio(data.portfolio || []);
             setMedia(data.media || []);
             setLeads(data.leads || []);
+            setFaqs(data.faqs || []);
+            setServices(data.services || []);
           }
         }
       } catch (err) {
@@ -297,6 +352,96 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       showToast('خطأ أثناء الحذف', 'error');
+    }
+  };
+
+  // FAQ CRUD OPERATIONS
+  const saveFAQ = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!faqForm) return;
+    setSaving(true);
+    const isNew = !faqForm._id;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch('/api/faqs', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNew ? faqForm : { id: faqForm._id, ...faqForm }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast(isNew ? '✓ تم إضافة السؤال بنجاح!' : '✓ تم تعديل السؤال بنجاح!', 'success');
+        const updated = await fetch('/api/content').then(r => r.json());
+        setFaqs(updated.faqs || []);
+        setFaqForm(null);
+      } else {
+        showToast(data.message || 'حدث خطأ ما', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حفظ السؤال', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteFAQ = async (id: string) => {
+    if (!window.confirm('هل تريد حذف هذا السؤال نهائياً؟')) return;
+    try {
+      const res = await fetch(`/api/faqs?id=${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        showToast('✓ تم حذف السؤال بنجاح!', 'success');
+        setFaqs(faqs.filter(f => f._id !== id));
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حذف السؤال', 'error');
+    }
+  };
+
+  // SERVICE CRUD OPERATIONS
+  const saveService = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!serviceForm) return;
+    setSaving(true);
+    const isNew = !serviceForm._id;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch('/api/services', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNew ? serviceForm : { id: serviceForm._id, ...serviceForm }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast(isNew ? '✓ تم إضافة الخدمة بنجاح!' : '✓ تم تعديل الخدمة بنجاح!', 'success');
+        const updated = await fetch('/api/content').then(r => r.json());
+        setServices(updated.services || []);
+        setServiceForm(null);
+      } else {
+        showToast(data.message || 'حدث خطأ ما', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حفظ الخدمة', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteService = async (id: string) => {
+    if (!window.confirm('هل تريد حذف هذه الخدمة نهائياً؟')) return;
+    try {
+      const res = await fetch(`/api/services?id=${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        showToast('✓ تم حذف الخدمة بنجاح!', 'success');
+        setServices(services.filter(s => s._id !== id));
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حذف الخدمة', 'error');
     }
   };
 
@@ -508,6 +653,36 @@ export default function AdminDashboardPage() {
             >
               <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'content' ? "'FILL' 1" : '' }}>settings_suggest</span>
               <span>إعدادات المحتوى</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('services')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                activeTab === 'services' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'services' ? "'FILL' 1" : '' }}>medical_services</span>
+              <span>إدارة الخدمات الطبية</span>
+              {services.length > 0 && (
+                <span className={`mr-auto px-2 py-0.5 text-[10px] rounded-full font-extrabold ${activeTab === 'services' ? 'bg-slate-950 text-cyan-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                  {services.length}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('faqs')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                activeTab === 'faqs' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'faqs' ? "'FILL' 1" : '' }}>help_center</span>
+              <span>الأسئلة الشائعة</span>
+              {faqs.length > 0 && (
+                <span className={`mr-auto px-2 py-0.5 text-[10px] rounded-full font-extrabold ${activeTab === 'faqs' ? 'bg-slate-950 text-cyan-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                  {faqs.length}
+                </span>
+              )}
             </button>
 
             <button
@@ -896,6 +1071,7 @@ export default function AdminDashboardPage() {
                   {renderInput('contact_whatsapp', 'رقم الواتساب للاستشارات')}
                   {renderInput('contact_email', 'البريد الإلكتروني المهني')}
                   {renderInput('contact_address', 'العنوان الجغرافي الكامل للمكتب')}
+                  {renderInput('contact_map_iframe', 'رابط خريطة جوجل التفاعلية (Google Maps)')}
                 </div>
               )}
 
@@ -912,6 +1088,641 @@ export default function AdminDashboardPage() {
               )}
 
             </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: FAQs MANAGER */}
+        {/* ========================================================================= */}
+        {activeTab === 'faqs' && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">إدارة الأسئلة الشائعة للعيادات</h2>
+              <button
+                onClick={() => setFaqForm({ question_ar: '', question_en: '', answer_ar: '', answer_en: '', order: faqs.length + 1 })}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-4 rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center gap-2 cursor-pointer text-xs"
+              >
+                <span className="material-symbols-outlined text-sm">add</span>
+                <span>إضافة سؤال جديد</span>
+              </button>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-[2rem] overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-right text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-slate-400 text-xs font-bold bg-slate-950/40">
+                      <th className="p-4 md:p-6">الترتيب</th>
+                      <th className="p-4 md:p-6">السؤال بالعربية</th>
+                      <th className="p-4 md:p-6">السؤال بالإنجليزية</th>
+                      <th className="p-4 md:p-6 text-left">العمليات</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-850">
+                    {faqs.map((faq) => (
+                      <tr key={faq._id} className="hover:bg-slate-950/20 transition-all">
+                        <td className="p-4 md:p-6 text-xs text-cyan-400 font-bold">{faq.order}</td>
+                        <td className="p-4 md:p-6 font-bold text-white max-w-xs truncate">{faq.question_ar}</td>
+                        <td className="p-4 md:p-6 text-slate-300 max-w-xs truncate" dir="ltr">{faq.question_en}</td>
+                        <td className="p-4 md:p-6 text-left space-x-2 space-x-reverse">
+                          <button
+                            onClick={() => setFaqForm(faq)}
+                            className="bg-cyan-500/10 hover:bg-cyan-400 hover:text-slate-950 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                          >
+                            تعديل
+                          </button>
+                          <button
+                            onClick={() => deleteFAQ(faq._id)}
+                            className="bg-rose-500/10 hover:bg-rose-500 hover:text-slate-950 text-rose-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                          >
+                            حذف
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Modal: Create/Edit FAQ */}
+            {faqForm && (
+              <div className="fixed inset-0 z-[150] bg-slate-950/85 flex items-center justify-center p-6 backdrop-blur-sm animate-fade-in-slow">
+                <div className="bg-slate-900 border border-slate-800 max-w-2xl w-full p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between max-h-[90vh]">
+                  <h3 className="text-xl font-bold text-white mb-6 border-b border-slate-800 pb-3">
+                    {faqForm._id ? 'تعديل السؤال الشائع الحالي' : 'إنشاء سؤال شائع جديد'}
+                  </h3>
+
+                  <form onSubmit={saveFAQ} className="space-y-4 overflow-y-auto pr-1 flex-1 mb-8">
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">السؤال بالعربية</label>
+                        <input
+                          type="text"
+                          required
+                          value={faqForm.question_ar || ''}
+                          onChange={(e) => setFaqForm({ ...faqForm, question_ar: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">السؤال بالإنجليزية</label>
+                        <input
+                          type="text"
+                          required
+                          value={faqForm.question_en || ''}
+                          onChange={(e) => setFaqForm({ ...faqForm, question_en: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none text-left"
+                          dir="ltr"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">الترتيب في الصفحة</label>
+                        <input
+                          type="number"
+                          value={faqForm.order || 0}
+                          onChange={(e) => setFaqForm({ ...faqForm, order: Number(e.target.value) })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-slate-400">الجواب بالعربية</label>
+                      <textarea
+                        rows={4}
+                        required
+                        value={faqForm.answer_ar || ''}
+                        onChange={(e) => setFaqForm({ ...faqForm, answer_ar: e.target.value })}
+                        className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none resize-none leading-relaxed"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-slate-400">الجواب بالإنجليزية</label>
+                      <textarea
+                        rows={4}
+                        required
+                        value={faqForm.answer_en || ''}
+                        onChange={(e) => setFaqForm({ ...faqForm, answer_en: e.target.value })}
+                        className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none resize-none leading-relaxed text-left"
+                        dir="ltr"
+                      />
+                    </div>
+
+                  </form>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setFaqForm(null)}
+                      className="flex-1 bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 font-bold py-3 rounded-xl text-xs transition-all cursor-pointer"
+                    >
+                      إلغاء وتراجع
+                    </button>
+                    <button
+                      onClick={saveFAQ}
+                      disabled={saving}
+                      className="flex-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-3 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer disabled:opacity-50"
+                    >
+                      {saving ? 'جاري الحفظ...' : 'حفظ ومزامنة'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: SERVICES MANAGER */}
+        {/* ========================================================================= */}
+        {activeTab === 'services' && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">إدارة باقات الخدمات الطبية والنمو الرقمي</h2>
+              <button
+                onClick={() => setServiceForm({ 
+                  title_ar: '', title_en: '', slug: '', icon: 'dentist', colSpan: 'md:col-span-6', order: services.length + 1,
+                  tags_ar: [], tags_en: [], desc_ar: '', desc_en: '', tag_ar: '', tag_en: '', btnText_ar: 'احجز استشارة', btnText_en: 'Book Consult',
+                  benefitTitle_ar: '', benefitTitle_en: '', benefitDesc_ar: '', benefitDesc_en: '',
+                  benefits: [
+                    { icon: 'verified', title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                    { icon: 'verified', title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                    { icon: 'verified', title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                  ],
+                  strategyTitle_ar: '', strategyTitle_en: '',
+                  strategies: [
+                    { title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                    { title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                    { title_ar: '', title_en: '', desc_ar: '', desc_en: '' },
+                  ],
+                })}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-4 rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center gap-2 cursor-pointer text-xs"
+              >
+                <span className="material-symbols-outlined text-sm">add</span>
+                <span>إضافة خدمة طبية جديدة</span>
+              </button>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-[2rem] overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-right text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-slate-400 text-xs font-bold bg-slate-950/40">
+                      <th className="p-4 md:p-6">الترتيب</th>
+                      <th className="p-4 md:p-6">الأيقونة</th>
+                      <th className="p-4 md:p-6">الخدمة (عربي)</th>
+                      <th className="p-4 md:p-6">الرابط التعريفى (Slug)</th>
+                      <th className="p-4 md:p-6 text-left">العمليات</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-850">
+                    {services.map((serv) => (
+                      <tr key={serv._id} className="hover:bg-slate-950/20 transition-all">
+                        <td className="p-4 md:p-6 text-xs font-bold text-cyan-400">{serv.order}</td>
+                        <td className="p-4 md:p-6 text-xs">
+                          <span className="material-symbols-outlined text-cyan-400 text-lg">{serv.icon || 'star'}</span>
+                        </td>
+                        <td className="p-4 md:p-6 font-bold text-white max-w-xs truncate">{serv.title_ar}</td>
+                        <td className="p-4 md:p-6 text-slate-400 text-xs font-medium" dir="ltr">{serv.slug}</td>
+                        <td className="p-4 md:p-6 text-left space-x-2 space-x-reverse">
+                          <button
+                            onClick={() => setServiceForm(serv)}
+                            className="bg-cyan-500/10 hover:bg-cyan-400 hover:text-slate-950 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                          >
+                            تعديل
+                          </button>
+                          <button
+                            onClick={() => deleteService(serv._id)}
+                            className="bg-rose-500/10 hover:bg-rose-500 hover:text-slate-950 text-rose-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                          >
+                            حذف
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Modal: Create/Edit Service */}
+            {serviceForm && (
+              <div className="fixed inset-0 z-[150] bg-slate-950/85 flex items-center justify-center p-6 backdrop-blur-sm animate-fade-in-slow">
+                <div className="bg-slate-900 border border-slate-800 max-w-4xl w-full p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between max-h-[90vh]">
+                  <h3 className="text-xl font-bold text-white mb-6 border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <span>{serviceForm._id ? 'تعديل بيانات الخدمة الطبية الحالية' : 'إنشاء خدمة طبية جديدة للعيادة'}</span>
+                    <span className="text-[10px] text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full">Slug: {serviceForm.slug || 'لم يحدد بعد'}</span>
+                  </h3>
+
+                  <form onSubmit={saveService} className="space-y-6 overflow-y-auto pr-2 flex-1 mb-8 text-right text-xs">
+                    
+                    {/* General Fields block */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-bold text-cyan-400 border-r-2 border-cyan-400 pr-2">1. البيانات التعريفية الأساسية</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">العنوان بالعربية</label>
+                          <input
+                            type="text"
+                            required
+                            value={serviceForm.title_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, title_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">العنوان بالإنجليزية</label>
+                          <input
+                            type="text"
+                            required
+                            value={serviceForm.title_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, title_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الرابط الفريد (Slug) بالإنجليزية بدون مسافات</label>
+                          <input
+                            type="text"
+                            required
+                            value={serviceForm.slug || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, '') })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                            placeholder="medical-seo"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">اسم أيقونة Material Symbols</label>
+                          <input
+                            type="text"
+                            value={serviceForm.icon || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, icon: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                            placeholder="fingerprint"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">حجم العرض التلقائي (ColSpan)</label>
+                          <select
+                            value={serviceForm.colSpan || 'md:col-span-6'}
+                            onChange={(e) => setServiceForm({ ...serviceForm, colSpan: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          >
+                            <option value="md:col-span-4">ثلث الصفحة (md:col-span-4)</option>
+                            <option value="md:col-span-6">نصف الصفحة (md:col-span-6)</option>
+                            <option value="md:col-span-8">ثلثي الصفحة (md:col-span-8)</option>
+                            <option value="md:col-span-12">الصفحة كاملة (md:col-span-12)</option>
+                          </select>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الترتيب</label>
+                          <input
+                            type="number"
+                            value={serviceForm.order || 0}
+                            onChange={(e) => setServiceForm({ ...serviceForm, order: Number(e.target.value) })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Desc and Badge block */}
+                    <div className="space-y-4 pt-4 border-t border-slate-800">
+                      <h4 className="text-sm font-bold text-cyan-400 border-r-2 border-cyan-400 pr-2">2. الوصف التفصيلي والbadges</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الوصف الرئيسي المختصر بالعربية</label>
+                          <textarea
+                            rows={3}
+                            required
+                            value={serviceForm.desc_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, desc_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none resize-none leading-relaxed"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الوصف الرئيسي بالإنجليزية</label>
+                          <textarea
+                            rows={3}
+                            required
+                            value={serviceForm.desc_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, desc_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left resize-none leading-relaxed"
+                            dir="ltr"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الوسوم أو المميزات الصغيرة بالعربية (مفصولة بفاصلة ,)</label>
+                          <input
+                            type="text"
+                            placeholder="نمو فوري, متطابق مع الصحة"
+                            value={serviceForm.tags_ar?.join(', ') || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, tags_ar: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">الوسوم بالإنجليزية (مفصولة بفاصلة ,)</label>
+                          <input
+                            type="text"
+                            placeholder="Clinical SEO, Lead Gen"
+                            value={serviceForm.tags_en?.join(', ') || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, tags_en: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">بادج التميز (عربي)</label>
+                          <input
+                            type="text"
+                            placeholder="الأكثر طلباً"
+                            value={serviceForm.tag_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, tag_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">بادج التميز (إنجليزي)</label>
+                          <input
+                            type="text"
+                            placeholder="Most Popular"
+                            value={serviceForm.tag_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, tag_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">نص زر التوجيه (عربي)</label>
+                          <input
+                            type="text"
+                            value={serviceForm.btnText_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, btnText_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">نص زر التوجيه (إنجليزي)</label>
+                          <input
+                            type="text"
+                            value={serviceForm.btnText_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, btnText_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Benefit array block */}
+                    <div className="space-y-4 pt-4 border-t border-slate-800">
+                      <h4 className="text-sm font-bold text-cyan-400 border-r-2 border-cyan-400 pr-2">3. قسم الفوائد والمزايا (Benefits)</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">عنوان قسم الفوائد (عربي)</label>
+                          <input
+                            type="text"
+                            placeholder="لماذا هذه الخدمة بالذات؟"
+                            value={serviceForm.benefitTitle_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, benefitTitle_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">عنوان قسم الفوائد (إنجليزي)</label>
+                          <input
+                            type="text"
+                            placeholder="Why this service?"
+                            value={serviceForm.benefitTitle_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, benefitTitle_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">وصف قسم الفوائد (عربي)</label>
+                          <input
+                            type="text"
+                            placeholder="نوضح الفائدة الكبرى للخدمة..."
+                            value={serviceForm.benefitDesc_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, benefitDesc_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">وصف قسم الفوائد (إنجليزي)</label>
+                          <input
+                            type="text"
+                            placeholder="We explain the value..."
+                            value={serviceForm.benefitDesc_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, benefitDesc_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                      </div>
+
+                      {/* We display 3 static benefit inputs for extreme simplicity and ease of use */}
+                      <div className="space-y-4 mt-4">
+                        {[0, 1, 2].map((idx) => {
+                          const benefit = serviceForm.benefits?.[idx] || { icon: 'verified', title_ar: '', title_en: '', desc_ar: '', desc_en: '' };
+                          const updateBenefit = (field: string, val: string) => {
+                            const current = [...(serviceForm.benefits || [])];
+                            while (current.length <= idx) {
+                              current.push({ icon: 'verified', title_ar: '', title_en: '', desc_ar: '', desc_en: '' });
+                            }
+                            current[idx] = { ...current[idx], [field]: val };
+                            setServiceForm({ ...serviceForm, benefits: current });
+                          };
+
+                          return (
+                            <div key={idx} className="bg-slate-950 p-4 border border-slate-850 rounded-2xl space-y-2">
+                              <p className="font-bold text-cyan-400/80 text-[10px]">الفائدة {idx + 1}:</p>
+                              <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">أيقونة</label>
+                                  <input
+                                    type="text"
+                                    value={benefit.icon || ''}
+                                    onChange={(e) => updateBenefit('icon', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px] text-left"
+                                    dir="ltr"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">العنوان (عربي)</label>
+                                  <input
+                                    type="text"
+                                    value={benefit.title_ar || ''}
+                                    onChange={(e) => updateBenefit('title_ar', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px]"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">العنوان (EN)</label>
+                                  <input
+                                    type="text"
+                                    value={benefit.title_en || ''}
+                                    onChange={(e) => updateBenefit('title_en', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px] text-left"
+                                    dir="ltr"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">الوصف (عربي)</label>
+                                  <input
+                                    type="text"
+                                    value={benefit.desc_ar || ''}
+                                    onChange={(e) => updateBenefit('desc_ar', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px]"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">الوصف (EN)</label>
+                                  <input
+                                    type="text"
+                                    value={benefit.desc_en || ''}
+                                    onChange={(e) => updateBenefit('desc_en', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px] text-left"
+                                    dir="ltr"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Strategies and steps block */}
+                    <div className="space-y-4 pt-4 border-t border-slate-800">
+                      <h4 className="text-sm font-bold text-cyan-400 border-r-2 border-cyan-400 pr-2">4. منهجية العمل والاستراتيجية (Strategies)</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-slate-400">عنوان قسم الاستراتيجية (عربي)</label>
+                          <input
+                            type="text"
+                            placeholder="مراحل تطبيق الاستراتيجية"
+                            value={serviceForm.strategyTitle_ar || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, strategyTitle_ar: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">عنوان قسم الاستراتيجية (إنجليزي)</label>
+                          <input
+                            type="text"
+                            placeholder="Execution Methodology"
+                            value={serviceForm.strategyTitle_en || ''}
+                            onChange={(e) => setServiceForm({ ...serviceForm, strategyTitle_en: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                            dir="ltr"
+                          />
+                        </div>
+                      </div>
+
+                      {/* We display 3 static strategy inputs for extreme simplicity and ease of use */}
+                      <div className="space-y-4 mt-4">
+                        {[0, 1, 2].map((idx) => {
+                          const strategy = serviceForm.strategies?.[idx] || { title_ar: '', title_en: '', desc_ar: '', desc_en: '' };
+                          const updateStrategy = (field: string, val: string) => {
+                            const current = [...(serviceForm.strategies || [])];
+                            while (current.length <= idx) {
+                              current.push({ title_ar: '', title_en: '', desc_ar: '', desc_en: '' });
+                            }
+                            current[idx] = { ...current[idx], [field]: val };
+                            setServiceForm({ ...serviceForm, strategies: current });
+                          };
+
+                          return (
+                            <div key={idx} className="bg-slate-950 p-4 border border-slate-850 rounded-2xl space-y-2">
+                              <p className="font-bold text-cyan-400/80 text-[10px]">الخطوة الاستراتيجية {idx + 1}:</p>
+                              <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">العنوان (عربي)</label>
+                                  <input
+                                    type="text"
+                                    value={strategy.title_ar || ''}
+                                    onChange={(e) => updateStrategy('title_ar', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px]"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">العنوان (EN)</label>
+                                  <input
+                                    type="text"
+                                    value={strategy.title_en || ''}
+                                    onChange={(e) => updateStrategy('title_en', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px] text-left"
+                                    dir="ltr"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">الوصف (عربي)</label>
+                                  <input
+                                    type="text"
+                                    value={strategy.desc_ar || ''}
+                                    onChange={(e) => updateStrategy('desc_ar', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px]"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-slate-500 text-[9px]">الوصف (EN)</label>
+                                  <input
+                                    type="text"
+                                    value={strategy.desc_en || ''}
+                                    onChange={(e) => updateStrategy('desc_en', e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-800 text-white rounded-lg py-1 px-2 text-[10px] text-left"
+                                    dir="ltr"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setServiceForm(null)}
+                      className="flex-1 bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 font-bold py-3 rounded-xl text-xs transition-all cursor-pointer"
+                    >
+                      إلغاء وتراجع
+                    </button>
+                    <button
+                      onClick={saveService}
+                      disabled={saving}
+                      className="flex-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-3 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer disabled:opacity-50"
+                    >
+                      {saving ? 'جاري الحفظ...' : 'حفظ ومزامنة'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
