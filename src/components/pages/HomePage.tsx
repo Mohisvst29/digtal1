@@ -59,7 +59,7 @@ export default function HomePage() {
                 <div
                   key={`slide-${idx}`}
                   className="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
-                  style={{ opacity: isActive ? 0.08 : 0 }}
+                  style={{ opacity: isActive ? 0.25 : 0 }}
                 >
                   {slide.type === 'image' ? (
                     <div
@@ -81,7 +81,7 @@ export default function HomePage() {
                 </div>
               );
             })}
-            <div className="absolute inset-0 bg-slate-950/70 z-0"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950/80 z-0"></div>
           </div>
 
           <div className="absolute inset-0 pointer-events-none">
