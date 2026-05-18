@@ -72,7 +72,7 @@ export default function FaqPage() {
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none relative overflow-hidden rounded-3xl">
           {data?.content?.['faq_bg_img'] && (
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none z-0"
               style={{ backgroundImage: `url(${data.content['faq_bg_img']})` }}
             />
           )}

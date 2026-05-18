@@ -118,7 +118,7 @@ export default function ContactPage() {
         <section className="max-w-7xl mx-auto px-6 md:px-12 mb-12 select-none relative overflow-hidden rounded-3xl py-12 px-8">
           {data?.content?.['contact_bg_img'] && (
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none z-0"
               style={{ backgroundImage: `url(${data.content['contact_bg_img']})` }}
             />
           )}

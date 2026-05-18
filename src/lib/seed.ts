@@ -124,6 +124,14 @@ export async function seedDatabase() {
     { key: 'hero_slide_2', value: 'https://images.unsplash.com/photo-1584515906207-52c616682c16?auto=format&fit=crop&q=80&w=1920' },
     { key: 'hero_slide_3', value: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1920' },
     { key: 'hero_bg_video', value: 'https://assets.mixkit.co/videos/preview/mixkit-medical-laboratory-researcher-analyzing-a-sample-40237-large.mp4' },
+    { key: 'social_linkedin', value: 'https://linkedin.com' },
+    { key: 'social_facebook', value: 'https://facebook.com' },
+    { key: 'social_tiktok', value: 'https://tiktok.com' },
+    { key: 'social_instagram', value: 'https://instagram.com' },
+    { key: 'social_snapchat', value: 'https://snapchat.com' },
+    { key: 'social_behance', value: 'https://behance.net' },
+    { key: 'social_x', value: 'https://x.com' },
+    { key: 'social_youtube', value: 'https://youtube.com' },
 
     // ABOUT PAGE Layout & Copy
     { key: 'about_badge_ar', value: 'تأسست في الرياض' },

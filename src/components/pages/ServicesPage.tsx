@@ -121,6 +121,39 @@ export default function ServicesPage() {
     }
   ];
 
+  const dbServices = data?.services && data.services.length > 0 ? data.services : [];
+
+  const mergedServices = (services as any[]).map(staticServ => {
+    const dbServ = dbServices.find((s: any) => s.slug === staticServ.slug);
+    if (dbServ) {
+      return {
+        ...staticServ,
+        title: isRtl ? (dbServ.title_ar || dbServ.title) : (dbServ.title_en || dbServ.title),
+        desc: isRtl ? (dbServ.desc_ar || dbServ.desc) : (dbServ.desc_en || dbServ.desc),
+        icon: dbServ.icon || staticServ.icon,
+        colSpan: dbServ.colSpan || staticServ.colSpan,
+        image: dbServ.image || '',
+        order: dbServ.order ?? staticServ.order ?? 99,
+      };
+    }
+    return {
+      ...staticServ,
+      image: '',
+    };
+  });
+
+  const extraServices = dbServices.filter((s: any) => !services.some(staticServ => staticServ.slug === s.slug)).map((dbServ: any) => ({
+    slug: dbServ.slug,
+    icon: dbServ.icon || 'clinical_notes',
+    colSpan: dbServ.colSpan || 'md:col-span-6',
+    title: isRtl ? (dbServ.title_ar || dbServ.title) : (dbServ.title_en || dbServ.title),
+    desc: isRtl ? (dbServ.desc_ar || dbServ.desc) : (dbServ.desc_en || dbServ.desc),
+    image: dbServ.image || '',
+    order: dbServ.order ?? 99,
+  }));
+
+  const allServices = [...mergedServices, ...extraServices].sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+
   return (
     <>
       <Header />
@@ -131,7 +164,7 @@ export default function ServicesPage() {
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none relative overflow-hidden rounded-3xl">
           {data?.content?.['services_bg_img'] && (
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none z-0"
               style={{ backgroundImage: `url(${data.content['services_bg_img']})` }}
             />
           )}
@@ -155,21 +188,28 @@ export default function ServicesPage() {
             </div>
           </div>
         </section>
-
+        
         {/* Bento Grid Services */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 pb-24">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {services.map((serv) => {
+            {allServices.map((serv: any) => {
               const title = serv.title;
               const desc = serv.desc;
               return (
                 <div 
                   key={serv.slug} 
-                  className={`${serv.colSpan} glass-card p-8 md:p-10 rounded-2xl flex flex-col justify-between select-none`}
+                  className={`${serv.colSpan} glass-card p-8 md:p-10 rounded-2xl flex flex-col justify-between select-none relative overflow-hidden group/card`}
                 >
-                  <div>
+                  {serv.image && (
+                    <>
+                      <div className="absolute inset-0 bg-cover bg-center opacity-[0.16] group-hover/card:opacity-[0.26] transition-opacity duration-700 pointer-events-none z-0" style={{ backgroundImage: `url(${serv.image})` }} />
+                      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/85 to-slate-950/95 pointer-events-none z-0" />
+                    </>
+                  )}
+                  
+                  <div className="relative z-10">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-cyan-400">
+                      <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-cyan-400 shrink-0">
                         <span className="material-symbols-outlined text-3xl">{serv.icon}</span>
                       </div>
                       <h3 className={`text-xl md:text-2xl font-bold text-white ${isRtl ? 'text-right' : 'text-left'}`}>
@@ -184,7 +224,7 @@ export default function ServicesPage() {
                     {/* Conditional features layout */}
                     {serv.slug === 'identity' && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                        {(isRtl ? serv.featuresAr : serv.featuresEn)?.map((f, i) => (
+                        {(isRtl ? serv.featuresAr : serv.featuresEn)?.map((f: any, i: number) => (
                           <div key={i} className={`flex items-start gap-3 ${isRtl ? 'text-right' : 'text-left'}`}>
                             <span className="material-symbols-outlined text-cyan-400">check_circle</span>
                             <div>
@@ -198,7 +238,7 @@ export default function ServicesPage() {
 
                     {serv.slug === 'seo' && (
                       <ul className={`space-y-3.5 mb-8 text-xs text-slate-300 ${isRtl ? 'text-right' : 'text-left'}`}>
-                        {(isRtl ? serv.bulletsAr : serv.bulletsEn)?.map((b, i) => (
+                        {(isRtl ? serv.bulletsAr : serv.bulletsEn)?.map((b: any, i: number) => (
                           <li key={i} className="flex items-center gap-2.5">
                             <span className="w-2 h-2 bg-cyan-400 rounded-full shrink-0"></span>
                             <span>{b}</span>
@@ -216,7 +256,7 @@ export default function ServicesPage() {
 
                     {serv.slug === 'web' && (
                       <div className="flex flex-wrap gap-2.5 mb-8 justify-start">
-                        {(isRtl ? serv.badgesAr : serv.badgesEn)?.map((badge, i) => (
+                        {(isRtl ? serv.badgesAr : serv.badgesEn)?.map((badge: any, i: number) => (
                           <span key={i} className="px-3 py-1.5 border border-white/5 rounded-full text-xs font-semibold bg-slate-950/20 text-slate-300">
                             {badge}
                           </span>
@@ -238,7 +278,7 @@ export default function ServicesPage() {
 
                     {serv.slug === 'ppc' && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                        {(isRtl ? serv.cardsAr : serv.cardsEn)?.map((c, i) => (
+                        {(isRtl ? serv.cardsAr : serv.cardsEn)?.map((c: any, i: number) => (
                           <div key={i} className={`p-4 bg-slate-950/50 rounded-xl border border-white/5 ${isRtl ? 'text-right' : 'text-left'}`}>
                             <p className="text-[10px] text-slate-400 mb-1">{c.title}</p>
                             <p className="text-xs font-bold text-cyan-400">{c.value}</p>
@@ -251,7 +291,7 @@ export default function ServicesPage() {
 
                   {/* Actions row */}
                   <div className={`mt-auto border-t border-white/5 pt-6 flex ${isRtl ? 'justify-between' : 'justify-between'} items-center`}>
-                    {serv.slug === 'identity' && (isRtl ? serv.tags : ['Strategy', 'Visual design'])?.map((t, i) => (
+                    {serv.slug === 'identity' && (isRtl ? serv.tags : ['Strategy', 'Visual design'])?.map((t: any, i: number) => (
                       <span key={i} className="px-3 py-1 bg-white/5 rounded text-[10px] text-slate-400 font-semibold uppercase">{t}</span>
                     ))}
                     {serv.slug !== 'identity' && <div />}

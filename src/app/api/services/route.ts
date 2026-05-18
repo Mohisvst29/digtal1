@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     await dbConnect();
     const body = await request.json();
     const { 
-      slug, icon, colSpan, order, tags_ar, tags_en,
+      slug, icon, image, colSpan, order, tags_ar, tags_en,
       title_ar, title_en, desc_ar, desc_en, tag_ar, tag_en, btnText_ar, btnText_en,
       benefitTitle_ar, benefitTitle_en, benefitDesc_ar, benefitDesc_en, benefits,
       strategyTitle_ar, strategyTitle_en, strategies,
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     }
 
     const newService = await Service.create({
-      slug, icon: icon || 'fingerprint', colSpan: colSpan || 'md:col-span-6', order: Number(order) || 0,
+      slug, icon: icon || 'fingerprint', image: image || '', colSpan: colSpan || 'md:col-span-6', order: Number(order) || 0,
       tags_ar: tags_ar || [], tags_en: tags_en || [],
       title_ar, title_en, desc_ar, desc_en, tag_ar: tag_ar || '', tag_en: tag_en || '', btnText_ar: btnText_ar || '', btnText_en: btnText_en || '',
       benefitTitle_ar: benefitTitle_ar || '', benefitTitle_en: benefitTitle_en || '', benefitDesc_ar: benefitDesc_ar || '', benefitDesc_en: benefitDesc_en || '',
@@ -86,7 +86,7 @@ export async function PUT(request: Request) {
     await dbConnect();
     const body = await request.json();
     const { 
-      id, slug, icon, colSpan, order, tags_ar, tags_en,
+      id, slug, icon, image, colSpan, order, tags_ar, tags_en,
       title_ar, title_en, desc_ar, desc_en, tag_ar, tag_en, btnText_ar, btnText_en,
       benefitTitle_ar, benefitTitle_en, benefitDesc_ar, benefitDesc_en, benefits,
       strategyTitle_ar, strategyTitle_en, strategies,
@@ -108,7 +108,7 @@ export async function PUT(request: Request) {
     const updatedService = await Service.findByIdAndUpdate(
       id,
       { 
-        slug, icon, colSpan, order: Number(order) || 0, tags_ar, tags_en,
+        slug, icon, image, colSpan, order: Number(order) || 0, tags_ar, tags_en,
         title_ar, title_en, desc_ar, desc_en, tag_ar, tag_en, btnText_ar, btnText_en,
         benefitTitle_ar, benefitTitle_en, benefitDesc_ar, benefitDesc_en, benefits,
         strategyTitle_ar, strategyTitle_en, strategies,

@@ -63,7 +63,7 @@ export default function AboutPage() {
         <section className="relative min-h-[500px] flex items-center justify-center py-20 px-6 md:px-12 bg-slate-950/30">
           {data?.content?.['about_img'] && (
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              className="absolute inset-0 bg-cover bg-center opacity-[0.22] pointer-events-none z-0"
               style={{ backgroundImage: `url(${data.content['about_img']})` }}
             />
           )}

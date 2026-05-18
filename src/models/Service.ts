@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const ServiceSchema = new Schema({
   slug: { type: String, required: true, unique: true },
   icon: { type: String, required: true, default: 'fingerprint' },
+  image: { type: String, default: '' },
   colSpan: { type: String, default: 'md:col-span-6' }, // Custom layout sizing
   order: { type: Number, default: 0 },
   

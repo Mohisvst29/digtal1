@@ -10,6 +10,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   const logoText = locale === 'ar' 
     ? (data.content['logo_text_ar'] || 'ديجيتال هيلث') 
@@ -23,6 +24,26 @@ export default function Header() {
     { name_ar: 'مقالات', name_en: 'Blog', path: 'blog' },
     { name_ar: 'أسئلة', name_en: 'FAQ', path: 'faq' },
     { name_ar: 'تواصل معنا', name_en: 'Contact Us', path: 'contact' },
+  ];
+
+  const getServicePath = (slug: string) => {
+    if (slug === 'identity') return 'services/digital-medicalidentity';
+    if (slug === 'social') return 'services/medical-socialmedia';
+    if (slug === 'seo') return 'services/medical-seo';
+    if (slug === 'ppc') return 'services/paid-ads';
+    if (slug === 'reputation') return 'services/reputation-management';
+    if (slug === 'web') return 'services/medical-website';
+    if (slug.startsWith('services/')) return slug;
+    return `services/${slug}`;
+  };
+
+  const servicesList = data.services && data.services.length > 0 ? data.services : [
+    { slug: 'identity', title_ar: 'الهوية الطبية الرقمية الفاخرة', title_en: 'Premium Clinical Brand Identity', icon: 'fingerprint' },
+    { slug: 'social', title_ar: 'المحتوى والشبكات الاجتماعية', title_en: 'Medical Social Content', icon: 'share_reviews' },
+    { slug: 'seo', title_ar: 'السيو الطبي التخصصي', title_en: 'Clinical Healthcare SEO', icon: 'travel_explore' },
+    { slug: 'ppc', title_ar: 'الإعلانات المدفوعة الذكية', title_en: 'Targeted Patient Ads', icon: 'ads_click' },
+    { slug: 'reputation', title_ar: 'إدارة السمعة والتقييمات', title_en: 'Reputation Governance', icon: 'verified' },
+    { slug: 'web', title_ar: 'المواقع الطبية الفاخرة', title_en: 'High-End Medical Web', icon: 'web' },
   ];
 
   const getHref = (path: string) => {
@@ -84,10 +105,61 @@ export default function Header() {
         })()}
 
         {/* Desktop Navbar Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8 h-full">
           {navItems.map((item) => {
             const active = isActive(item.path);
             const name = locale === 'ar' ? item.name_ar : item.name_en;
+
+            if (item.path === 'services') {
+              return (
+                <div key={item.path} className="relative group flex items-center h-full cursor-pointer py-4">
+                  <Link
+                    href={getHref(item.path)}
+                    className={`text-sm font-semibold transition-all duration-200 flex items-center gap-0.5 ${
+                      active 
+                        ? 'text-[var(--primary-color)]' 
+                        : 'text-slate-300 hover:text-[var(--primary-color)]'
+                    }`}
+                  >
+                    <span>{name}</span>
+                    <span className="material-symbols-outlined text-[16px] group-hover:rotate-180 transition-transform duration-350 select-none">
+                      keyboard_arrow_down
+                    </span>
+                  </Link>
+
+                  {/* Glassmorphic Dropdown Menu */}
+                  <div className={`absolute ${locale === 'ar' ? 'right-1/2 translate-x-1/2' : 'left-1/2 -translate-x-1/2'} top-full mt-0 w-85 bg-slate-900/95 border border-white/15 rounded-3xl p-4 opacity-0 invisible translate-y-3 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-350 z-50 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]`}>
+                    <div className="space-y-1.5">
+                      {servicesList.map((serv: any) => {
+                        const servName = locale === 'ar' ? (serv.title_ar || serv.title) : (serv.title_en || serv.title);
+                        const servIcon = serv.icon || 'clinical_notes';
+                        const path = getServicePath(serv.slug);
+                        return (
+                          <Link
+                            key={serv.slug}
+                            href={getHref(path)}
+                            className="flex items-center gap-3.5 p-3 rounded-2xl hover:bg-cyan-400/5 hover:border-cyan-400/10 border border-transparent transition-all text-right group/item"
+                          >
+                            <div className="w-10 h-10 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-400 group-hover/item:text-slate-950 transition-all shrink-0">
+                              <span className="material-symbols-outlined text-lg">{servIcon}</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className={`text-xs font-bold text-white group-hover/item:text-cyan-400 transition-colors truncate ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                                {servName}
+                              </p>
+                              <p className={`text-[10px] text-slate-400 truncate mt-0.5 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                                {locale === 'ar' ? 'عرض تفاصيل وتطبيقات الخدمة الطبية' : 'View professional clinical applications'}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.path}
@@ -146,16 +218,61 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[var(--surface-color)]/95 border-t border-white/5 px-6 py-6 flex flex-col gap-4 shadow-xl">
+        <div className="lg:hidden bg-[var(--surface-color)]/95 border-t border-white/5 px-6 py-6 flex flex-col gap-4 shadow-xl max-h-[85vh] overflow-y-auto">
           {navItems.map((item) => {
             const active = isActive(item.path);
             const name = locale === 'ar' ? item.name_ar : item.name_en;
+
+            if (item.path === 'services') {
+              return (
+                <div key={item.path} className="w-full">
+                  <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+                    <Link
+                      href={getHref(item.path)}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`text-base font-semibold transition-colors ${
+                        active ? 'text-[var(--primary-color)]' : 'text-slate-300'
+                      }`}
+                    >
+                      {name}
+                    </Link>
+                    <button 
+                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                      className="text-slate-400 hover:text-white p-2 flex items-center justify-center cursor-pointer"
+                    >
+                      <span className={`material-symbols-outlined text-xl transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`}>
+                        expand_more
+                      </span>
+                    </button>
+                  </div>
+                  {mobileServicesOpen && (
+                    <div className={`mt-2 ${locale === 'ar' ? 'mr-4 pr-3 border-r' : 'ml-4 pl-3 border-l'} border-cyan-400/20 space-y-3 animate-fade-in`}>
+                      {servicesList.map((serv: any) => {
+                        const servName = locale === 'ar' ? (serv.title_ar || serv.title) : (serv.title_en || serv.title);
+                        const path = getServicePath(serv.slug);
+                        return (
+                          <Link
+                            key={serv.slug}
+                            href={getHref(path)}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block text-sm text-slate-400 hover:text-cyan-400 py-1 transition-colors"
+                          >
+                            • {servName}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.path}
                 href={getHref(item.path)}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-base font-semibold py-1.5 block transition-colors ${
+                className={`text-base font-semibold py-1.5 block transition-colors border-b border-white/5 ${
                   active 
                     ? 'text-[var(--primary-color)]' 
                     : 'text-slate-300 hover:text-[var(--primary-color)]'

@@ -80,6 +80,7 @@ interface Service {
   icon: string;
   colSpan: string;
   order: number;
+  image?: string;
   tags_ar: string[];
   tags_en: string[];
   title_ar: string;
@@ -143,6 +144,7 @@ export default function AdminDashboardPage() {
   const [teamMemberForm, setTeamMemberForm] = useState<Partial<TeamMember> | null>(null);
   const [mediaUploading, setMediaUploading] = useState(false);
   const [teamMemberUploading, setTeamMemberUploading] = useState(false);
+  const [serviceImageUploading, setServiceImageUploading] = useState(false);
 
   // Security Credentials form
   const [securityForm, setSecurityForm] = useState({
@@ -533,6 +535,34 @@ export default function AdminDashboardPage() {
       showToast('خطأ أثناء رفع الصورة', 'error');
     } finally {
       setTeamMemberUploading(false);
+    }
+  };
+
+  const handleServiceImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setServiceImageUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع صورة الخدمة الطبية بنجاح!', 'success');
+        setServiceForm(prev => prev ? ({ ...prev, image: data.media.url }) : null);
+        setMedia(prev => [data.media, ...prev]);
+      } else {
+        showToast(data.message || 'فشل رفع صورة الخدمة', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء رفع الصورة', 'error');
+    } finally {
+      setServiceImageUploading(false);
     }
   };
 
@@ -1218,6 +1248,22 @@ export default function AdminDashboardPage() {
                     {renderInput('seo_desc_en', 'وصف الميتا بالإنجليزية لتصدر البحث', true, true)}
                     {renderInput('seo_keywords_ar', 'الكلمات المفتاحية الطبية (عربي)')}
                     {renderInput('seo_keywords_en', 'الكلمات المفتاحية الطبية (إنجليزي)', true)}
+                  </div>
+
+                  {/* SUB TAB SECTION: SOCIAL MEDIA PLATFORMS */}
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-800/60">
+                    <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">🔗 إدارة وتعديل روابط التواصل الاجتماعي وشبكاتنا الطبية الرقمية</h4>
+                    <p className="text-[10px] text-slate-400 md:col-span-2 leading-relaxed">
+                      قم بتهيئة روابط صفحات عيادتك أو مركزك الطبي الرسمية لتظهر تلقائياً في تذييل الموقع وباقي الأقسام بأحدث الشعارات المحدثة والناعمة.
+                    </p>
+                    {renderInput('social_linkedin', 'رابط لينكد إن (LinkedIn)', true)}
+                    {renderInput('social_facebook', 'رابط فيسبوك (Facebook)', true)}
+                    {renderInput('social_tiktok', 'رابط تيك توك (TikTok)', true)}
+                    {renderInput('social_instagram', 'رابط إنستغرام (Instagram)', true)}
+                    {renderInput('social_snapchat', 'رابط سناب شات (Snapchat)', true)}
+                    {renderInput('social_behance', 'رابط بيهانس (Behance)', true)}
+                    {renderInput('social_x', 'رابط إكس / تويتر سابقاً (X / Twitter)', true)}
+                    {renderInput('social_youtube', 'رابط يوتيوب (YouTube)', true)}
                   </div>
                 </div>
               )}
@@ -1969,6 +2015,44 @@ export default function AdminDashboardPage() {
                             onChange={(e) => setServiceForm({ ...serviceForm, order: Number(e.target.value) })}
                             className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none"
                           />
+                        </div>
+                      </div>
+
+                      {/* Third Row: Custom Image */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <div className="md:col-span-2 space-y-1">
+                          <label className="text-slate-400">رابط صورة الخدمة الطبية المخصصة</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={serviceForm.image || ''}
+                              onChange={(e) => setServiceForm({ ...serviceForm, image: e.target.value })}
+                              placeholder="أدخل رابط الصورة أو قم برفعها مباشرة من اليمين"
+                              className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 focus:outline-none text-left"
+                              dir="ltr"
+                            />
+                            <label className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl cursor-pointer flex items-center justify-center shrink-0 text-xs gap-1 font-semibold transition-colors">
+                              <span>رفع صورة</span>
+                              <span className="material-symbols-outlined text-sm">cloud_upload</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleServiceImageUpload}
+                                className="hidden"
+                              />
+                            </label>
+                          </div>
+                          {serviceImageUploading && <p className="text-[10px] text-cyan-400 animate-pulse">جاري تحميل وتخزين الصورة...</p>}
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-slate-400">معاينة الصورة</label>
+                          <div className="h-[38px] w-full bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden">
+                            {serviceForm.image ? (
+                              <img src={serviceForm.image} alt="Service preview" className="h-full w-full object-cover" />
+                            ) : (
+                              <span className="text-[10px] text-slate-600 font-bold">لا توجد صورة مخصصة</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
