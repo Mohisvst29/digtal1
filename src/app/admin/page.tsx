@@ -466,8 +466,8 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (res.ok && data.status === 'success') {
         showToast('✓ تم رفع شعار الموقع السحابي بنجاح!', 'success');
-        setContent(prev => ({ ...prev, logo_img: data.mediaItem.url }));
-        setMedia(prev => [data.mediaItem, ...prev]);
+        setContent(prev => ({ ...prev, logo_img: data.media.url }));
+        setMedia(prev => [data.media, ...prev]);
       } else {
         showToast(data.message || 'فشل رفع شعار الموقع', 'error');
       }
@@ -495,8 +495,8 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (res.ok && data.status === 'success') {
         showToast('✓ تم رفع وتحديث صورة القسم بنجاح!', 'success');
-        setContent(prev => ({ ...prev, [key]: data.mediaItem.url }));
-        setMedia(prev => [data.mediaItem, ...prev]);
+        setContent(prev => ({ ...prev, [key]: data.media.url }));
+        setMedia(prev => [data.media, ...prev]);
       } else {
         showToast(data.message || 'فشل رفع صورة القسم', 'error');
       }
@@ -522,7 +522,7 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (res.ok && data.status === 'success') {
         showToast('✓ تم رفع الصورة إلى خوادم Cloudinary بنجاح!', 'success');
-        setMedia([data.mediaItem, ...media]);
+        setMedia([data.media, ...media]);
       } else {
         showToast(data.message || 'فشل رفع الملف', 'error');
       }
@@ -1040,34 +1040,44 @@ export default function AdminDashboardPage() {
                           />
                           <label
                             htmlFor="logo-image-uploader"
-                            className="w-full bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 font-bold py-3 px-4 rounded-xl text-xs transition-all text-center flex items-center justify-center gap-2 cursor-pointer border-dashed border-2 hover:border-cyan-400/50"
+                            className="w-full bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 font-bold py-3 px-4 rounded-xl text-xs transition-all text-center flex items-center justify-center gap-2 cursor-pointer border-dashed border-2 hover:border-cyan-400/50 animate-pulse-slow"
                           >
                             <span className="material-symbols-outlined text-sm">upload_file</span>
-                            <span>{logoUploading ? 'جاري رفع شعار الموقع...' : 'اختر صورة الشعار من جهازك'}</span>
+                            <span>{logoUploading ? '⏳ جاري رفع الشعار ومعالجته...' : 'اختر صورة الشعار من جهازك'}</span>
                           </label>
+                        </div>
+
+                        {/* Manual Logo URL Input */}
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            placeholder="🔗 أو الصق رابط الشعار المباشر هنا..."
+                            value={content['logo_img'] || ''}
+                            onChange={(e) => setContent({ ...content, logo_img: e.target.value })}
+                            className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cyan-400/80 transition-all font-sans text-left"
+                            dir="ltr"
+                          />
                         </div>
                         
                         {/* Logo Width Slider control */}
-                        {content['logo_img'] && (
-                          <div className="space-y-2 pt-2">
-                            <div className="flex justify-between items-center">
-                              <label className="text-xs font-bold text-slate-300">عرض الشعار بالبكسل: <span className="text-cyan-400 font-mono font-bold">{content['logo_width'] || '150'}px</span></label>
-                            </div>
-                            <input
-                              type="range"
-                              min="50"
-                              max="350"
-                              value={content['logo_width'] || '150'}
-                              onChange={(e) => setContent({ ...content, logo_width: e.target.value })}
-                              className="w-full accent-cyan-400 bg-slate-900 h-1 rounded-lg cursor-pointer"
-                            />
-                            <div className="flex justify-between text-[9px] text-slate-500 font-mono" dir="ltr">
-                              <span>50px</span>
-                              <span>200px</span>
-                              <span>350px</span>
-                            </div>
+                        <div className="space-y-2 pt-2 border-t border-slate-850">
+                          <div className="flex justify-between items-center">
+                            <label className="text-xs font-bold text-slate-300">عرض الشعار بالبكسل: <span className="text-cyan-400 font-mono font-bold">{content['logo_width'] || '150'}px</span></label>
                           </div>
-                        )}
+                          <input
+                            type="range"
+                            min="50"
+                            max="350"
+                            value={content['logo_width'] || '150'}
+                            onChange={(e) => setContent({ ...content, logo_width: e.target.value })}
+                            className="w-full accent-cyan-400 bg-slate-900 h-1 rounded-lg cursor-pointer"
+                          />
+                          <div className="flex justify-between text-[9px] text-slate-500 font-mono" dir="ltr">
+                            <span>50px</span>
+                            <span>200px</span>
+                            <span>350px</span>
+                          </div>
+                        </div>
                       </div>
                       
                       {/* Right: Live Preview Box */}
