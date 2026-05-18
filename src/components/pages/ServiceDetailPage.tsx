@@ -289,15 +289,15 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     return text;
   };
 
-  const resolvedBenefits = currentService.benefits.map(b => ({
-    icon: b.icon,
-    title: selectLocalText(b.title),
-    desc: selectLocalText(b.desc)
+  const resolvedBenefits = (currentService.benefits || []).map(b => ({
+    icon: b?.icon || 'verified',
+    title: selectLocalText(b?.title || ''),
+    desc: selectLocalText(b?.desc || '')
   }));
 
-  const resolvedStrategies = currentService.strategies.map(s => ({
-    title: selectLocalText(s.title),
-    desc: selectLocalText(s.desc)
+  const resolvedStrategies = (currentService.strategies || []).map(s => ({
+    title: selectLocalText(s?.title || ''),
+    desc: selectLocalText(s?.desc || '')
   }));
 
   return (
