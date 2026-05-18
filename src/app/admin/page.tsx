@@ -145,6 +145,7 @@ export default function AdminDashboardPage() {
   const [mediaUploading, setMediaUploading] = useState(false);
   const [teamMemberUploading, setTeamMemberUploading] = useState(false);
   const [serviceImageUploading, setServiceImageUploading] = useState(false);
+  const [partnerUploadingIdx, setPartnerUploadingIdx] = useState<number | null>(null);
 
   // Security Credentials form
   const [securityForm, setSecurityForm] = useState({
@@ -563,6 +564,38 @@ export default function AdminDashboardPage() {
       showToast('خطأ أثناء رفع الصورة', 'error');
     } finally {
       setServiceImageUploading(false);
+    }
+  };
+
+  // CLOUDINARY PARTNER LOGO UPLOAD
+  const handlePartnerLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setPartnerUploadingIdx(idx);
+    showToast('⏳ جاري رفع شعار الشريك ومعالجته...', 'success');
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع الشريك وتحديث الشعار بنجاح!', 'success');
+        const copy = JSON.parse(content.home_partners_json || '[]');
+        copy[idx].logo = data.media.url;
+        setContent(prev => ({ ...prev, home_partners_json: JSON.stringify(copy) }));
+        setMedia(prev => [data.media, ...prev]);
+      } else {
+        showToast(data.message || 'فشل رفع الشعار', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء رفع الشعار للشريك', 'error');
+    } finally {
+      setPartnerUploadingIdx(null);
     }
   };
 
@@ -1505,6 +1538,25 @@ export default function AdminDashboardPage() {
                                 </div>
 
                                 <div className="flex items-center gap-2">
+                                  {/* File Uploader from Device */}
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    id={`partner-logo-uploader-${idx}`}
+                                    onChange={(e) => handlePartnerLogoUpload(e, idx)}
+                                    disabled={partnerUploadingIdx === idx}
+                                  />
+                                  <label
+                                    htmlFor={`partner-logo-uploader-${idx}`}
+                                    className={`bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 p-1.5 rounded-xl border border-cyan-500/20 transition-all cursor-pointer flex items-center justify-center shrink-0 ${partnerUploadingIdx === idx ? 'opacity-50 pointer-events-none' : ''}`}
+                                    title="رفع شعار من الجهاز"
+                                  >
+                                    <span className={`material-symbols-outlined text-sm ${partnerUploadingIdx === idx ? 'animate-spin' : ''}`}>
+                                      {partnerUploadingIdx === idx ? 'progress_activity' : 'cloud_upload'}
+                                    </span>
+                                  </label>
+
                                   {/* Select Logo dropdown from Media library */}
                                   <select
                                     value={partner.logo}
