@@ -313,8 +313,28 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
       setLocale(currentLocale);
       document.documentElement.lang = currentLocale;
       document.documentElement.dir = currentLocale === 'ar' ? 'rtl' : 'ltr';
+
+      // Dynamic SEO Meta Sharing Image Update
+      const seoImage = data?.content?.['seo_meta_img'];
+      if (seoImage) {
+        let ogImg = document.querySelector('meta[property="og:image"]');
+        if (!ogImg) {
+          ogImg = document.createElement('meta');
+          ogImg.setAttribute('property', 'og:image');
+          document.head.appendChild(ogImg);
+        }
+        ogImg.setAttribute('content', seoImage);
+
+        let twitterImg = document.querySelector('meta[name="twitter:image"]');
+        if (!twitterImg) {
+          twitterImg = document.createElement('meta');
+          twitterImg.setAttribute('name', 'twitter:image');
+          document.head.appendChild(twitterImg);
+        }
+        twitterImg.setAttribute('content', seoImage);
+      }
     }
-  }, [locale]);
+  }, [locale, data]);
 
   const t = (key: string, fallbackVal?: string): string => {
     const keyWithLocale = `${key}_${locale}`;

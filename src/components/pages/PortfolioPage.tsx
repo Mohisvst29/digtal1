@@ -119,8 +119,14 @@ export default function PortfolioPage() {
       <main className={`flex-grow pt-32 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Portfolio Hero */}
-        <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
-          <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
+        <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none relative overflow-hidden rounded-3xl">
+          {data?.content?.['portfolio_bg_img'] && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              style={{ backgroundImage: `url(${data.content['portfolio_bg_img']})` }}
+            />
+          )}
+          <span className="relative z-10 text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
             {t('portfolio_badge', 'معرض نجاحاتنا')}
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight max-w-4xl mx-auto">

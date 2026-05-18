@@ -8,7 +8,7 @@ import FloatContacts from '../FloatContacts';
 import { useContent } from '../ContentProvider';
 
 export default function ServicesPage() {
-  const { t, locale } = useContent();
+  const { t, locale, data } = useContent();
 
   const isRtl = locale === 'ar';
 
@@ -128,8 +128,14 @@ export default function ServicesPage() {
       <main className={`flex-grow pt-32 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Services Hero */}
-        <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight max-w-4xl mx-auto">
+        <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none relative overflow-hidden rounded-3xl">
+          {data?.content?.['services_bg_img'] && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              style={{ backgroundImage: `url(${data.content['services_bg_img']})` }}
+            />
+          )}
+          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight max-w-4xl mx-auto">
             {isRtl ? 'هندسة الحلول وبناء' : 'Engineering Growth &'} <br/>
             <span className="bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent">
               {isRtl ? 'الريادة الطبية الرقمية بالرياض' : 'Digital Clinical Leadership'}

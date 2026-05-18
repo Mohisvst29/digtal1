@@ -107,7 +107,7 @@ interface Service {
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
-  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners'>('general');
+  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images'>('general');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -478,6 +478,33 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // CLOUDINARY SECTION IMAGES UPLOAD
+  const handleImageKeyUpload = async (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    showToast('⏳ جاري رفع ومعالجة صورة القسم...', 'success');
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع وتحديث صورة القسم بنجاح!', 'success');
+        setContent(prev => ({ ...prev, [key]: data.mediaItem.url }));
+        setMedia(prev => [data.mediaItem, ...prev]);
+      } else {
+        showToast(data.message || 'فشل رفع صورة القسم', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء الاتصال بالخادم لرفع الصورة', 'error');
+    }
+  };
+
   // CLOUDINARY MEDIA UPLOAD
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -615,6 +642,35 @@ export default function AdminDashboardPage() {
             className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
           />
         )}
+      </div>
+    );
+  };
+
+  // Helper renderer to render custom color picker input
+  const renderColorPicker = (key: string, label: string) => {
+    const val = content[key] || '';
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setContent({ ...content, [key]: e.target.value });
+    };
+
+    return (
+      <div className="space-y-1.5 flex flex-col">
+        <label className="text-xs font-bold text-slate-300">{label}</label>
+        <div className="flex gap-3">
+          <input
+            type="color"
+            value={val.startsWith('#') ? val : `#${val}`}
+            onChange={onChange}
+            className="w-12 h-10 bg-slate-950 border border-slate-850 rounded-xl cursor-pointer p-1 focus:outline-none shrink-0"
+          />
+          <input
+            type="text"
+            value={val}
+            onChange={onChange}
+            placeholder="#00DAB7"
+            className="flex-grow bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs font-mono focus:outline-none focus:border-cyan-400/80 transition-all text-left"
+          />
+        </div>
       </div>
     );
   };
@@ -896,6 +952,7 @@ export default function AdminDashboardPage() {
                 { key: 'contact', label: '📞 صفحة اتصل بنا' },
                 { key: 'thankyou', label: '🎉 صفحة الشكر' },
                 { key: 'partners', label: '🤝 شركاء النجاح والقنوات' },
+                { key: 'images', label: '🖼️ صور أقسام الموقع' },
               ].map((subTab) => {
                 const isActive = activeSubTab === subTab.key;
                 return (
@@ -927,6 +984,7 @@ export default function AdminDashboardPage() {
                   {activeSubTab === 'faq' && '❓ تعديل هيدر وعناوين صفحة الأسئلة الشائعة'}
                   {activeSubTab === 'contact' && '📞 تعديل تفاصيل وموقع صفحة اتصل بنا'}
                   {activeSubTab === 'thankyou' && '🎉 تعديل رسالة شكر العملاء بعد إرسال التفاصيل'}
+                  {activeSubTab === 'images' && '🖼️ إدارة صور أقسام الموقع بالكامل'}
                 </h2>
                 <p className="text-[11px] text-slate-400 mt-1">تنعكس التحديثات فورياً بمجرد المزامنة والضغط على الحفظ.</p>
               </div>
@@ -1040,10 +1098,10 @@ export default function AdminDashboardPage() {
                   {renderInput('font_family_ar', 'الخط العربي المستهدف (Font Family)')}
                   {renderInput('font_family_en', 'الخط الإنجليزي المستهدف', true)}
 
-                  {renderInput('primary_color', 'اللون الرئيسي الطاغي (HEX)')}
-                  {renderInput('secondary_color', 'اللون الثانوي (HEX)')}
-                  {renderInput('bg_color', 'لون خلفية الموقع (Background HEX)')}
-                  {renderInput('surface_color', 'لون أسطح الكروت (Surface HEX)')}
+                  {renderColorPicker('primary_color', 'اللون الرئيسي الطاغي')}
+                  {renderColorPicker('secondary_color', 'اللون الثانوي')}
+                  {renderColorPicker('bg_color', 'لون خلفية الموقع')}
+                  {renderColorPicker('surface_color', 'لون أسطح الكروت')}
 
                   <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
                     <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">🔎 تهيئة السيو وميتا جوجل للبحث الجغرافي بالرياض</h4>
@@ -1360,6 +1418,119 @@ export default function AdminDashboardPage() {
                           </ul>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* SUB TAB: SITE IMAGES MANAGER */}
+              {activeSubTab === 'images' && (() => {
+                const imageSlots = [
+                  { key: 'hero_bg_img', label: '🖥️ صورة خلفية البانر الرئيسي للـ Hero', desc: 'تظهر كصورة خلفية أو غطاء جمالي للقسم الرئيسي في واجهة الموقع.' },
+                  { key: 'about_img', label: '🏢 صورة قسم من نحن (الرئيسية)', desc: 'تظهر بجانب نصوص الرؤية والرسالة في الصفحة الرئيسية وصفحة التعريف.' },
+                  { key: 'services_bg_img', label: '🦷 خلفية هيدر صفحة خدماتنا', desc: 'تظهر كخلفية لبانر الهيدر العلوي لصفحة استعراض باقات الخدمات الطبية.' },
+                  { key: 'portfolio_bg_img', label: '📈 خلفية هيدر صفحة أعمالنا وقصص النجاح', desc: 'تظهر كخلفية للقسم العلوي في استعراض دراسات الحالة ومؤشرات الأداء للعيادات.' },
+                  { key: 'blog_bg_img', label: '📰 خلفية هيدر صفحة المقالات', desc: 'تظهر كخلفية للقسم العلوي لصفحة نشر البحوث والمنشورات الصحية والتسويقية.' },
+                  { key: 'faq_bg_img', label: '❓ خلفية هيدر صفحة الأسئلة الشائعة', desc: 'تظهر في القسم العلوي لصفحة الأسئلة والأجوبة الطبية التفاعلية.' },
+                  { key: 'contact_bg_img', label: '📞 صورة خلفية قسم اتصل بنا', desc: 'تظهر في هيدر أو خلفية قسم التواصل وخرائط الفروع بالرياض.' },
+                  { key: 'seo_meta_img', label: '🔗 الصورة الاجتماعية الافتراضية للـ SEO', desc: 'تظهر كصورة المعاينة المصغرة عند مشاركة رابط موقعك على واتساب أو منصات التواصل.' },
+                ];
+
+                return (
+                  <div className="space-y-6 text-right animate-fade-in">
+                    <div className="bg-slate-950 p-6 rounded-3xl border border-slate-850">
+                      <h3 className="text-sm font-bold text-white mb-2">🖼️ إدارة صور وخلفيات أقسام الموقع بالكامل</h3>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        من خلال هذا القسم يمكنك تغيير أي صورة أو خلفية متواجدة في أي زاوية من زوايا موقعك الإلكتروني الطبي مباشرة بالرفع من جهازك أو بالاختيار من مكتبتك السحابية.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {imageSlots.map((slot) => {
+                        const currentUrl = content[slot.key] || '';
+                        return (
+                          <div key={slot.key} className="bg-slate-950 p-6 rounded-2xl border border-slate-850 flex flex-col justify-between gap-4">
+                            <div className="space-y-1">
+                              <h4 className="text-xs font-bold text-cyan-400">{slot.label}</h4>
+                              <p className="text-[10px] text-slate-400 leading-relaxed">{slot.desc}</p>
+                            </div>
+
+                            {/* Center Preview Box */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 min-h-[140px] flex items-center justify-center relative overflow-hidden select-none">
+                              {currentUrl ? (
+                                <img
+                                  src={currentUrl}
+                                  alt={slot.label}
+                                  className="max-h-[120px] max-w-full object-contain rounded-lg shadow-md"
+                                />
+                              ) : (
+                                <div className="text-center space-y-1.5 text-slate-500">
+                                  <span className="material-symbols-outlined text-3xl">image</span>
+                                  <p className="text-[10px] font-bold">(لا توجد صورة مخصصة - سيتم استخدام المظهر الافتراضي)</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Upload & Link Controls */}
+                            <div className="space-y-3 pt-2">
+                              <div className="grid grid-cols-2 gap-3">
+                                {/* Upload Button */}
+                                <div>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    id={`image-slot-${slot.key}`}
+                                    onChange={(e) => handleImageKeyUpload(e, slot.key)}
+                                    className="hidden"
+                                  />
+                                  <label
+                                    htmlFor={`image-slot-${slot.key}`}
+                                    className="w-full bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 font-bold py-2.5 px-3 rounded-xl text-[10px] transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer"
+                                  >
+                                    <span className="material-symbols-outlined text-xs">upload</span>
+                                    <span>رفع من جهازك</span>
+                                  </label>
+                                </div>
+
+                                {/* Select from Library */}
+                                <select
+                                  value={currentUrl}
+                                  onChange={(e) => setContent(prev => ({ ...prev, [slot.key]: e.target.value }))}
+                                  className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-3 text-[10px] focus:outline-none focus:border-cyan-400/80 transition-all font-sans"
+                                >
+                                  <option value="">📁 اختر من المكتبة السحابية</option>
+                                  {media.map((m, idx) => (
+                                    <option key={idx} value={m.url}>
+                                      {m.fileName || `صورة ${idx + 1}`}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Manual Input and Clear Button */}
+                              <div className="flex gap-2 items-center">
+                                <input
+                                  type="text"
+                                  value={currentUrl}
+                                  onChange={(e) => setContent(prev => ({ ...prev, [slot.key]: e.target.value }))}
+                                  placeholder="أو اكتب رابط الصورة المباشر هنا..."
+                                  className="flex-grow bg-slate-900 border border-slate-800 text-white rounded-xl py-2 px-3 text-[10px] font-mono focus:outline-none text-left"
+                                />
+                                {currentUrl && (
+                                  <button
+                                    type="button"
+                                    onClick={() => setContent(prev => ({ ...prev, [slot.key]: '' }))}
+                                    className="bg-rose-500/10 border border-rose-500/20 text-rose-500 hover:bg-rose-500 hover:text-white px-2.5 py-2 rounded-xl transition-all cursor-pointer flex items-center justify-center"
+                                    title="حذف الصورة والعودة للافتراضي"
+                                  >
+                                    <span className="material-symbols-outlined text-xs">delete</span>
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 );

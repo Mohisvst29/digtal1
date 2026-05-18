@@ -9,7 +9,7 @@ import FloatContacts from '../FloatContacts';
 import { useContent } from '../ContentProvider';
 
 export default function ContactPage() {
-  const { t, locale } = useContent();
+  const { t, locale, data } = useContent();
   const router = useRouter();
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
@@ -115,8 +115,14 @@ export default function ContactPage() {
       <main className={`flex-grow pt-40 pb-24 overflow-x-hidden ${isRtl ? 'text-right' : 'text-left'} selection:bg-cyan-500 selection:text-slate-900 animate-fade-in`}>
         
         {/* Contact Hero */}
-        <section className="max-w-7xl mx-auto px-6 md:px-12 mb-12 select-none">
-          <div className="max-w-3xl">
+        <section className="max-w-7xl mx-auto px-6 md:px-12 mb-12 select-none relative overflow-hidden rounded-3xl py-12 px-8">
+          {data?.content?.['contact_bg_img'] && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              style={{ backgroundImage: `url(${data.content['contact_bg_img']})` }}
+            />
+          )}
+          <div className="max-w-3xl relative z-10">
             <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
               {t('contact_badge', 'احجز موعد استشارتك')}
             </span>

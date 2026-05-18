@@ -8,7 +8,7 @@ import FloatContacts from '../FloatContacts';
 import { useContent } from '../ContentProvider';
 
 export default function AboutPage() {
-  const { t, locale } = useContent();
+  const { t, locale, data } = useContent();
 
   const isRtl = locale === 'ar';
 
@@ -31,6 +31,12 @@ export default function AboutPage() {
         
         {/* About Hero Section */}
         <section className="relative min-h-[500px] flex items-center justify-center py-20 px-6 md:px-12 bg-slate-950/30">
+          {data?.content?.['about_img'] && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              style={{ backgroundImage: `url(${data.content['about_img']})` }}
+            />
+          )}
           <div className="absolute inset-0 bg-slate-950/80 z-0"></div>
           <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute top-1/4 left-20 w-96 h-96 bg-cyan-400 opacity-[0.03] blur-[120px] rounded-full"></div>

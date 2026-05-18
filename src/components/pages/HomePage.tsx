@@ -34,6 +34,12 @@ export default function HomePage() {
         
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center pt-10 pb-16 overflow-hidden">
+          {data.content['hero_bg_img'] && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
+              style={{ backgroundImage: `url(${data.content['hero_bg_img']})` }}
+            />
+          )}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-400 opacity-[0.05] blur-[120px] rounded-full"></div>
             <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-400 opacity-[0.03] blur-[120px] rounded-full"></div>
