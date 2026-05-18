@@ -1533,7 +1533,10 @@ export default function AdminDashboardPage() {
               {/* SUB TAB: SITE IMAGES MANAGER */}
               {activeSubTab === 'images' && (() => {
                 const imageSlots = [
-                  { key: 'hero_bg_img', label: '🖥️ صورة خلفية البانر الرئيسي للـ Hero', desc: 'تظهر كصورة خلفية أو غطاء جمالي للقسم الرئيسي في واجهة الموقع.' },
+                  { key: 'hero_slide_1', label: '📸 الهيرو: صورة الشريحة الأولى (Slide 1)', desc: 'تظهر كالصورة الأولى في الخلفية السينمائية المتحركة لقسم الهيرو الرئيسي.' },
+                  { key: 'hero_slide_2', label: '📸 الهيرو: صورة الشريحة الثانية (Slide 2)', desc: 'تظهر كالصورة الثانية في الخلفية السينمائية المتحركة لقسم الهيرو الرئيسي.' },
+                  { key: 'hero_slide_3', label: '📸 الهيرو: صورة الشريحة الثالثة (Slide 3)', desc: 'تظهر كالصورة الثالثة في الخلفية السينمائية لقسم الهيرو الرئيسي.' },
+                  { key: 'hero_bg_video', label: '🎥 الهيرو: فيديو الخلفية (Slide 4 - Video)', desc: 'فيديو متحرك يظهر في الخلفية اللانهائية ليعطي طابعاً سريرياً احترافياً للزوار.', isVideo: true },
                   { key: 'about_img', label: '🏢 صورة قسم من نحن (الرئيسية)', desc: 'تظهر بجانب نصوص الرؤية والرسالة في الصفحة الرئيسية وصفحة التعريف.' },
                   { key: 'services_bg_img', label: '🦷 خلفية هيدر صفحة خدماتنا', desc: 'تظهر كخلفية لبانر الهيدر العلوي لصفحة استعراض باقات الخدمات الطبية.' },
                   { key: 'portfolio_bg_img', label: '📈 خلفية هيدر صفحة أعمالنا وقصص النجاح', desc: 'تظهر كخلفية للقسم العلوي في استعراض دراسات الحالة ومؤشرات الأداء للعيادات.' },
@@ -1565,15 +1568,31 @@ export default function AdminDashboardPage() {
                             {/* Center Preview Box */}
                             <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 min-h-[140px] flex items-center justify-center relative overflow-hidden select-none">
                               {currentUrl ? (
-                                <img
-                                  src={currentUrl}
-                                  alt={slot.label}
-                                  className="max-h-[120px] max-w-full object-contain rounded-lg shadow-md"
-                                />
+                                slot.isVideo ? (
+                                  <video
+                                    src={currentUrl}
+                                    controls
+                                    muted
+                                    playsInline
+                                    className="max-h-[120px] max-w-full rounded-lg shadow-md"
+                                  />
+                                ) : (
+                                  <img
+                                    src={currentUrl}
+                                    alt={slot.label}
+                                    className="max-h-[120px] max-w-full object-contain rounded-lg shadow-md"
+                                  />
+                                )
                               ) : (
                                 <div className="text-center space-y-1.5 text-slate-500">
-                                  <span className="material-symbols-outlined text-3xl">image</span>
-                                  <p className="text-[10px] font-bold">(لا توجد صورة مخصصة - سيتم استخدام المظهر الافتراضي)</p>
+                                  <span className="material-symbols-outlined text-3xl">
+                                    {slot.isVideo ? 'movie' : 'image'}
+                                  </span>
+                                  <p className="text-[10px] font-bold">
+                                    {slot.isVideo
+                                      ? '(لا يوجد فيديو مخصص - سيتم استخدام المظهر الافتراضي)'
+                                      : '(لا توجد صورة مخصصة - سيتم استخدام المظهر الافتراضي)'}
+                                  </p>
                                 </div>
                               )}
                             </div>
@@ -1585,7 +1604,7 @@ export default function AdminDashboardPage() {
                                 <div>
                                   <input
                                     type="file"
-                                    accept="image/*"
+                                    accept={slot.isVideo ? "video/*" : "image/*"}
                                     id={`image-slot-${slot.key}`}
                                     onChange={(e) => handleImageKeyUpload(e, slot.key)}
                                     className="hidden"
@@ -1608,7 +1627,7 @@ export default function AdminDashboardPage() {
                                   <option value="">📁 اختر من المكتبة السحابية</option>
                                   {media.map((m, idx) => (
                                     <option key={idx} value={m.url}>
-                                      {m.fileName || `صورة ${idx + 1}`}
+                                      {m.fileName || `ملف ${idx + 1}`}
                                     </option>
                                   ))}
                                 </select>
@@ -1620,7 +1639,7 @@ export default function AdminDashboardPage() {
                                   type="text"
                                   value={currentUrl}
                                   onChange={(e) => setContent(prev => ({ ...prev, [slot.key]: e.target.value }))}
-                                  placeholder="أو اكتب رابط الصورة المباشر هنا..."
+                                  placeholder={slot.isVideo ? "أو اكتب رابط الفيديو المباشر هنا..." : "أو اكتب رابط الصورة المباشر هنا..."}
                                   className="flex-grow bg-slate-900 border border-slate-800 text-white rounded-xl py-2 px-3 text-[10px] font-mono focus:outline-none text-left"
                                 />
                                 {currentUrl && (
@@ -1628,7 +1647,7 @@ export default function AdminDashboardPage() {
                                     type="button"
                                     onClick={() => setContent(prev => ({ ...prev, [slot.key]: '' }))}
                                     className="bg-rose-500/10 border border-rose-500/20 text-rose-500 hover:bg-rose-500 hover:text-white px-2.5 py-2 rounded-xl transition-all cursor-pointer flex items-center justify-center"
-                                    title="حذف الصورة والعودة للافتراضي"
+                                    title={slot.isVideo ? "حذف الفيديو والعودة للافتراضي" : "حذف الصورة والعودة للافتراضي"}
                                   >
                                     <span className="material-symbols-outlined text-xs">delete</span>
                                   </button>

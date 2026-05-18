@@ -120,6 +120,10 @@ export async function seedDatabase() {
     { key: 'home_cta_btn_ar', value: 'احصل على تدقيق مجاني الآن' },
     { key: 'home_cta_btn_en', value: 'Claim Your Free Audit Now' },
     { key: 'home_hero_image', value: '' },
+    { key: 'hero_slide_1', value: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=1920' },
+    { key: 'hero_slide_2', value: 'https://images.unsplash.com/photo-1584515906207-52c616682c16?auto=format&fit=crop&q=80&w=1920' },
+    { key: 'hero_slide_3', value: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1920' },
+    { key: 'hero_bg_video', value: 'https://assets.mixkit.co/videos/preview/mixkit-medical-laboratory-researcher-analyzing-a-sample-40237-large.mp4' },
 
     // ABOUT PAGE Layout & Copy
     { key: 'about_badge_ar', value: 'تأسست في الرياض' },

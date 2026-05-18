@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -19,6 +19,22 @@ export default function HomePage() {
   // Load from context database records
   const testimonials = data.testimonials.slice(0, 3);
 
+  // Background Slideshow (3 Images + 1 Video)
+  const [activeSlide, setActiveSlide] = useState(0);
+  const slides = [
+    { type: 'image', url: data.content['hero_slide_1'] || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=1920' },
+    { type: 'image', url: data.content['hero_slide_2'] || 'https://images.unsplash.com/photo-1584515906207-52c616682c16?auto=format&fit=crop&q=80&w=1920' },
+    { type: 'image', url: data.content['hero_slide_3'] || 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1920' },
+    { type: 'video', url: data.content['hero_bg_video'] || 'https://assets.mixkit.co/videos/preview/mixkit-medical-laboratory-researcher-analyzing-a-sample-40237-large.mp4' },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
   const getHref = (path: string) => {
     if (locale === 'en') {
       return path === '' ? '/en' : `/en/${path}`;
@@ -34,12 +50,40 @@ export default function HomePage() {
         
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center pt-10 pb-16 overflow-hidden">
-          {data.content['hero_bg_img'] && (
-            <div 
-              className="absolute inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none z-0"
-              style={{ backgroundImage: `url(${data.content['hero_bg_img']})` }}
-            />
-          )}
+          
+          {/* Multi-Slide Backgrounds (3 Images + 1 Video) */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+            {slides.map((slide, idx) => {
+              const isActive = activeSlide === idx;
+              return (
+                <div
+                  key={`slide-${idx}`}
+                  className="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
+                  style={{ opacity: isActive ? 0.08 : 0 }}
+                >
+                  {slide.type === 'image' ? (
+                    <div
+                      className="w-full h-full bg-cover bg-center"
+                      style={{ backgroundImage: `url(${slide.url})` }}
+                    />
+                  ) : (
+                    slide.url && (
+                      <video
+                        src={slide.url}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                    )
+                  )}
+                </div>
+              );
+            })}
+            <div className="absolute inset-0 bg-slate-950/70 z-0"></div>
+          </div>
+
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-400 opacity-[0.05] blur-[120px] rounded-full"></div>
             <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-400 opacity-[0.03] blur-[120px] rounded-full"></div>
@@ -159,6 +203,20 @@ export default function HomePage() {
               )}
             </div>
 
+          </div>
+
+          {/* Slider Indicators */}
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
+            {slides.map((_, idx) => (
+              <button
+                key={`indicator-${idx}`}
+                onClick={() => setActiveSlide(idx)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
+                  activeSlide === idx ? 'bg-cyan-400 w-8 shadow-[0_0_12px_#00daf3]' : 'bg-slate-700/60 hover:bg-slate-500'
+                }`}
+                title={`Slide ${idx + 1}`}
+              />
+            ))}
           </div>
         </section>
 
