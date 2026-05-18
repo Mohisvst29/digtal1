@@ -84,7 +84,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950/80 z-0"></div>
           </div>
 
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-400 opacity-[0.05] blur-[120px] rounded-full"></div>
             <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-400 opacity-[0.03] blur-[120px] rounded-full"></div>
             

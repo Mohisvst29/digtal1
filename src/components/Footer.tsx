@@ -44,7 +44,7 @@ export default function Footer() {
               <img 
                 src={data.content['logo_img']} 
                 alt={logoText} 
-                style={{ width: `${parseInt(data.content['logo_width'] || '150', 10)}px`, height: 'auto', maxHeight: '60px' }}
+                style={{ width: `${parseInt(data.content['logo_width'] || '150', 10)}px`, height: 'auto', maxHeight: '120px' }}
                 className="object-contain"
               />
             ) : (

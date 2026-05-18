@@ -77,7 +77,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--surface-color)]/70 backdrop-blur-xl border-b border-white/5 shadow-sm">
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-12 h-20">
+      <div className="flex justify-between items-center w-full max-w-7xl mx-auto px-6 md:px-12 h-20">
         
         {/* Brand Logo */}
         {(() => {
@@ -92,7 +92,7 @@ export default function Header() {
                 <img 
                   src={logoImg} 
                   alt={logoText} 
-                  style={{ width: `${logoWidth}px`, height: 'auto', maxHeight: '60px' }}
+                  style={{ width: `${logoWidth}px`, height: 'auto', maxHeight: '75px' }}
                   className="object-contain"
                 />
               ) : (
