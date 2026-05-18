@@ -59,12 +59,29 @@ export default function Header() {
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-12 h-20">
         
         {/* Brand Logo */}
-        <Link 
-          href={locale === 'en' ? '/en' : '/'} 
-          className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent hover:opacity-90 transition-opacity"
-        >
-          {logoText}
-        </Link>
+        {(() => {
+          const logoImg = data.content['logo_img'] || '';
+          const logoWidth = parseInt(data.content['logo_width'] || '150', 10);
+          return (
+            <Link 
+              href={locale === 'en' ? '/en' : '/'} 
+              className="flex items-center hover:opacity-90 transition-opacity shrink-0"
+            >
+              {logoImg ? (
+                <img 
+                  src={logoImg} 
+                  alt={logoText} 
+                  style={{ width: `${logoWidth}px`, height: 'auto', maxHeight: '60px' }}
+                  className="object-contain"
+                />
+              ) : (
+                <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent font-sans">
+                  {logoText}
+                </span>
+              )}
+            </Link>
+          );
+        })()}
 
         {/* Desktop Navbar Navigation */}
         <nav className="hidden lg:flex items-center gap-8">

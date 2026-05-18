@@ -36,8 +36,22 @@ export default function Footer() {
         
         {/* About digital agency */}
         <div className="flex flex-col items-start md:items-start text-right">
-          <Link href={locale === 'en' ? '/en' : '/'} className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent mb-4">
-            {logoText}
+          <Link 
+            href={locale === 'en' ? '/en' : '/'} 
+            className="flex items-center mb-4 hover:opacity-90 transition-opacity"
+          >
+            {data.content['logo_img'] ? (
+              <img 
+                src={data.content['logo_img']} 
+                alt={logoText} 
+                style={{ width: `${parseInt(data.content['logo_width'] || '150', 10)}px`, height: 'auto', maxHeight: '60px' }}
+                className="object-contain"
+              />
+            ) : (
+              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent font-sans">
+                {logoText}
+              </span>
+            )}
           </Link>
           <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-xs">
             {locale === 'ar' 

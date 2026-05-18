@@ -111,6 +111,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [logoUploading, setLogoUploading] = useState(false);
 
   // Core website data states
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -445,6 +446,35 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       showToast('خطأ أثناء حذف الخدمة', 'error');
+    }
+  };
+
+  // CLOUDINARY LOGO UPLOAD
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setLogoUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع شعار الموقع السحابي بنجاح!', 'success');
+        setContent(prev => ({ ...prev, logo_img: data.mediaItem.url }));
+        setMedia(prev => [data.mediaItem, ...prev]);
+      } else {
+        showToast(data.message || 'فشل رفع شعار الموقع', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء الاتصال بالخادم لرفع الشعار', 'error');
+    } finally {
+      setLogoUploading(false);
     }
   };
 
@@ -917,6 +947,95 @@ export default function AdminDashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {renderInput('logo_text_ar', 'اسم الشعار بالعربية')}
                   {renderInput('logo_text_en', 'اسم الشعار بالإنجليزية', true)}
+
+                  {/* Website Custom Image Logo Upload & Size Control */}
+                  <div className="md:col-span-2 bg-slate-950 p-6 rounded-2xl border border-slate-850 space-y-4 text-right">
+                    <h4 className="text-xs font-black text-cyan-400">🖼️ شعار الموقع الصوري (اختياري)</h4>
+                    <p className="text-[10px] text-slate-400 leading-relaxed">
+                      إذا كنت تفضل رفع شعار مصمم (صورة) بدلاً من الاسم النصي الافتراضي للموقع، يمكنك رفعه مباشرة من جهازك هنا والتحكم في حجم عرضه بدقة.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                      {/* Left: Uploader UI */}
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center">
+                          <label className="text-xs font-bold text-slate-300">رفع ملف الشعار من جهازك (PNG / SVG / JPG)</label>
+                          {content['logo_img'] && (
+                            <button
+                              type="button"
+                              onClick={() => setContent({ ...content, logo_img: '' })}
+                              className="text-rose-500 hover:text-rose-400 text-[10px] font-bold transition-all cursor-pointer"
+                            >
+                              إزالة الشعار والعودة للافتراضي
+                            </button>
+                          )}
+                        </div>
+                        
+                        <div className="relative">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id="logo-image-uploader"
+                            onChange={handleLogoUpload}
+                            className="hidden"
+                            disabled={logoUploading}
+                          />
+                          <label
+                            htmlFor="logo-image-uploader"
+                            className="w-full bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 font-bold py-3 px-4 rounded-xl text-xs transition-all text-center flex items-center justify-center gap-2 cursor-pointer border-dashed border-2 hover:border-cyan-400/50"
+                          >
+                            <span className="material-symbols-outlined text-sm">upload_file</span>
+                            <span>{logoUploading ? 'جاري رفع شعار الموقع...' : 'اختر صورة الشعار من جهازك'}</span>
+                          </label>
+                        </div>
+                        
+                        {/* Logo Width Slider control */}
+                        {content['logo_img'] && (
+                          <div className="space-y-2 pt-2">
+                            <div className="flex justify-between items-center">
+                              <label className="text-xs font-bold text-slate-300">عرض الشعار بالبكسل: <span className="text-cyan-400 font-mono font-bold">{content['logo_width'] || '150'}px</span></label>
+                            </div>
+                            <input
+                              type="range"
+                              min="50"
+                              max="350"
+                              value={content['logo_width'] || '150'}
+                              onChange={(e) => setContent({ ...content, logo_width: e.target.value })}
+                              className="w-full accent-cyan-400 bg-slate-900 h-1 rounded-lg cursor-pointer"
+                            />
+                            <div className="flex justify-between text-[9px] text-slate-500 font-mono" dir="ltr">
+                              <span>50px</span>
+                              <span>200px</span>
+                              <span>350px</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Right: Live Preview Box */}
+                      <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-center justify-center min-h-[140px] relative overflow-hidden">
+                        <span className="absolute top-2 right-3 text-[9px] font-bold text-slate-500">معاينة الشعار الحيّة</span>
+                        {content['logo_img'] ? (
+                          <div className="flex flex-col items-center gap-2">
+                            <img
+                              src={content['logo_img']}
+                              alt="Logo Preview"
+                              style={{ width: `${content['logo_width'] || '150'}px`, height: 'auto', maxHeight: '60px' }}
+                              className="object-contain"
+                            />
+                            <p className="text-[9px] text-slate-500 mt-2 truncate max-w-[200px]">{content['logo_img']}</p>
+                          </div>
+                        ) : (
+                          <div className="text-center space-y-1">
+                            <span className="text-base font-bold bg-gradient-to-r from-cyan-400 to-[var(--secondary-color)] bg-clip-text text-transparent">
+                              {content['logo_text_ar'] || 'ديجيتال هيلث'}
+                            </span>
+                            <p className="text-[9px] text-slate-500 font-bold">(الشعار النصي الافتراضي نشط)</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   
                   {renderInput('font_family_ar', 'الخط العربي المستهدف (Font Family)')}
                   {renderInput('font_family_en', 'الخط الإنجليزي المستهدف', true)}
