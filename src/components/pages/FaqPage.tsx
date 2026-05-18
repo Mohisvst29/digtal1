@@ -66,12 +66,12 @@ export default function FaqPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* FAQ Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
           <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
-            {isRtl ? 'الأسئلة الشائعة' : 'Support Center'}
+            {t('faq_badge', 'الأسئلة الشائعة')}
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight max-w-4xl mx-auto">
             {heading}
@@ -92,7 +92,7 @@ export default function FaqPage() {
               </h3>
               <div className="space-y-2">
                 <button className="w-full flex items-center justify-between px-5 py-4 rounded-xl bg-cyan-500 text-slate-950 font-bold transition-all text-xs text-right cursor-pointer">
-                  <span>{isRtl ? 'جميع الاستفسارات' : 'All Inquiries'}</span>
+                  <span>{t('faq_sidebar_title', 'جميع الاستفسارات')}</span>
                   <span className={`material-symbols-outlined text-sm ${isRtl ? 'rotate-180' : ''}`}>chevron_left</span>
                 </button>
               </div>
@@ -135,12 +135,10 @@ export default function FaqPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 to-transparent pointer-events-none"></div>
               <div className="relative z-10 max-w-lg">
                 <h3 className="text-xl font-bold text-cyan-400 mb-2">
-                  {isRtl ? 'نمو مبني على الحقائق والأرقام الطبية' : 'Scientific practice scale strategies'}
+                  {t('faq_callout_title', 'نمو مبني على الحقائق والأرقام الطبية')}
                 </h3>
                 <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
-                  {isRtl 
-                    ? 'استراتيجياتنا مصممة بدقة لتتوافق مع معايير وزارة الصحة وسلوك المريض لضمان أعلى نسب نجاح وحماية الاسم المهني.' 
-                    : 'Every campaign follows legal local advertising rules to protect clinical standing and multiply patient bookings.'}
+                  {t('faq_callout_desc', 'استرسال معايير نمونا يتبع بدقة لوائح خصوصية وممارسات وزارة الصحة لضمان سلامة الاسم المهني.')}
                 </p>
               </div>
               <span className="material-symbols-outlined text-cyan-400/10 text-8xl shrink-0 hidden sm:block">
@@ -157,18 +155,16 @@ export default function FaqPage() {
           <div className="glass-card rounded-[2rem] p-12 md:p-16 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/5 blur-[120px] -mr-48 -mt-48"></div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
-              {isRtl ? 'لديك استفسار آخر لم نقم بالإجابة عليه؟' : 'Have a custom inquiry or special request?'}
+              {t('faq_cta_title', 'لديك استفسار آخر لم نقم بالإجابة عليه؟')}
             </h2>
             <p className="text-slate-400 max-w-xl mx-auto mb-10 text-sm md:text-base leading-relaxed">
-              {isRtl 
-                ? 'مستشارو التسويق الطبي لدينا بالرياض جاهزون للإجابة على جميع استفساراتك بشكل مجاني ومباشر.' 
-                : 'Connect directly with our clinical acquisition strategists to answer specialized custom integration details.'}
+              {t('faq_cta_desc', 'مستشارو التسويق الطبي لدينا بالرياض جاهزون للإجابة على جميع استفساراتك بشكل مجاني ومباشر.')}
             </p>
             <Link 
               href={getHref('contact')} 
               className="inline-block bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-4.5 rounded-xl font-bold text-sm hover:scale-105 transition-all shadow-lg cursor-pointer"
             >
-              {isRtl ? 'تحدث مع خبير تسويق طبي الآن' : 'Speak to clinical expert now'}
+              {t('faq_cta_btn', 'تحدث مع خبير تسويق طبي الآن')}
             </Link>
           </div>
         </section>

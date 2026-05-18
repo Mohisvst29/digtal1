@@ -23,236 +23,233 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     return path === '' ? '/' : `/${path}`;
   };
 
-  // Master Service Copy Mapping
+  // Master Service Copy Mapping - Dynamic translations from MongoDB with high quality fallbacks
   const SERVICE_DATA: Record<string, {
     icon: string;
-    tagAr: string;
-    tagEn: string;
-    titleAr: string;
-    titleEn: string;
-    descAr: string;
-    descEn: string;
-    btnTextAr: string;
-    btnTextEn: string;
-    benefitTitleAr: string;
-    benefitTitleEn: string;
-    benefitDescAr: string;
-    benefitDescEn: string;
-    benefitsAr: Array<{ icon: string, title: string, desc: string }>;
-    benefitsEn: Array<{ icon: string, title: string, desc: string }>;
-    strategyTitleAr: string;
-    strategyTitleEn: string;
-    strategiesAr: Array<{ title: string, desc: string }>;
-    strategiesEn: Array<{ title: string, desc: string }>;
+    tag: string;
+    title: string;
+    desc: string;
+    btnText: string;
+    benefitTitle: string;
+    benefitDesc: string;
+    benefits: Array<{ icon: string, title: string, desc: string }>;
+    strategyTitle: string;
+    strategies: Array<{ title: string, desc: string }>;
   }> = {
     seo: {
       icon: 'search_insights',
-      tagAr: 'تحسين محركات البحث الطبي',
-      tagEn: 'Clinical Medical SEO',
-      titleAr: 'إتقان سيو العيادات والمستشفيات',
-      titleEn: 'Clinical Healthcare SEO Dominance',
-      descAr: 'تصدّر نتائج البحث المحلية في جوجل للكلمات المفتاحية عالية الحجز مثل "أفضل عيادة أسنان بالرياض" لبناء تدفق مستمر ومجاني بالكامل من المرضى دون توقف.',
-      descEn: 'Dominating local search results in Riyadh for high-intent queries like "best clinic near me" or specialized surgeons to channel organic patient flow.',
-      btnTextAr: 'اطلب فحص سيو مجاني لعيادتك',
-      btnTextEn: 'Get Free Clinic SEO Audit',
-      benefitTitleAr: 'ميزة تصدر محركات البحث',
-      benefitTitleEn: 'The Power of Organic SEO',
-      benefitDescAr: 'يبدأ أكثر من 70% من المرضى بالرياض رحلتهم الطبية بالبحث على جوجل. إذا لم تكن عيادتك في الصفحة الأولى، فإنك ببساطة تقدم مرضاك الجدد للعيادات المنافسة.',
-      benefitDescEn: 'Over 70% of selective patients start their search with Google queries. Dominating organic listings bypasses expensive paid ads permanently.',
-      benefitsAr: [
-        { icon: 'verified', title: 'حجوزات عالية الكفاءة', desc: 'زوار نتائج البحث العضوية يملكون أعلى نسب حجز مواعيد فعلية واستبقاء للعيادة.' },
-        { icon: 'verified', title: 'عائد استثماري مستدام', desc: 'بخلاف الإعلانات، نتائج الـ SEO تبني أصولاً رقمية مجانية ودائمة لعلامتكم الطبية.' }
+      tag: t('serv_seo_tag', 'تحسين محركات البحث الطبي | Clinical Medical SEO'),
+      title: t('serv_seo_title', 'إتقان سيو العيادات والمستشفيات | Clinical Healthcare SEO Dominance'),
+      desc: t('serv_seo_desc', 'تصدّر نتائج البحث المحلية في جوجل للكلمات المفتاحية عالية الحجز بالرياض لبناء تدفق مستمر ومجاني بالكامل من المرضى دون توقف. | Dominating local search results in Riyadh for high-intent queries like best clinic near me to channel organic patient flow.'),
+      btnText: t('serv_seo_btn_text', 'اطلب فحص سيو مجاني لعيادتك | Get Free Clinic SEO Audit'),
+      benefitTitle: t('serv_seo_benefit_title', 'ميزة تصدر محركات البحث | The Power of Organic SEO'),
+      benefitDesc: t('serv_seo_benefit_desc', 'يبدأ أكثر من 70% من المرضى بالرياض رحلتهم الطبية بالبحث على جوجل. إذا لم تكن عيادتك في الصفحة الأولى، فإنك ببساطة تقدم مرضاك الجدد للعيادات المنافسة. | Over 70% of selective patients start their search with Google queries. Dominating organic listings bypasses expensive paid ads permanently.'),
+      benefits: [
+        { 
+          icon: 'verified', 
+          title: t('serv_seo_benefit_item1_title', 'حجوزات عالية الكفاءة | High-Intent Bookings'), 
+          desc: t('serv_seo_benefit_item1_desc', 'زوار نتائج البحث العضوية يملكون أعلى نسب حجز مواعيد فعلية واستبقاء للعيادة. | Organic web visitors have the absolute highest conversion rate to clinical check-ups.') 
+        },
+        { 
+          icon: 'verified', 
+          title: t('serv_seo_benefit_item2_title', 'عائد استثماري مستدام | Permanent Digital Assets'), 
+          desc: t('serv_seo_benefit_item2_desc', 'بخلاف الإعلانات، نتائج الـ SEO تبني أصولاً رقمية مجانية ودائمة لعلامتكم الطبية. | Unlike social ads, SEO pages build lasting digital compounding authority for your clinic.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'verified', title: 'High-Intent Bookings', desc: 'Organic web visitors have the absolute highest conversion rate to clinical check-ups.' },
-        { icon: 'verified', title: 'Permanent Digital Assets', desc: 'Unlike social ads, SEO pages build lasting digital compounding authority for your clinic.' }
-      ],
-      strategyTitleAr: 'آلية العمل والاستراتيجية السريرية',
-      strategyTitleEn: 'Our SEO Framework & Compliance',
-      strategiesAr: [
-        { title: 'السيطرة على البحث المحلي (السيو المحلي)', desc: 'تحسين ملفات خرائط جوجل للعيادة (ملف جوجل التجاري) لتتصدر فوراً عند بحث المرضى القريبين بالرياض.' },
-        { title: 'هيكلة وصناعة المحتوى الطبي التخصصي', desc: 'نشر مقالات طبية وعلمية بالغة الدقة تتوافق مع خوارزميات جوجل الصارمة لبناء الموثوقية الطبية.' },
-        { title: 'التحسين التقني الفني للموقع وسرعة التصفح', desc: 'تحسين كود الموقع وسرعة تحميله لتصل لأقل من ثانية ونصف، وضمان تصفح مريح وخالي من أي تعقيدات من الجوال.' }
-      ],
-      strategiesEn: [
-        { title: 'Google Maps Optimization (Local SEO)', desc: 'Optimizing your GMB profile to appear instantly on local geo-targeted clinical searches in Riyadh.' },
-        { title: 'MOH & Google Compliant Content', desc: 'Writing clinical articles utilizing top expert medical knowledge guidelines to build real authority.' },
-        { title: 'Technical Speed & Architecture', desc: 'Ensuring your site loads in under 1.5 seconds, optimized fully for responsive mobile screens.' }
+      strategyTitle: t('serv_seo_strategy_title', 'آلية العمل والاستراتيجية السريرية | Our SEO Framework & Compliance'),
+      strategies: [
+        { 
+          title: t('serv_seo_strategy_item1_title', 'السيطرة على البحث المحلي (السيو المحلي) | Google Maps Optimization (Local SEO)'), 
+          desc: t('serv_seo_strategy_item1_desc', 'تحسين ملفات خرائط جوجل للعيادة (ملف جوجل التجاري) لتتصدر فوراً عند بحث المرضى القريبين بالرياض. | Optimizing your GMB profile to appear instantly on local geo-targeted clinical searches in Riyadh.') 
+        },
+        { 
+          title: t('serv_seo_strategy_item2_title', 'هيكلة وصناعة المحتوى الطبي التخصصي | MOH & Google Compliant Content'), 
+          desc: t('serv_seo_strategy_item2_desc', 'نشر مقالات طبية وعلمية بالغة الدقة تتوافق مع خوارزميات جوجل الصارمة لبناء الموثوقية الطبية. | Writing clinical articles utilizing top expert medical knowledge guidelines to build real authority.') 
+        },
+        { 
+          title: t('serv_seo_strategy_item3_title', 'التحسين التقني الفني للموقع وسرعة التصفح | Technical Speed & Architecture'), 
+          desc: t('serv_seo_strategy_item3_desc', 'تحسين كود الموقع وسرعة تحميله لتصل لأقل من ثانية ونصف، وضمان تصفح مريح وخالي من أي تعقيدات من الجوال. | Ensuring your site loads in under 1.5 seconds, optimized fully for responsive mobile screens.') 
+        }
       ]
     },
     ppc: {
       icon: 'ads_click',
-      tagAr: 'إعلانات الاستحواذ المباشر',
-      tagEn: 'Targeted Patient Lead Generation',
-      titleAr: 'حملات الإعلانات الطبية المدفوعة الذكية',
-      titleEn: 'High-Conversion Paid Patient Campaigns',
-      descAr: 'حملات تسويقية فائقة الدقة والتحويل عبر جوجل وسناب شات وميتا لتوليد تدفق مباشر لحجوزات العيادة بأقل كلفة استحواذ ممكنة وبأعلى جودة.',
-      descEn: 'Engineering data-driven, highly optimized ad campaigns on Google, Snapchat, and Meta to pack clinic consult rooms with selective patients.',
-      btnTextAr: 'احصل على خطة إعلانية مخصصة لعيادتك',
-      btnTextEn: 'Request Custom Ad Strategy',
-      benefitTitleAr: 'عائد سريع ونمو مضمون الحجوزات',
-      benefitTitleEn: 'Instant Patient Flow Optimization',
-      benefitDescAr: 'نصمم حملات إعلانية مدفوعة ومحسنة خصيصاً للعيادات الطبية التخصصية، لزيادة نسب الإشغال وجمع استمارات الحجز الحقيقية مع خفض تكاليف النقرة.',
-      benefitDescEn: 'Deploying highly-converting paid pathways that focus purely on confirmed clinical calls, WhatsApp messages, and direct online bookings.',
-      benefitsAr: [
-        { icon: 'trending_up', title: 'نتائج فورية مباشرة', desc: 'تبدأ الاتصالات وحجوزات المواعيد في التدفق لمركزك الطبي من اليوم الأول لإطلاق الحملة.' },
-        { icon: 'verified', title: 'تتبع كامل للحجوزات', desc: 'نظام قياس دقيق يربط بين الميزانية المدفوعة والمبيعات الطبية الفعلية لعيادتك.' }
+      tag: t('serv_ppc_tag', 'إعلانات الاستحواذ المباشر | Targeted Patient Lead Generation'),
+      title: t('serv_ppc_title', 'حملات الإعلانات الطبية المدفوعة الذكية | High-Conversion Paid Patient Campaigns'),
+      desc: t('serv_ppc_desc', 'حملات تسويقية فائقة الدقة والتحويل عبر جوجل وسناب شات وميتا لتوليد تدفق مباشر لحجوزات العيادة بأقل كلفة استحواذ ممكنة وبأعلى جودة. | Engineering data-driven, highly optimized ad campaigns on Google, Snapchat, and Meta to pack clinic consult rooms with selective patients.'),
+      btnText: t('serv_ppc_btn_text', 'احصل على خطة إعلانية مخصصة لعيادتك | Request Custom Ad Strategy'),
+      benefitTitle: t('serv_ppc_benefit_title', 'عائد سريع ونمو مضمون الحجوزات | Instant Patient Flow Optimization'),
+      benefitDesc: t('serv_ppc_benefit_desc', 'نصمم حملات إعلانية مدفوعة ومحسنة خصيصاً للعيادات الطبية التخصصية، لزيادة نسب الإشغال وجمع استمارات الحجز الحقيقية مع خفض تكاليف النقرة. | Deploying highly-converting paid pathways that focus purely on confirmed clinical calls, WhatsApp messages, and direct online bookings.'),
+      benefits: [
+        { 
+          icon: 'trending_up', 
+          title: t('serv_ppc_benefit_item1_title', 'نتائج فورية مباشرة | Instant Lead Influx'), 
+          desc: t('serv_ppc_benefit_item1_desc', 'تبدأ الاتصالات وحجوزات المواعيد في التدفق لمركزك الطبي من اليوم الأول لإطلاق الحملة. | Verified booking requests start reaching your reception from the very first hour of ad launch.') 
+        },
+        { 
+          icon: 'verified', 
+          title: t('serv_ppc_benefit_item2_title', 'تتبع كامل للحجوزات | End-to-End Analytics Tracking'), 
+          desc: t('serv_ppc_benefit_item2_desc', 'نظام قياس دقيق يربط بين الميزانية المدفوعة والمبيعات الطبية الفعلية لعيادتك. | We link paid clicks directly with final patient arrivals at your clinic, ensuring precise ROI.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'trending_up', title: 'Instant Lead Influx', desc: 'Verified booking requests start reaching your reception from the very first hour of ad launch.' },
-        { icon: 'verified', title: 'End-to-End Analytics Tracking', desc: 'We link paid clicks directly with final patient arrivals at your clinic, ensuring precise ROI.' }
-      ],
-      strategyTitleAr: 'منهجية الإعلانات الطبية الدقيقة',
-      strategyTitleEn: 'Clinical Ad Campaigns Setup',
-      strategiesAr: [
-        { title: 'استهداف الفئات عالية النية', desc: 'استهداف المرضى الباحثين عن علاجات التجميل، الأسنان، الليزر، وزراعة الأسنان في مناطق الرياض الراقية.' },
-        { title: 'تصميم عروض وحوافز متوافقة طبياً', desc: 'صياغة نصوص إعلانية وعروض علاجية محفزة مع الحفاظ الكامل على وقار وأخلاقيات المهنة الطبية.' },
-        { title: 'الاختبار والتحسين الذكي المستمر', desc: 'اختبار مستمر للعناوين والمواد الإبداعية لتقليل تكلفة حجز الاستشارة وضمان ثبات التدفق.' }
-      ],
-      strategiesEn: [
-        { title: 'High-Value Interest Targeting', desc: 'Reaching selective individuals looking for plastic surgery, veneers, dental implants, or aesthetic treatments in upscale Riyadh.' },
-        { title: 'MOH Compliant Ad Copywriting', desc: 'Drafting premium visual styles and persuasive medical copywriting that complies with local healthcare guidelines.' },
-        { title: 'A/B Testing & Scaling', desc: 'Constantly optimizing graphics, layout variations, and target channels to drive down patient acquisition costs.' }
+      strategyTitle: t('serv_ppc_strategy_title', 'منهجية الإعلانات الطبية الدقيقة | Clinical Ad Campaigns Setup'),
+      strategies: [
+        { 
+          title: t('serv_ppc_strategy_item1_title', 'استهدف الفئات عالية النية | High-Value Interest Targeting'), 
+          desc: t('serv_ppc_strategy_item1_desc', 'استهداف المرضى الباحثين عن علاجات التجميل، الأسنان، الليزر، وزراعة الأسنان في مناطق الرياض الراقية. | Reaching selective individuals looking for plastic surgery, veneers, dental implants, or aesthetic treatments in upscale Riyadh.') 
+        },
+        { 
+          title: t('serv_ppc_strategy_item2_title', 'تصميم عروض وحوافز متوافقة طبياً | MOH Compliant Ad Copywriting'), 
+          desc: t('serv_ppc_strategy_item2_desc', 'صياغة نصوص إعلانية وعروض علاجية محفزة مع الحفاظ الكامل على وقار وأخلاقيات المهنة الطبية. | Drafting premium visual styles and persuasive medical copywriting that complies with local healthcare guidelines.') 
+        },
+        { 
+          title: t('serv_ppc_strategy_item3_title', 'الاختبار والتحسين الذكي المستمر | A/B Testing & Scaling'), 
+          desc: t('serv_ppc_strategy_item3_desc', 'اختبار مستمر للعناوين والمواد الإبداعية لتقليل تكلفة حجز الاستشارة وضمان ثبات التدفق. | Constantly optimizing graphics, layout variations, and target channels to drive down patient acquisition costs.') 
+        }
       ]
     },
     social: {
       icon: 'share_reviews',
-      tagAr: 'التسويق عبر صناعة المحتوى',
-      tagEn: 'Medical Social Content Strategy',
-      titleAr: 'صناعة المحتوى الطبي وإدارة السوشيال ميديا',
-      titleEn: 'Premium Medical Content & Social Media',
-      descAr: 'صناعة وإنتاج مقاطع فيديو مميزة ومبسطة للأطباء على تيك توك وإنستغرام وسناب شات لبناء المصداقية وترسيخ الثقة في تخصصاتكم الطبية بالرياض.',
-      descEn: 'Crafting visually stunning educational social assets for selective doctors and modern medical centers to engage patient groups online.',
-      btnTextAr: 'ابدأ في بناء براندك الشخصي الطبي الآن',
-      btnTextEn: 'Build Your Medical Brand Now',
-      benefitTitleAr: 'تحويل المعرفة إلى ثقة وحجوزات',
-      benefitTitleEn: 'Transforming Medical Authority to Trust',
-      benefitDescAr: 'يبحث المرضى الحديثون عن وجوه مألوفة وعلم حقيقي. نساعد الأطباء على الظهور بمظهر مهيب وودود عبر مقاطع فيديو قصيرة وتصاميم تثقيفية تترجم المعرفة الطبية لثقة.',
-      benefitDescEn: 'Modern patients book with doctors they already feel connected to. We write and produce custom media content that presents clinical excellence in premium style.',
-      benefitsAr: [
-        { icon: 'group', title: 'بناء قاعدة مرضى مخلصين', desc: 'بناء مجتمع رقمي يثق بآرائك الطبية ويفضل عيادتك دائماً عن غيرها.' },
-        { icon: 'verified', title: 'براند شخصي طبي مهيب', desc: 'تأسيس حضور رقمي يبرز كفاءتك الأكاديمية والعملية بالرياض.' }
+      tag: t('serv_social_tag', 'التسويق عبر صناعة المحتوى | Medical Social Content Strategy'),
+      title: t('serv_social_title', 'صناعة المحتوى الطبي وإدارة السوشيال ميديا | Premium Medical Content & Social Media'),
+      desc: t('serv_social_desc', 'صناعة وإنتاج مقاطع فيديو مميزة ومبسطة للأطباء على تيك توك وإنستغرام وسناب شات لبناء المصداقية وترسيخ الثقة في تخصصاتكم الطبية بالرياض. | Crafting visually stunning educational social assets for selective doctors and modern medical centers to engage patient groups online.'),
+      btnText: t('serv_social_btn_text', 'ابدأ في بناء براندك الشخصي الطبي الآن | Build Your Medical Brand Now'),
+      benefitTitle: t('serv_social_benefit_title', 'تحويل المعرفة إلى ثقة وحجوزات | Transforming Medical Authority to Trust'),
+      benefitDesc: t('serv_social_benefit_desc', 'يبحث المرضى الحديثون عن وجوه مألوفة وعلم حقيقي. نساعد الأطباء على الظهور بمظهر مهيب وودود عبر مقاطع فيديو قصيرة وتصاميم تثقيفية تترجم المعرفة الطبية لثقة. | Modern patients book with doctors they already feel connected to. We write and produce custom media content that presents clinical excellence in premium style.'),
+      benefits: [
+        { 
+          icon: 'group', 
+          title: t('serv_social_benefit_item1_title', 'بناء قاعدة مرضى مخلصين | Loyal Patient Community'), 
+          desc: t('serv_social_benefit_item1_desc', 'بناء مجتمع رقمي يثق بآرائك الطبية ويفضل عيادتك دائماً عن غيرها. | Building dynamic online followers that seek your medical opinion and share your clinic works.') 
+        },
+        { 
+          icon: 'verified', 
+          title: t('serv_social_benefit_item2_title', 'براند شخصي طبي مهيب | Elite Professional Standing'), 
+          desc: t('serv_social_benefit_item2_desc', 'تأسيس حضور رقمي يبرز كفاءتك الأكاديمية والعملية بالرياض. | Translating your medical certificates and clinical achievements into high-end public authority.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'group', title: 'Loyal Patient Community', desc: 'Building dynamic online followers that seek your medical opinion and share your clinic works.' },
-        { icon: 'verified', title: 'Elite Professional Standing', desc: 'Translating your medical certificates and clinical achievements into high-end public authority.' }
-      ],
-      strategyTitleAr: 'خطوات صناعة المحتوى الطبي',
-      strategyTitleEn: 'Our Creative Content Lifecycle',
-      strategiesAr: [
-        { title: 'تطوير نصوص طبية مرخصة وجذابة', desc: 'كتابة نصوص الفيديو والمنشورات بالاعتماد على مراجع علمية مع صياغتها بطريقة بسيطة وجذابة.' },
-        { title: 'جلسات تصوير سريرية فاخرة', desc: 'إشراف وتصوير احترافي لعياداتكم وأطبائكم لإبراز المعايير السريرية الراقية والخدمات التخصصية.' },
-        { title: 'التوزيع والنشر الذكي المستمر', desc: 'إدارة وجدولة النشر اليومي والتفاعل مع تعليقات واستفسارات المرضى لتحويلهم لعيادتك.' }
-      ],
-      strategiesEn: [
-        { title: 'MOH Regulatory Writing', desc: 'Drafting medical scripts and educational content that is both compelling and scientifically accurate.' },
-        { title: 'High-End Cinematic Shoots', desc: 'Directing and editing stunning visual tours and doctor profile videos in Riyadh clinical facilities.' },
-        { title: 'Organic Algorithm Distribution', desc: 'Scheduling visual publications on TikTok, Snap, and Insta, maximizing reach among target local districts.' }
+      strategyTitle: t('serv_social_strategy_title', 'خطوات صناعة المحتوى الطبي | Our Creative Content Lifecycle'),
+      strategies: [
+        { 
+          title: t('serv_social_strategy_item1_title', 'تطوير نصوص طبية مرخصة وجذابة | MOH Regulatory Writing'), 
+          desc: t('serv_social_strategy_item1_desc', 'كتابة نصوص الفيديو والمنشورات بالاعتماد على مراجع علمية مع صياغتها بطريقة بسيطة وجذابة. | Drafting medical scripts and educational content that is both compelling and scientifically accurate.') 
+        },
+        { 
+          title: t('serv_social_strategy_item2_title', 'جلسات تصوير سريرية فاخرة | High-End Cinematic Shoots'), 
+          desc: t('serv_social_strategy_item2_desc', 'إشراف وتصوير احترافي لعياداتكم وأطبائكم لإبراز المعايير السريرية الراقية والخدمات التخصصية. | Directing and editing stunning visual tours and doctor profile videos in Riyadh clinical facilities.') 
+        },
+        { 
+          title: t('serv_social_strategy_item3_title', 'التوزيع والنشر الذكي المستمر | Organic Algorithm Distribution'), 
+          desc: t('serv_social_strategy_item3_desc', 'إدارة وجدولة النشر اليومي والتفاعل مع تعليقات واستفسارات المرضى لتحويلهم لعيادتك. | Scheduling visual publications on TikTok, Snap, and Insta, maximizing reach among target local districts.') 
+        }
       ]
     },
     web: {
       icon: 'web',
-      tagAr: 'تصميم المواقع الطبية الفاخرة',
-      tagEn: 'Luxury Medical Web Development',
-      titleAr: 'المواقع والتطبيقات الطبية فائقة الأداء',
-      titleEn: 'Stunning Medical Web Platforms & Bookings',
-      descAr: 'تصميم وهندسة واجهات ويب وتطبيقات طبية فائقة السرعة ومتوافقة 100% مع أنظمة الحجوزات لتجربة مريض سلسة ومثالية من الهواتف الذكية.',
-      descEn: 'Developing high-converting responsive web screens and custom client systems with interactive scheduling tools.',
-      btnTextAr: 'صمم موقع عيادتك الفاخر الآن',
-      btnTextEn: 'Build Your Custom Clinic Site',
-      benefitTitleAr: 'منصتك الرقمية هي واجهة عيادتك',
-      benefitTitleEn: 'A Seamless Digital Patient Portal',
-      benefitDescAr: 'موقعك الطبي هو الانطباع الأول للمرضى. نحن نبني مواقع وتطبيقات تجمع بين الفخامة البصرية والسرعة الفائقة لضمان تحويل الزائرين لحجوزات مؤكدة.',
-      benefitDescEn: 'Your clinic website is where patient conversions actually happen. We deliver highly customized Next.js platforms optimized for speed, safety, and bookings.',
-      benefitsAr: [
-        { icon: 'speed', title: 'سرعة تصفح فائقة', desc: 'تحميل فوري للموقع من الجوال في أقل من ثانية ونصف يمنع خسارة المرضى.' },
-        { icon: 'security', title: 'أمان وتشفير كامل للبيانات', desc: 'حماية كاملة لمعلومات المرضى الطبية مع تشفير وسيرفرات آمنة.' }
+      tag: t('serv_web_tag', 'تصميم المواقع الطبية الفاخرة | Luxury Medical Web Development'),
+      title: t('serv_web_title', 'المواقع والتطبيقات الطبية فائقة الأداء | Stunning Medical Web Platforms & Bookings'),
+      desc: t('serv_web_desc', 'تصميم وهندسة واجهات ويب وتطبيقات طبية فائقة السرعة ومتوافقة 100% مع أنظمة الحجوزات لتجربة مريض سلسة ومثالية من الهواتف الذكية. | Developing high-converting responsive web screens and custom client systems with interactive scheduling tools.'),
+      btnText: t('serv_web_btn_text', 'صمم موقع عيادتك الفاخر الآن | Build Your Custom Clinic Site'),
+      benefitTitle: t('serv_web_benefit_title', 'منصتك الرقمية هي واجهة عيادتك | A Seamless Digital Patient Portal'),
+      benefitDesc: t('serv_web_benefit_desc', 'موقعك الطبي هو الانطباع الأول للمرضى. نحن نبني مواقع وتطبيقات تجمع بين الفخامة البصرية والسرعة الفائقة لضمان تحويل الزائرين لحجوزات مؤكدة. | Your clinic website is where patient conversions actually happen. We deliver highly customized Next.js platforms optimized for speed, safety, and bookings.'),
+      benefits: [
+        { 
+          icon: 'speed', 
+          title: t('serv_web_benefit_item1_title', 'سرعة تصفح فائقة | Sub-Second Speeds'), 
+          desc: t('serv_web_benefit_item1_desc', 'تحميل فوري للموقع من الجوال في أقل من ثانية ونصف يمنع خسارة المرضى. | Optimized react frameworks ensuring your mobile users never leave due to page loading lags.') 
+        },
+        { 
+          icon: 'security', 
+          title: t('serv_web_benefit_item2_title', 'أمان وتشفير كامل للبيانات | HIPAA & MOH Data Safety'), 
+          desc: t('serv_web_benefit_item2_desc', 'حماية كاملة لمعلومات المرضى الطبية مع تشفير وسيرفرات آمنة. | End-to-end encryption to govern private patient appointment forms and secure hospital data.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'speed', title: 'Sub-Second Speeds', desc: 'Optimized react frameworks ensuring your mobile users never leave due to page loading lags.' },
-        { icon: 'security', title: 'HIPAA & MOH Data Safety', desc: 'End-to-end encryption to govern private patient appointment forms and secure hospital data.' }
-      ],
-      strategyTitleAr: 'مراحل تصميم وتطوير المواقع الطبية',
-      strategyTitleEn: 'Our Medical Engineering Pipeline',
-      strategiesAr: [
-        { title: 'هندسة تجربة المريض الرقمية (UX)', desc: 'واجهات بسيطة تمكن المريض من معرفة الأطباء، وحجز موعد، والاتصال في أقل من 3 نقرات.' },
-        { title: 'الربط مع برامج إدارة العيادات', desc: 'دمج موقعك مع أنظمة إدارة الحجوزات والمواعيد الداخلية لمركزك الطبي مباشرة.' },
-        { title: 'التوافق مع متطلبات السيو الفني', desc: 'بناء كود نظيف ومتوافق 100% مع خوارزميات جوجل لضمان الظهور الفوري في نتائج البحث.' }
-      ],
-      strategiesEn: [
-        { title: 'Intuitive Patient Flow (UX/UI)', desc: 'Designing streamlined paths that allow visitors to view credentials and confirm consultations in 3 clicks.' },
-        { title: 'Clinic CRM & Calendar Sync', desc: 'Integrating directly with your internal hospital databases and appointment software.' },
-        { title: 'Technical SEO Base Code', desc: 'Applying structured JSON-LD schemes so search engines understand your locations, reviews, and specialties instantly.' }
+      strategyTitle: t('serv_web_strategy_title', 'مراحل تصميم وتطوير المواقع الطبية | Our Medical Engineering Pipeline'),
+      strategies: [
+        { 
+          title: t('serv_web_strategy_item1_title', 'هندسة تجربة المريض الرقمية (UX) | Intuitive Patient Flow (UX/UI)'), 
+          desc: t('serv_web_strategy_item1_desc', 'واجهات بسيطة تمكن المريض من معرفة الأطباء، وحجز موعد، والاتصال في أقل من 3 نقرات. | Designing streamlined paths that allow visitors to view credentials and confirm consultations in 3 clicks.') 
+        },
+        { 
+          title: t('serv_web_strategy_item2_title', 'الربط مع برامج إدارة العيادات | Clinic CRM & Calendar Sync'), 
+          desc: t('serv_web_strategy_item2_desc', 'دمج موقعك مع أنظمة إدارة الحجوزات والمواعيد الداخلية لمركزك الطبي مباشرة. | Integrating directly with your internal hospital databases and appointment software.') 
+        },
+        { 
+          title: t('serv_web_strategy_item3_title', 'التوافق مع متطلبات السيو الفني | Technical SEO Base Code'), 
+          desc: t('serv_web_strategy_item3_desc', 'بناء كود نظيف ومتوافق 100% مع خوارزميات جوجل لضمان الظهور الفوري في نتائج البحث. | Applying structured JSON-LD schemes so search engines understand your locations, reviews, and specialties instantly.') 
+        }
       ]
     },
     reputation: {
       icon: 'verified',
-      tagAr: 'إدارة السمعة والسيرة الطبية',
-      tagEn: 'Healthcare Reputation Governance',
-      titleAr: 'بناء وإدارة السيرة والسمعة الطبية للأطباء',
-      titleEn: 'Clinic & Doctor Reputation Management',
-      descAr: 'حماية وبناء السمعة الرقمية والتقييمات للمراكز الطبية والأطباء على خرائط جوجل لزيادة ثقة المريض ودعم الحجز السريع.',
-      descEn: 'Leveraging automated feedback software to govern clinic ratings, capture star reviews, and secure patient trust online.',
-      btnTextAr: 'ابدأ في حماية سمعتك الطبية الرقمية',
-      btnTextEn: 'Govern Your Clinic Reputation Now',
-      benefitTitleAr: 'التقييمات هي القوة الدافعة للحجوزات',
-      benefitTitleEn: 'Trust In The Age of Digital Reviews',
-      benefitDescAr: 'يقرأ أكثر من 90% من المرضى في الرياض تقييمات خرائط جوجل والمنصات قبل اختيار عيادتهم الجديدة. نحن نصمم لك نظاماً آلياً لجمع وحماية تقييماتك وتكبيرها.',
-      benefitDescEn: 'Selective patients choose medical specialists with superior verified feedback. We deploy systemic triggers to harvest positive feedback while buffering critical inquiries.',
-      benefitsAr: [
-        { icon: 'star', title: 'جمع تقييمات حقيقية تلقائية', desc: 'نظام ذكي يرسل للمرضى بعد خروجهم من العيادة لتقييم خدماتك بسهولة.' },
-        { icon: 'gavel', title: 'حماية السمعة من التقييمات الوهمية', desc: 'مراقبة وتدخل فوري لحل التقييمات السلبية الكاذبة وحمايتك الرقمية.' }
+      tag: t('serv_rep_tag', 'إدارة السمعة والسيرة الطبية | Healthcare Reputation Governance'),
+      title: t('serv_rep_title', 'بناء وإدارة السيرة والسمعة الطبية للأطباء | Clinic & Doctor Reputation Management'),
+      desc: t('serv_rep_desc', 'حماية وبناء السمعة الرقمية والتقييمات للمراكز الطبية والأطباء على خرائط جوجل لزيادة ثقة المريض ودعم الحجز السريع. | Leveraging automated feedback software to govern clinic ratings, capture star reviews, and secure patient trust online.'),
+      btnText: t('serv_rep_btn_text', 'ابدأ في حماية سمعتك الطبية الرقمية | Govern Your Clinic Reputation Now'),
+      benefitTitle: t('serv_rep_benefit_title', 'التقييمات هي القوة الدافعة للحجوزات | Trust In The Age of Digital Reviews'),
+      benefitDesc: t('serv_rep_benefit_desc', 'يقرأ أكثر من 90% من المرضى في الرياض تقييمات خرائط جوجل والمنصات قبل اختيار عيادتهم الجديدة. نحن نصمم لك نظاماً آلياً لجمع وحماية تقييماتك وتكبيرها. | Selective patients choose medical specialists with superior verified feedback. We deploy systemic triggers to harvest positive feedback while buffering critical inquiries.'),
+      benefits: [
+        { 
+          icon: 'star', 
+          title: t('serv_rep_benefit_item1_title', 'جمع تقييمات حقيقية تلقائية | Automated 5-Star Streams'), 
+          desc: t('serv_rep_benefit_item1_desc', 'نظام ذكي يرسل للمرضى بعد خروجهم من العيادة لتقييم خدماتك بسهولة. | Sending polite feedback prompts to patients right after clinical discharge, boosting Google rating naturally.') 
+        },
+        { 
+          icon: 'gavel', 
+          title: t('serv_rep_benefit_item2_title', 'حماية السمعة من التقييمات الوهمية | Critical Feedback Buffering'), 
+          desc: t('serv_rep_benefit_item2_desc', 'مراقبة وتدخل فوري لحل التقييمات السلبية الكاذبة وحمايتك الرقمية. | Filtering negative remarks privately to internal support teams while showcasing organic positive reviews.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'star', title: 'Automated 5-Star Streams', desc: 'Sending polite feedback prompts to patients right after clinical discharge, boosting Google rating naturally.' },
-        { icon: 'gavel', title: 'Critical Feedback Buffering', desc: 'Filtering negative remarks privately to internal support teams while showcasing organic positive reviews.' }
-      ],
-      strategyTitleAr: 'استراتيجية حوكمة السمعة الطبية',
-      strategyTitleEn: 'Our Review Automation Framework',
-      strategiesAr: [
-        { title: 'تفعيل أنظمة التقييم التلقائي بالعيادات', desc: 'ربط رسائل واتساب أو رسائل نصية قصيرة بنظام الفواتير والزيارات لدعوة التقييم.' },
-        { title: 'تحليل والرد المهني الطبي على المراجعات', desc: 'الرد على كافة التقييمات والمراجعات بلغة وقورة ومهنية تليق بسمعة المركز وتدعم السيو.' },
-        { title: 'مراقبة المنصات الطبية والأدلة بالرياض', desc: 'متابعة وتحديث ملفات الأطباء على مختلف أدلة البحث الطبي لضمان تطابق البيانات.' }
-      ],
-      strategiesEn: [
-        { title: 'Automated Review Triggers', desc: 'Integrating custom text/WhatsApp dispatch systems with your hospital checkout flow.' },
-        { title: 'Professional Medical Moderation', desc: 'Replying to all patient feedback gracefully, showing empathy and enhancing organic keyword relevancy.' },
-        { title: 'Directories Integration', desc: 'Keeping active records across multiple Saudi clinic portals consistent and completely updated.' }
+      strategyTitle: t('serv_rep_strategy_title', 'استراتيجية حوكمة السمعة الطبية | Our Review Automation Framework'),
+      strategies: [
+        { 
+          title: t('serv_rep_strategy_item1_title', 'تفعيل أنظمة التقييم التلقائي بالعيادات | Automated Review Triggers'), 
+          desc: t('serv_rep_strategy_item1_desc', 'ربط رسائل واتساب أو رسائل نصية قصيرة بنظام الفواتير والزيارات لدعوة التقييم. | Integrating custom text/WhatsApp dispatch systems with your hospital checkout flow.') 
+        },
+        { 
+          title: t('serv_rep_strategy_item2_title', 'تحليل والرد المهني الطبي على المراجعات | Professional Medical Moderation'), 
+          desc: t('serv_rep_strategy_item2_desc', 'الرد على كافة التقييمات والمراجعات بلغة وقورة ومهنية تليق بسمعة المركز وتدعم السيو. | Replying to all patient feedback gracefully, showing empathy and enhancing organic keyword relevancy.') 
+        },
+        { 
+          title: t('serv_rep_strategy_item3_title', 'مراقبة المنصات الطبية والأدلة بالرياض | Directories Integration'), 
+          desc: t('serv_rep_strategy_item3_desc', 'متابعة وتحديث ملفات الأطباء على مختلف أدلة البحث الطبي لضمان تطابق البيانات. | Keeping active records across Saudi clinic portals consistent and completely updated.') 
+        }
       ]
     },
     identity: {
       icon: 'fingerprint',
-      tagAr: 'الهوية الطبية للعيادات الفاخرة',
-      tagEn: 'Clinical Brand Identity',
-      titleAr: 'صياغة وتأسيس الهوية الطبية الرقمية الفاخرة',
-      titleEn: 'Luxury Medical Branding & Corporate Identity',
-      descAr: 'تصميم وتأسيس براند طبي متكامل وفاخر يبرز المرجعية العلمية للأطباء والعيادات ويزيد من جاذبيتها للمرضى ذوي الفئات العالية.',
-      descEn: 'Drafting cinematic, premium clinical visual assets, logos, and custom style guide tokens for hospitals and modern centers.',
-      btnTextAr: 'صمم الهوية الطبية الفاخرة لمركزك',
-      btnTextEn: 'Design Your Luxury Medical Brand',
-      benefitTitleAr: 'الفخامة البصرية تبني السلطة الطبية',
-      benefitTitleEn: 'Premium Branding Commands High Fees',
-      benefitDescAr: 'لا يشتري المرضى مجرد علاج، بل يشترون الثقة والرعاية الفاخرة. الهوية الراقية المتكاملة تميز علامتكم عن العيادات التقليدية وتدعم الأسعار العادلة.',
-      benefitDescEn: 'A luxury, unified identity sets elite clinical centers apart from commercial discount operations, justifying premium patient care pricing.',
-      benefitsAr: [
-        { icon: 'palette', title: 'تصميم بصري فاخر وفريد', desc: 'شعار، ألوان، وخطوط مخصصة تعبر عن الرقي والوقار الطبي لعلامتكم.' },
-        { icon: 'verified', title: 'توحيد كافة قنوات التواصل', desc: 'بناء حضور متكامل ومتناسق يبدأ من لوحة العيادة ويمتد لموقعكم ومنصاتكم.' }
+      tag: t('serv_id_tag', 'الهوية الطبية للعيادات الفاخرة | Clinical Brand Identity'),
+      title: t('serv_id_title', 'صياغة وتأسيس الهوية الطبية الرقمية الفاخرة | Luxury Medical Branding & Corporate Identity'),
+      desc: t('serv_id_desc', 'تصميم وتأسيس براند طبي متكامل وفاخر يبرز المرجعية العلمية للأطباء والعيادات ويزيد من جاذبيتها للمرضى ذوي الفئات العالية. | Drafting cinematic, premium clinical visual assets, logos, and custom style guide tokens for hospitals and modern centers.'),
+      btnText: t('serv_id_btn_text', 'صمم الهوية الطبية الفاخرة لمركزك | Design Your Luxury Medical Brand'),
+      benefitTitle: t('serv_id_benefit_title', 'الفخامة البصرية تبني السلطة الطبية | Premium Branding Commands High Fees'),
+      benefitDesc: t('serv_id_benefit_desc', 'لا يشتري المرضى مجرد علاج، بل يشترون الثقة والرعاية الفاخرة. الهوية الراقية المتكاملة تميز علامتكم عن العيادات التقليدية وتدعم الأسعار العادلة. | A luxury, unified identity sets elite clinical centers apart from commercial discount operations, justifying premium patient care pricing.'),
+      benefits: [
+        { 
+          icon: 'palette', 
+          title: t('serv_id_benefit_item1_title', 'تصميم بصري فاخر وفريد | High-End Custom Visuals'), 
+          desc: t('serv_id_benefit_item1_desc', 'شعار، ألوان، وخطوط مخصصة تعبر عن الرقي والوقار الطبي لعلامتكم. | Tailored logo, color palettes, and typography matching clinical class and visual prestige.') 
+        },
+        { 
+          icon: 'verified', 
+          title: t('serv_id_benefit_item2_title', 'توحيد كافة قنوات التواصل | Consistent Channel Presentation'), 
+          desc: t('serv_id_benefit_item2_desc', 'بناء حضور متكامل ومتناسق يبدأ من لوحة العيادة ويمتد لموقعكم ومنصاتكم. | Aligning physical clinic interiors, signage, stationery, and dynamic web interfaces.') 
+        }
       ],
-      benefitsEn: [
-        { icon: 'palette', title: 'High-End Custom Visuals', desc: 'Tailored logo, color palettes, and typography matching clinical class and visual prestige.' },
-        { icon: 'verified', title: 'Consistent Channel Presentation', desc: 'Aligning physical clinic interiors, signage, stationery, and dynamic web interfaces.' }
-      ],
-      strategyTitleAr: 'استراتيجية بناء الهوية الطبية الرقمية',
-      strategyTitleEn: 'Branding Execution Protocol',
-      strategiesAr: [
-        { title: 'تحديد تموضع العلامة والرسالة الطبية', desc: 'دراسة قيم العيادة وصياغة الرسالة الطبية التخصصية التي تميزكم عن غيركم بالرياض.' },
-        { title: 'تصميم حزمة الهوية البصرية المتكاملة', desc: 'إنتاج كتيب الهوية، الشعار، الألوان، الخطوط، وقوالب المنشورات الفاخرة الطبية.' },
-        { title: 'أصول الطباعة والمواد الإعلانية بالعيادة', desc: 'تصميم كروت الأطباء، التقارير الطبية، روشتات العيادة، والديكور الداخلي المتناسق.' }
-      ],
-      strategiesEn: [
-        { title: 'Brand Positioning Audit', desc: 'Delineating clinical strengths and creating unique brand mission statements for target markets.' },
-        { title: 'Premium Style Guide Production', desc: 'Developing font packages, logo systems, social media assets, and medical card templates.' },
-        { title: 'Physical Clinic Collaterals', desc: 'Designing medical reports, clinical prescription sheets, envelopes, and consistent signage designs.' }
+      strategyTitle: t('serv_id_strategy_title', 'استراتيجية بناء الهوية الطبية الرقمية | Branding Execution Protocol'),
+      strategies: [
+        { 
+          title: t('serv_id_strategy_item1_title', 'تحديد تموضع العلامة والرسالة الطبية | Brand Positioning Audit'), 
+          desc: t('serv_id_strategy_item1_desc', 'دراسة قيم العيادة وصياغة الرسالة الطبية التخصصية التي تميزكم عن غيركم بالرياض. | Delineating clinical strengths and creating unique brand mission statements for target markets.') 
+        },
+        { 
+          title: t('serv_id_strategy_item2_title', 'تصميم حزمة الهوية البصرية المتكاملة | Premium Style Guide Production'), 
+          desc: t('serv_id_strategy_item2_desc', 'إنتاج كتيب الهوية، الشعار، الألوان، الخطوط، وقوالب المنشورات الفاخرة الطبية. | Developing font packages, logo systems, social media assets, and medical card templates.') 
+        },
+        { 
+          title: t('serv_id_strategy_item3_title', 'أصول الطباعة والمواد الإعلانية بالعيادة | Physical Clinic Collaterals'), 
+          desc: t('serv_id_strategy_item3_desc', 'تصميم كروت الأطباء، التقارير الطبية، روشتات العيادة، والديكور الداخلي المتناسق. | Designing medical reports, clinical prescription sheets, envelopes, and consistent signage designs.') 
+        }
       ]
     }
   };
@@ -273,6 +270,27 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
       </>
     );
   }
+
+  // Smart local text selector that extracts the right locale section if separated by a pipe
+  const selectLocalText = (text: string) => {
+    if (!text) return '';
+    if (text.includes('|')) {
+      const parts = text.split('|');
+      return isRtl ? parts[0].trim() : parts[1].trim();
+    }
+    return text;
+  };
+
+  const resolvedBenefits = currentService.benefits.map(b => ({
+    icon: b.icon,
+    title: selectLocalText(b.title),
+    desc: selectLocalText(b.desc)
+  }));
+
+  const resolvedStrategies = currentService.strategies.map(s => ({
+    title: selectLocalText(s.title),
+    desc: selectLocalText(s.desc)
+  }));
 
   return (
     <>
@@ -297,23 +315,23 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
               <span className="material-symbols-outlined text-cyan-400 text-4xl">{currentService.icon}</span>
             </div>
             <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3 py-1.5 rounded-lg">
-              {isRtl ? currentService.tagAr : currentService.tagEn}
+              {selectLocalText(currentService.tag)}
             </span>
           </div>
           
           <h1 className={`text-3xl md:text-5xl font-extrabold text-white mb-6 leading-[1.2] max-w-4xl ${isRtl ? 'text-right' : 'text-left'}`}>
-            {isRtl ? currentService.titleAr : currentService.titleEn}
+            {selectLocalText(currentService.title)}
           </h1>
           
           <p className={`text-base md:text-lg text-slate-300 max-w-2xl mb-12 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
-            {isRtl ? currentService.descAr : currentService.descEn}
+            {selectLocalText(currentService.desc)}
           </p>
           
           <Link 
             href={getHref('contact')} 
             className="inline-block bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-5 rounded-xl font-bold text-sm shadow-[0_0_30px_rgba(0,218,243,0.3)] hover:scale-[1.03] transition-transform cursor-pointer"
           >
-            {isRtl ? currentService.btnTextAr : currentService.btnTextEn}
+            {selectLocalText(currentService.btnText)}
           </Link>
         </section>
 
@@ -321,17 +339,17 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
         <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12 select-none">
           
           {/* Benefit card */}
-          <div className="glass-card p-8 md:p-10 rounded-2xl flex flex-col justify-between">
+          <div className="glass-card p-8 md:p-10 rounded-2xl flex flex-col justify-between border border-white/5 bg-slate-900/60">
             <div>
               <h3 className={`text-xl md:text-2xl font-bold text-white mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl ? currentService.benefitTitleAr : currentService.benefitTitleEn}
+                {selectLocalText(currentService.benefitTitle)}
               </h3>
               <p className={`text-sm md:text-base text-slate-300 leading-relaxed mb-8 ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl ? currentService.benefitDescAr : currentService.benefitDescEn}
+                {selectLocalText(currentService.benefitDesc)}
               </p>
               
               <div className="space-y-6">
-                {(isRtl ? currentService.benefitsAr : currentService.benefitsEn).map((b, i) => (
+                {resolvedBenefits.map((b, i) => (
                   <div key={i} className={`flex gap-4 items-start ${isRtl ? 'text-right' : 'text-left'}`}>
                     <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
                       <span className="material-symbols-outlined text-lg">{b.icon}</span>
@@ -355,13 +373,13 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
           </div>
 
           {/* Strategies Card */}
-          <div className="glass-card p-8 md:p-10 rounded-2xl">
+          <div className="glass-card p-8 md:p-10 rounded-2xl border border-white/5 bg-slate-900/60">
             <h3 className={`text-xl md:text-2xl font-bold text-white mb-8 ${isRtl ? 'text-right' : 'text-left'}`}>
-              {isRtl ? currentService.strategyTitleAr : currentService.strategyTitleEn}
+              {selectLocalText(currentService.strategyTitle)}
             </h3>
             
             <ul className="space-y-6">
-              {(isRtl ? currentService.strategiesAr : currentService.strategiesEn).map((strat, i) => (
+              {resolvedStrategies.map((strat, i) => (
                 <li key={i} className={`border-b border-white/5 last:border-0 pb-5 last:pb-0 ${isRtl ? 'text-right' : 'text-left'}`}>
                   <h4 className="text-cyan-400 font-bold mb-2 text-sm md:text-base">{strat.title}</h4>
                   <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{strat.desc}</p>

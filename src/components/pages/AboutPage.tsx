@@ -8,7 +8,7 @@ import FloatContacts from '../FloatContacts';
 import { useContent } from '../ContentProvider';
 
 export default function AboutPage() {
-  const { t, locale, data } = useContent();
+  const { t, locale } = useContent();
 
   const isRtl = locale === 'ar';
 
@@ -27,7 +27,7 @@ export default function AboutPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-20 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-20 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* About Hero Section */}
         <section className="relative min-h-[500px] flex items-center justify-center py-20 px-6 md:px-12 bg-slate-950/30">
@@ -38,7 +38,7 @@ export default function AboutPage() {
           
           <div className="max-w-4xl mx-auto text-center z-10">
             <span className="inline-block px-3.5 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-500/10 font-bold text-xs text-cyan-400 tracking-wider mb-6">
-              {isRtl ? 'تأسست في الرياض' : 'Established in Riyadh'}
+              {t('about_badge', 'تأسست في الرياض')}
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-8 leading-tight">
               {title}
@@ -54,7 +54,7 @@ export default function AboutPage() {
                 href={getHref('services')} 
                 className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-8 py-4 rounded-xl font-bold text-sm text-center shadow-lg transition-transform hover:scale-[1.03] cursor-pointer"
               >
-                {isRtl ? 'خدماتنا الطبية' : 'Our Clinical Services'}
+                {t('about_cta_btn_secondary', 'خدماتنا الطبية')}
               </Link>
               <Link 
                 href={getHref('contact')} 
@@ -75,12 +75,10 @@ export default function AboutPage() {
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-cyan-400/5 rounded-full blur-3xl group-hover:bg-cyan-400/10 transition-colors"></div>
               <span className="material-symbols-outlined text-cyan-400 text-5xl mb-6 block">visibility</span>
               <h2 className={`text-2xl md:text-3xl font-extrabold text-white mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl ? 'رؤيتنا' : 'Our Vision'}
+                {t('about_vision_title', 'رؤيتنا')}
               </h2>
               <p className={`text-sm md:text-base text-slate-300 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl 
-                  ? 'أن نكون الشريك الرقمي الأول لنمو القطاع الصحي في المملكة العربية السعودية عبر استراتيجيات تسويق طبي مبنية على الثقة وبناء المصداقية وتحقيق نتائج قابلة للقياس تدعم نمو المنشآت الطبية وتزيد وصولها للمرضى وتحول الحضور الرقمي إلى حجوزات فعلية ونمو مستدام.' 
-                  : 'To become the premier healthcare growth partner in Saudi Arabia, building long-term digital credibility and generating high-impact patient flow for clinics and hospitals.'}
+                {t('about_vision_desc', 'أن نكون الشريك الرقمي الأول لنمو القطاع الصحي في المملكة العربية السعودية عبر استراتيجيات تسويق طبي مبنية على الثقة وبناء المصداقية وتحقيق نتائج قابلة للقياس تدعم نمو المنشآت الطبية وتزيد وصولها للمرضى.')}
               </p>
             </div>
 
@@ -89,12 +87,10 @@ export default function AboutPage() {
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-cyan-400/5 rounded-full blur-3xl group-hover:bg-cyan-400/10 transition-colors"></div>
               <span className="material-symbols-outlined text-cyan-400 text-5xl mb-6 block">rocket_launch</span>
               <h2 className={`text-2xl md:text-3xl font-extrabold text-white mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl ? 'رسالتنا' : 'Our Mission'}
+                {t('about_mission_title', 'رسالتنا')}
               </h2>
               <p className={`text-sm md:text-base text-slate-300 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
-                {isRtl 
-                  ? 'نساعد مقدمي الرعاية الصحية على جذب المرضى المناسبين، بناء سيرة مهنية قوية، وتحقيق نمو مستدام باستخدام التسويق الرقمي، مع الالتزام الكامل بأخلاقيات المجال الطبي والمعايير المهنية.' 
-                  : 'Empowering doctors and elite practitioners to connect with patients authentically and sustainably using modern ethical medical marketing and digital patient pathways.'}
+                {t('about_mission_desc', 'نساعد مقدمي الرعاية الصحية على جذب المرضى المناسبين، بناء سيرة مهنية قوية، وتحقيق نمو مستدام باستخدام التسويق الرقمي، مع الالتزام الكامل بأخلاقيات المجال الطبي والمعايير المهنية.')}
               </p>
             </div>
 
@@ -106,31 +102,29 @@ export default function AboutPage() {
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="mb-16 text-center">
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-                {isRtl ? 'لماذا نختلف؟' : 'Why Choose Us?'}
+                {t('about_why_title', 'لماذا نختلف؟')}
               </h2>
               <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto">
-                {isRtl 
-                  ? 'على عكس الوكالات التسويقية العامة، نحن متخصصون في التسويق الطبي فقط ونفهم الفروق الدقيقة لمسار الرعاية الطبية.' 
-                  : 'Unlike general marketing agencies, we specialize strictly in clinical medical growth, understanding the delicate journey of patients.'}
+                {t('about_why_desc', 'على عكس الوكالات التسويقية العامة، نحن متخصصون في التسويق الطبي فقط ونفهم الفروق الدقيقة لمسار الرعاية الطبية.')}
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { icon: 'psychology', titleAr: 'سيكولوجية المريض', titleEn: 'Patient Psychology', descAr: 'فهم عميق لطريقة تفكير المرضى وعقليتهم وما الذي يدفعهم للاختيار والحجز وثقة الممارس.', descEn: 'Knowing exactly how patients research clinical services and what instills real conversion confidence.' },
-                { icon: 'location_on', titleAr: 'خبرة بالسوق السعودي', titleEn: 'Saudi MOH Experts', descAr: 'معرفة تامة بسلوكيات المرضى والمنافسة ومؤسسات الرعاية الصحية بالرياض.', descEn: 'We navigate target audience segments, regional clinic metrics, and Riyadh medical space.' },
-                { icon: 'analytics', titleAr: 'قرارات مبنية على البيانات', titleEn: 'Precision Analytics', descAr: 'تحليل دقيق ومستمر لكل خطوة تسويقية لضمان أعلى عائد استثماري للعيادة والمركز.', descEn: 'Tracking direct cost-per-patient-acquisition values to scale profitable clinic channels.' },
-                { icon: 'health_and_safety', titleAr: 'الالتزام بأخلاقيات المهنة', titleEn: 'Strict Professional Ethics', descAr: 'المحافظة المطلقة على سرية ومعايير وأخلاقيات التسويق الطبي المعتمدة بالمملكة.', descEn: 'Every digital campaign matches the strict regulations of Saudi MOH guidelines.' },
-                { icon: 'tune', titleAr: 'استراتيجيات مخصصة', titleEn: 'Tailored Clinic Roadmap', descAr: 'خطط نمو وتواصل فريدة مصممة خصيصاً لكل تخصص طبي بمفرده.', descEn: 'Whether cosmetic surgery, dental, pediatric, or dermatology, we draft unique plans.' },
-                { icon: 'verified', titleAr: 'تخصص طبي حصري', titleEn: 'Exclusive Healthcare Niche', descAr: 'التركيز التام 100% على الرعاية الصحية والطبية دون تشتت في قطاعات تجارية أخرى.', descEn: 'We do not build fast-food or retail brands; we only build elite medical leaders.' }
+                { icon: 'psychology', titleKey: 'about_why_feat1_title', descKey: 'about_why_feat1_desc', titleDef: 'سيكولوجية المريض', descDef: 'فهم عميق لطريقة تفكير المرضى وعقليتهم وما الذي يدفعهم للاختيار والحجز وثقة الممارس.' },
+                { icon: 'location_on', titleKey: 'about_why_feat2_title', descKey: 'about_why_feat2_desc', titleDef: 'خبرة بالسوق السعودي', descDef: 'معرفة تامة بسلوكيات المرضى والمنافسة ومؤسسات الرعاية الصحية بالرياض.' },
+                { icon: 'analytics', titleKey: 'about_why_feat3_title', descKey: 'about_why_feat3_desc', titleDef: 'قرارات مبنية على البيانات', descDef: 'تحليل دقيق ومستمر لكل خطوة تسويقية لضمان أعلى عائد استثماري للعيادة والمركز.' },
+                { icon: 'health_and_safety', titleKey: 'about_why_feat4_title', descKey: 'about_why_feat4_desc', titleDef: 'الالتزام بأخلاقيات المهنة', descDef: 'المحافظة المطلقة على سرية ومعايير وأخلاقيات التسويق الطبي المعتمدة بالمملكة.' },
+                { icon: 'tune', titleKey: 'about_why_feat5_title', descKey: 'about_why_feat5_desc', titleDef: 'استراتيجيات مخصصة', descDef: 'خطط نمو وتواصل فريدة مصممة خصيصاً لكل تخصص طبي بمفرده.' },
+                { icon: 'verified', titleKey: 'about_why_feat6_title', descKey: 'about_why_feat6_desc', titleDef: 'تخصص طبي حصري', descDef: 'التركيز التام 100% على الرعاية الصحية والطبية دون تشتت في قطاعات تجارية أخرى.' }
               ].map((item, idx) => (
                 <div key={idx} className="p-8 bg-slate-900 rounded-2xl border border-white/5 flex flex-col items-start select-none">
                   <span className="material-symbols-outlined text-cyan-400 text-4xl mb-4">{item.icon}</span>
                   <h4 className={`text-lg font-bold text-white mb-2.5 ${isRtl ? 'text-right' : 'text-left'}`}>
-                    {isRtl ? item.titleAr : item.titleEn}
+                    {t(item.titleKey, item.titleDef)}
                   </h4>
                   <p className={`text-xs text-slate-400 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
-                    {isRtl ? item.descAr : item.descEn}
+                    {t(item.descKey, item.descDef)}
                   </p>
                 </div>
               ))}
@@ -142,26 +136,24 @@ export default function AboutPage() {
         <section className="py-24 max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-              {isRtl ? 'عملاؤنا المستهدفون' : 'Who We Support'}
+              {t('about_audience_title', 'عملاؤنا المستهدفون')}
             </h2>
             <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto">
-              {isRtl 
-                ? 'نصمم خدماتنا لتناسب مختلف فئات مقدمي الرعاية الصحية:' 
-                : 'We serve all segments of healthcare delivery, optimizing channels for specific scale goals:'}
+              {t('about_audience_desc', 'نصمم خدماتنا لتناسب مختلف فئات مقدمي الرعاية الصحية:')}
             </p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: 'person', arTitle: 'الأطباء والاستشاريين', enTitle: 'Physicians & Consultants', arDesc: 'بناء العلامة الشخصية والسمعة الطبية.', enDesc: 'Establishing digital thought leadership.' },
-              { icon: 'local_hospital', arTitle: 'المراكز الطبية', enTitle: 'Medical Clinics & Centers', arDesc: 'تسويق متكامل وشامل لجميع التخصصات.', enDesc: 'Unified strategic marketing for multi-specialty.' },
-              { icon: 'domain', arTitle: 'المستشفيات الخاصة', enTitle: 'Private Hospitals', arDesc: 'إدارة الحضور المؤسسي الرقمي وقنوات المرضى.', enDesc: 'Optimizing corporate healthcare paths.' },
-              { icon: 'medical_services', arTitle: 'العيادات التخصصية', enTitle: 'Specialized Clinics', arDesc: 'عيادات التجميل، الأسنان، الجلدية، والقلب.', enDesc: 'Cosmetic surgery, aesthetics, and dentistry.' }
+              { icon: 'person', titleKey: 'about_audience_item1_title', descKey: 'about_audience_item1_desc', titleDef: 'الأطباء والاستشاريين', descDef: 'بناء العلامة الشخصية والسمعة الطبية.' },
+              { icon: 'local_hospital', titleKey: 'about_audience_item2_title', descKey: 'about_audience_item2_desc', titleDef: 'المراكز الطبية', descDef: 'تسويق متكامل وشامل لجميع التخصصات.' },
+              { icon: 'domain', titleKey: 'about_audience_item3_title', descKey: 'about_audience_item3_desc', titleDef: 'المستشفيات الخاصة', descDef: 'إدارة الحضور المؤسسي الرقمي وقنوات المرضى.' },
+              { icon: 'medical_services', titleKey: 'about_audience_item4_title', descKey: 'about_audience_item4_desc', titleDef: 'العيادات التخصصية', descDef: 'عيادات التجميل، الأسنان، الجلدية، والقلب.' }
             ].map((audience, idx) => (
               <div key={idx} className="glass-card p-8 rounded-2xl border border-white/5 text-center hover:border-cyan-400/40 select-none">
                 <span className="material-symbols-outlined text-cyan-400 text-5xl mb-4">{audience.icon}</span>
-                <h3 className="text-base font-bold text-white mb-2">{isRtl ? audience.arTitle : audience.enTitle}</h3>
-                <p className="text-xs text-slate-400">{isRtl ? audience.arDesc : audience.enDesc}</p>
+                <h3 className="text-base font-bold text-white mb-2">{t(audience.titleKey, audience.titleDef)}</h3>
+                <p className="text-xs text-slate-400">{t(audience.descKey, audience.descDef)}</p>
               </div>
             ))}
           </div>
@@ -172,12 +164,10 @@ export default function AboutPage() {
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="mb-16 text-center">
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-                {isRtl ? 'فريق العمل' : 'Our Team Experts'}
+                {t('about_team_title', 'فريق العمل')}
               </h2>
               <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto">
-                {isRtl 
-                  ? 'مبدعون ومختصون طبيون يجمعهم هدف واحد: نمو علامتكم الصحية وتفوقها.' 
-                  : 'Creative and digital masterminds joined by a singular vision: patient acquisition and stellar branding.'}
+                {t('about_team_desc', 'مبدعون ومختصون طبيون يجمعهم هدف واحد: نمو علامتكم الصحية وتفوقها.')}
               </p>
             </div>
             
@@ -209,25 +199,23 @@ export default function AboutPage() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-cyan-950/20 to-transparent"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-                {isRtl ? 'انضم إلى قائمة شركاء النجاح بالقطاع الصحي' : 'Join Elite Healthcare Providers In Riyadh'}
+                {t('about_cta_title', 'انضم إلى قائمة شركاء النجاح بالقطاع الصحي')}
               </h2>
               <p className="text-sm md:text-base text-slate-400 mb-10 max-w-xl mx-auto">
-                {isRtl 
-                  ? 'اتخذ الخطوة الأولى نحو بناء حضور رقمي طبي قوي وجاذب لعيادتك اليوم.' 
-                  : 'Elevate your online authority, multiply bookings, and govern patient loyalty with us.'}
+                {t('about_cta_desc', 'اتخذ الخطوة الأولى نحو بناء حضور رقمي طبي قوي وجاذب لعيادتك اليوم.')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link 
                   href={getHref('contact')} 
                   className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-8 py-4.5 rounded-xl hover:scale-105 transition-transform shadow-lg cursor-pointer"
                 >
-                  {isRtl ? 'احجز استشارة مجانية' : 'Book a Diagnostic Call'}
+                  {t('about_cta_btn_primary', 'احجز استشارة مجانية')}
                 </Link>
                 <Link 
                   href={getHref('services')} 
                   className="glass-card text-white px-8 py-4.5 rounded-xl hover:bg-slate-900 transition-colors cursor-pointer"
                 >
-                  {isRtl ? 'خدماتنا الطبية' : 'Our Medical Services'}
+                  {t('about_cta_btn_secondary', 'خدماتنا الطبية')}
                 </Link>
               </div>
             </div>

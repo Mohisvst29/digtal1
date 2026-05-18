@@ -112,13 +112,13 @@ export default function ContactPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-40 pb-24 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-40 pb-24 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* Contact Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 mb-12 select-none">
           <div className="max-w-3xl">
             <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
-              {isRtl ? 'احجز موعد استشارتك' : 'Book Practice Diagnostic'}
+              {t('contact_badge', 'احجز موعد استشارتك')}
             </span>
             <h1 className={`text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight ${isRtl ? 'text-right' : 'text-left'}`}>
               {heading}
@@ -319,10 +319,10 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white mb-1">
-                    {isRtl ? 'المقر الرئيسي بالرياض' : 'Riyadh Headquarters'}
+                    {t('contact_hq_title', 'المقر الرئيسي بالرياض')}
                   </h3>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    {isRtl ? 'الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض – السعودية' : 'Prince Abdulaziz Bin Mosaad Bin Jalawi, Al Murabba, Riyadh, Saudi Arabia'}
+                    {t('contact_hq_address', 'الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض – السعودية')}
                   </p>
                 </div>
               </div>
@@ -339,7 +339,7 @@ export default function ContactPage() {
 
             {/* Quick whatsapp link */}
             <a 
-              className="glass-card p-6 rounded-2xl flex items-center gap-4 hover:border-[#25D366]/40 transition-all group" 
+              className="glass-card p-6 rounded-2xl flex items-center gap-4 hover:border-[#25D366]/40 transition-all group cursor-pointer" 
               href="https://wa.me/966541659332" 
               target="_blank" 
               rel="noopener noreferrer"

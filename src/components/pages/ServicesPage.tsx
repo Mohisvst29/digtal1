@@ -27,10 +27,8 @@ export default function ServicesPage() {
       slug: 'identity',
       icon: 'fingerprint',
       colSpan: 'md:col-span-8',
-      titleAr: 'الهوية الطبية الرقمية الفاخرة',
-      titleEn: 'Premium Digital Medical Identity',
-      descAr: 'تأسيس براند طبي قوي ومهيب يعبر عن كفاءتكم الطبية وعيادتكم لربط قيمكم ورسالتكم الطبية بالمرضى بشكل راقٍ ومقنع.',
-      descEn: 'Establishing a dominant, premium clinical brand that portrays clinical expertise and attracts selective premium patients.',
+      title: t('services_identity_title', 'الهوية الطبية الرقمية الفاخرة'),
+      desc: t('services_identity_desc', 'تأسيس براند طبي قوي ومهيب يعبر عن كفاءتكم الطبية وعيادتكم لربط قيمكم ورسالتكم الطبية بالمرضى بشكل راقٍ ومقنع.'),
       featuresAr: [
         { label: 'تماسك الهوية', desc: 'لغة بصرية وشعار وقيم موحدة على كافة المنصات الرقمية.' },
         { label: 'ترسيخ المرجعية', desc: 'إبراز اسم الطبيب والعيادة كمرجع أساسي في تخصصه بالرياض.' }
@@ -45,10 +43,8 @@ export default function ServicesPage() {
       slug: 'seo',
       icon: 'search_insights',
       colSpan: 'md:col-span-4',
-      titleAr: 'السيو الطبي التخصصي',
-      titleEn: 'Clinical Medical SEO',
-      descAr: 'التصدر الفوري والأول لنتائج البحث المحلية بالرياض للمرضى الباحثين عن تخصصك وخدمات عيادتك الطبية مباشرة.',
-      descEn: 'Dominating search results in Riyadh for patients seeking verified treatments and doctors in real time.',
+      title: t('services_seo_title', 'السيو الطبي التخصصي'),
+      desc: t('services_seo_desc', 'التصدر الفوري والأول لنتائج البحث المحلية بالرياض للمرضى الباحثين عن تخصصك وخدمات عيادتك الطبية مباشرة.'),
       bulletsAr: [
         'سيو خرائط جوجل والمواقع المحلية للعيادات والمستشفيات',
         'تحسين هيكل المحتوى الطبي وتجربة استخدام المرضى',
@@ -64,10 +60,8 @@ export default function ServicesPage() {
       slug: 'reputation',
       icon: 'star_half',
       colSpan: 'md:col-span-4',
-      titleAr: 'إدارة السمعة الطبية',
-      titleEn: 'Reputation & Stars Governance',
-      descAr: 'مراقبة وحماية سمعتك الطبية الرقمية على خرائط جوجل والمنصات الطبية المتخصصة وتكبير حجم التقييمات الإيجابية.',
-      descEn: 'Protecting and scaling your professional digital presence and patient stars reviews automatically.',
+      title: t('services_reputation_title', 'إدارة السمعة الطبية'),
+      desc: t('services_reputation_desc', 'مراقبة وحماية سمعتك الطبية الرقمية على خرائط جوجل والمنصات الطبية المتخصصة وتكبير حجم التقييمات الإيجابية.'),
       stat: '98%',
       statDescAr: 'معدل الانطباع الإيجابي لشركائنا',
       statDescEn: 'Positive patient impression rate'
@@ -76,10 +70,8 @@ export default function ServicesPage() {
       slug: 'web',
       icon: 'devices',
       colSpan: 'md:col-span-8',
-      titleAr: 'المواقع والتطبيقات الطبية الفاخرة',
-      titleEn: 'Luxury Medical Web Development',
-      descAr: 'تطوير منصات طبية ومواقع ويب تفاعلية فائقة السرعة تتيح حجز مواعيد مرن وسلس وتقدم تجربة استخدام مريحة للمريض.',
-      descEn: 'Engineering ultra-fast, responsive web interfaces with booking integrations and clinical security standards.',
+      title: t('services_web_title', 'المواقع والتطبيقات الطبية الفاخرة'),
+      desc: t('services_web_desc', 'تطوير منصات طبية ومواقع ويب تفاعلية فائقة السرعة تتيح حجز مواعيد مرن وسلس وتقدم تجربة استخدام مريحة للمريض.'),
       badgesAr: [
         'متوافق مع حجز المواعيد الفوري',
         'أمان وتشفير كامل للمعلومات',
@@ -95,10 +87,8 @@ export default function ServicesPage() {
       slug: 'social',
       icon: 'share_reviews',
       colSpan: 'md:col-span-6',
-      titleAr: 'إدارة السوشيال ميديا الطبية',
-      titleEn: 'Medical Social Content Strategy',
-      descAr: 'ترجمة المحتوى الطبي العلمي المعقد إلى مقاطع فيديو قصيرة وتصاميم مرئية مبسطة وسهلة الفهم لبناء قاعدة متابعين مخلصين.',
-      descEn: 'Translating complex medical science into interactive video and stellar educational posts to capture interest.',
+      title: t('services_social_title', 'إدارة السوشيال ميديا الطبية'),
+      desc: t('services_social_desc', 'ترجمة المحتوى الطبي العلمي المعقد إلى مقاطع فيديو قصيرة وتصاميم مرئية مبسطة وسهلة الفهم لبناء قاعدة متابعين مخلصين.'),
       progressAr: 'تفاعل حقيقي +75%',
       progressEn: 'Organic Interaction +75%',
       progressLabelAr: 'متوسط الزيادة لشركائنا بالرياض',
@@ -108,10 +98,8 @@ export default function ServicesPage() {
       slug: 'ppc',
       icon: 'ads_click',
       colSpan: 'md:col-span-6',
-      titleAr: 'الإعلانات الممولة والاستهداف المباشر',
-      titleEn: 'Targeted Lead Ads (MOH Compliant)',
-      descAr: 'حملات إعلانية مدفوعة ذكية ودقيقة تستهدف المرضى الباحثين عن علاجات التجميل، الأسنان، الليزر بأقل تكلفة حجز ممكنة.',
-      descEn: 'Laser-focused paid acquisition on Snapchat & Google targeting verified inquiries with low costs per patient.',
+      title: t('services_ppc_title', 'الإعلانات الممولة والاستهداف المباشر'),
+      desc: t('services_ppc_desc', 'حملات إعلانية مدفوعة ذكية ودقيقة تستهدف المرضى الباحثين عن علاجات التجميل، الأسنان، الليزر بأقل تكلفة حجز ممكنة.'),
       cardsAr: [
         { title: 'إعلانات جوجل وسناب شات', value: 'أداء فائق واستحواذ سريع' },
         { title: 'تخفيض تكلفة الاستحواذ', value: 'بنسبة 30% كمتوسط عيادي' }
@@ -127,7 +115,7 @@ export default function ServicesPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* Services Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
@@ -156,8 +144,8 @@ export default function ServicesPage() {
         <section className="max-w-7xl mx-auto px-6 md:px-12 pb-24">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {services.map((serv) => {
-              const title = isRtl ? serv.titleAr : serv.titleEn;
-              const desc = isRtl ? serv.descAr : serv.descEn;
+              const title = serv.title;
+              const desc = serv.desc;
               return (
                 <div 
                   key={serv.slug} 
@@ -274,10 +262,7 @@ export default function ServicesPage() {
           <div className="relative glass-card p-12 md:p-20 rounded-[2rem] text-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/10 to-transparent pointer-events-none"></div>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-8 relative z-10 leading-tight">
-              {isRtl ? 'مستعد لتمكين وترسيخ ريادتك' : 'Ready to Establish Elite'} <br/>
-              <span className="text-cyan-400">
-                {isRtl ? 'الطبية الرقمية بالرياض؟' : 'Healthcare Authority In Riyadh?'}
-              </span>
+              {t('services_cta_title', 'مستعد لتمكين وترسيخ ريادتك الطبية الرقمية بالرياض؟')}
             </h2>
             <div className="flex flex-col md:flex-row justify-center gap-6 relative z-10">
               <Link 

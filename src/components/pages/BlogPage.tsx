@@ -104,7 +104,7 @@ export default function BlogPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* Blog Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
@@ -259,12 +259,10 @@ export default function BlogPage() {
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-400/5 to-transparent pointer-events-none"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
-                {isRtl ? 'اشترك في نشرتنا الطبية الدورية' : 'Join Over 1,000 Saudi Clinic Directors'}
+                {t('blog_newsletter_title', 'اشترك في نشرتنا الطبية الدورية')}
               </h2>
               <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
-                {isRtl 
-                  ? 'انضم لأكثر من 1,000 طبيب ومدير مركز طبي بالمملكة يصلهم دورياً نصائح وتحديثات قوانين التسويق والنمو الرقمي.' 
-                  : 'Get monthly clinical growth insights, audit frameworks, and MOH regulatory shifts sent straight to your inbox.'}
+                {t('blog_newsletter_desc', 'انضم لأكثر من 1,000 طبيب ومدير مركز طبي بالمملكة يصلهم دورياً نصائح وتحديثات قوانين التسويق والنمو الرقمي.')}
               </p>
               
               <form className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto" onSubmit={(e) => e.preventDefault()}>

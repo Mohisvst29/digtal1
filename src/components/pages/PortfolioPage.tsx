@@ -8,12 +8,12 @@ import FloatContacts from '../FloatContacts';
 import { useContent } from '../ContentProvider';
 
 export default function PortfolioPage() {
-  const { t, locale } = useContent();
+  const { t, locale, data, loading } = useContent();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const isRtl = locale === 'ar';
 
-  const heading = t('portfolio_heading', 'شاهد نجاحات شركائنا في القطاع الصحي');
+  const heading = t('portfolio_title', 'شاهد نجاحات شركائنا في القطاع الصحي');
   const description = t('portfolio_description', 'نترجم التميز الطبي لعملائنا إلى نتائج رقمية ملموسة وقابلة للقياس بالرياض. استكشف أبرز قصص النجاح.');
 
   const getHref = (path: string) => {
@@ -32,82 +32,83 @@ export default function PortfolioPage() {
     { key: 'branding', ar: 'هوية بصرية', en: 'Brand Identity' }
   ];
 
-  const portfolioItems = [
+  // Helper mapping to categorize custom database items
+  const getCategoryKey = (catEn: string = '', catAr: string = ''): string => {
+    const normEn = (catEn || '').toLowerCase();
+    const normAr = (catAr || '');
+    if (normEn.includes('social') || normAr.includes('سوشيال') || normAr.includes('ميديا')) return 'social';
+    if (normEn.includes('web') || normEn.includes('design') || normAr.includes('موقع') || normAr.includes('تصميم')) return 'web';
+    if (normEn.includes('ad') || normEn.includes('camp') || normAr.includes('إعلان') || normAr.includes('حمل')) return 'ads';
+    if (normEn.includes('seo') || normAr.includes('سيو') || normAr.includes('محرك')) return 'seo';
+    if (normEn.includes('brand') || normEn.includes('identity') || normAr.includes('هوية') || normAr.includes('شعار')) return 'branding';
+    return 'branding';
+  };
+
+  const getCategoryIcon = (categoryKey: string): string => {
+    switch (categoryKey) {
+      case 'social': return 'share_reviews';
+      case 'web': return 'devices';
+      case 'ads': return 'ads_click';
+      case 'seo': return 'search_insights';
+      case 'branding': return 'fingerprint';
+      default: return 'star_half';
+    }
+  };
+
+  // Convert raw database items to page-compatible items
+  const dbPortfolio = data.portfolio || [];
+  
+  // High-quality static fallbacks just in case the database is empty or loading
+  const staticFallbacks = [
     {
-      category: 'branding',
-      icon: 'fingerprint',
-      titleAr: 'بناء الهوية البصرية لمجمع نخبة الطبي',
-      titleEn: 'Visual Branding for Al-Nokhba Medical Center',
-      descAr: 'تصميم شعار فريد وتنسيق ألوان يعبر عن الكفاءة الطبية مع خطوط فخمة مريحة لتجربة المرضى البصرية.',
-      descEn: 'Designing a premium clinical logo system and typography package depicting clinical precision and patient care.',
-      resultAr: 'النتيجة: +150% ثقة وهيبة حضور',
-      resultEn: 'Result: +150% local prestige rate',
-      serviceAr: 'تصميم هوية كاملة',
-      serviceEn: 'Complete Identity Suite'
+      title_ar: 'بناء الهوية البصرية لمجمع نخبة الطبي',
+      title_en: 'Visual Branding for Al-Nokhba Medical Center',
+      cat_ar: 'هوية بصرية',
+      cat_en: 'Brand Identity',
+      metric_ar: 'زيادة +150% ثقة وهيبة حضور',
+      metric_en: 'Result: +150% local prestige rate',
+      image: '',
     },
     {
-      category: 'seo',
-      icon: 'search_insights',
-      titleAr: 'تحسين محركات البحث لعيادات الأسنان بالرياض',
-      titleEn: 'Clinical SEO Dominance for Riyadh Dentistry',
-      descAr: 'رفع ترتيب العيادة في محرك بحث جوجل لاستقطاب الباحثين عن خدمات زراعة وتقويم الأسنان في شمال الرياض.',
-      descEn: 'Scaling organic search rankings for selective dermatology and implant surgery patients in Riyadh.',
-      resultAr: 'النتيجة: تصدر 12 كلمة رئيسية حجوزات',
-      resultEn: 'Result: Top-3 positions for 12 primary keywords',
-      serviceAr: 'السيو الطبي شامل',
-      serviceEn: 'Total Practice SEO'
+      title_ar: 'تحسين محركات البحث لعيادات الأسنان بالرياض',
+      title_en: 'Clinical SEO Dominance for Riyadh Dentistry',
+      cat_ar: 'السيو الطبي',
+      cat_en: 'Clinical SEO',
+      metric_ar: 'تصدر 12 كلمة رئيسية حجوزات',
+      metric_en: 'Result: Top-3 positions for 12 primary keywords',
+      image: '',
     },
     {
-      category: 'social',
-      icon: 'share_reviews',
-      titleAr: 'إدارة محتوى طبي لعيادة جراحة تجميلية',
-      titleEn: 'Premium Content Strategy for Aesthetics Clinic',
-      descAr: 'إنتاج محتوى فيديو قصير وتثقيفي موثوق وجذاب لتبسيط إجراءات نحت الجسم والعمليات عبر ريلز وتيك توك.',
-      descEn: 'Directing and publishing MOH-compliant surgical review reels and expert clips on TikTok.',
-      resultAr: 'النتيجة: 50 ألف تفاعل مريض حقيقي',
-      resultEn: 'Result: 50k+ active target views',
-      serviceAr: 'صناعة وإدارة السوشيال ميديا',
-      serviceEn: 'Social Media Governance'
-    },
-    {
-      category: 'web',
-      icon: 'devices',
-      titleAr: 'تصميم وبرمجة موقع مستشفى تخصصي',
-      titleEn: 'Modern Next.js Portal for Specialty Hospital',
-      descAr: 'تطوير منصة رقمية متطورة للغاية متوافقة مع تجربة المريض، مزودة بنظام حجز مواعيد فوري وسريع التصفح.',
-      descEn: 'Architecting an ultra-fast patient scheduler, service profiles, and full medical team profiles.',
-      resultAr: 'النتيجة: حجز 340 موعد شهرياً',
-      resultEn: 'Result: 340+ verified bookings/month',
-      serviceAr: 'تصميم المواقع والتطبيقات الطبية',
-      serviceEn: 'Clinical Web Development'
-    },
-    {
-      category: 'ads',
-      icon: 'ads_click',
-      titleAr: 'حملات إعلانات عيادات الجلدية والليزر بالرياض',
-      titleEn: 'Paid Acquisition for Dermatology Center',
-      descAr: 'إعلانات سناب شات وجوجل ممولة ذكية تستهدف العروض الخاصة لجذب المريض المناسب بأقل تكلفة تحويل.',
-      descEn: 'Deploying high-intent search ads and interactive geo-fenced social maps tags in Riyadh.',
-      resultAr: 'النتيجة: 4.5 أضعاف العائد الإعلاني',
-      resultEn: 'Result: 4.5x direct return on ad spend',
-      serviceAr: 'الإعلانات الممولة والاستهداف المباشر',
-      serviceEn: 'Paid Target Leads'
-    },
-    {
-      category: 'branding',
-      icon: 'star_half',
-      titleAr: 'إعادة بناء السمعة الطبية لمركز تغذية علاجية',
-      titleEn: 'Reputation Shield for Clinical Nutrition Group',
-      descAr: 'إدارة التقييمات وآراء المرضى وتعديل الهوية الرقمية للمركز لبناء ثقة راسخة مع المراجعين الجدد.',
-      descEn: 'Automating post-discharge SMS rating requests to drive positive maps score to stellar heights.',
-      resultAr: 'النتيجة: 4.9 تقييم على خرائط جوجل',
-      resultEn: 'Result: 4.9 stars Google maps rating',
-      serviceAr: 'إدارة السيرة الطبية والسمعة',
-      serviceEn: 'Patient Stars Governance'
+      title_ar: 'إدارة محتوى طبي لعيادة جراحة تجميلية',
+      title_en: 'Premium Content Strategy for Aesthetics Clinic',
+      cat_ar: 'سوشيال ميديا',
+      cat_en: 'Social Media',
+      metric_ar: '50 ألف تفاعل مريض حقيقي',
+      metric_en: 'Result: 50k+ active target views',
+      image: '',
     }
   ];
 
-  const filteredItems = portfolioItems.filter(item => 
+  const rawItems = dbPortfolio.length > 0 ? dbPortfolio : staticFallbacks;
+
+  const mappedItems = rawItems.map((item: any) => {
+    const catKey = getCategoryKey(item.cat_en, item.cat_ar);
+    return {
+      category: catKey,
+      icon: getCategoryIcon(catKey),
+      titleAr: item.title_ar,
+      titleEn: item.title_en,
+      descAr: item.title_ar + ' - تم تخطيط الحملة وتفعيل قنوات التسويق والبحث الجغرافي بالرياض بنجاح تام وفق متطلبات وزارة الصحة.',
+      descEn: item.title_en + ' - Executed clinic roadmap, digital targeting strategies, and full compliance optimization under Riyadh health guidelines.',
+      resultAr: item.metric_ar,
+      resultEn: item.metric_en,
+      serviceAr: item.cat_ar,
+      serviceEn: item.cat_en,
+      image: item.image
+    };
+  });
+
+  const filteredItems = mappedItems.filter((item: any) => 
     activeCategory === 'all' || item.category === activeCategory
   );
 
@@ -115,12 +116,12 @@ export default function PortfolioPage() {
     <>
       <Header />
       
-      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900">
+      <main className="flex-grow pt-32 overflow-x-hidden selection:bg-cyan-500 selection:text-slate-900 animate-fade-in">
         
         {/* Portfolio Hero */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 text-center select-none">
           <span className="text-xs font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-lg mb-6 inline-block">
-            {isRtl ? 'معرض نجاحاتنا' : 'Clinical Portfolio'}
+            {t('portfolio_badge', 'معرض نجاحاتنا')}
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight max-w-4xl mx-auto">
             {heading}
@@ -155,53 +156,72 @@ export default function PortfolioPage() {
 
         {/* Portfolio Grid */}
         <section className="max-w-7xl mx-auto px-6 md:px-12 pb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item, idx) => {
-              const title = isRtl ? item.titleAr : item.titleEn;
-              const desc = isRtl ? item.descAr : item.descEn;
-              const result = isRtl ? item.resultAr : item.resultEn;
-              const service = isRtl ? item.serviceAr : item.serviceEn;
-              
-              return (
-                <div 
-                  key={idx} 
-                  className="glass-card rounded-2xl overflow-hidden group hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(0,218,243,0.1)] transition-all duration-300 flex flex-col select-none"
-                >
-                  <div className="aspect-video w-full bg-slate-950/60 flex items-center justify-center relative">
-                    <span className="material-symbols-outlined text-cyan-400/20 text-7xl group-hover:scale-110 group-hover:text-cyan-400/35 transition-all">
-                      {item.icon}
-                    </span>
-                  </div>
-                  
-                  <div className="p-6 md:p-8 flex-grow flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-center mb-4">
-                        <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest bg-cyan-500/10 px-2.5 py-1 rounded">
-                          {isRtl ? categories.find(c => c.key === item.category)?.ar : categories.find(c => c.key === item.category)?.en}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-12 text-cyan-400 animate-pulse text-xs font-bold gap-3">
+              <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+              <span>جاري تحميل دراسات ومؤشرات النجاح الطبية...</span>
+            </div>
+          ) : filteredItems.length === 0 ? (
+            <div className="text-center py-12 text-slate-400 text-sm font-semibold select-none">
+              {isRtl ? 'لا يوجد دراسات حالة في هذا القسم حالياً' : 'No clinical cases in this category currently.'}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredItems.map((item: any, idx: number) => {
+                const title = isRtl ? item.titleAr : item.titleEn;
+                const desc = isRtl ? item.descAr : item.descEn;
+                const result = isRtl ? item.resultAr : item.resultEn;
+                const service = isRtl ? item.serviceAr : item.serviceEn;
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className="glass-card rounded-2xl overflow-hidden group hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(0,218,243,0.1)] transition-all duration-300 flex flex-col select-none border border-white/5 bg-slate-900/60"
+                  >
+                    <div className="aspect-video w-full bg-slate-950/60 flex items-center justify-center relative overflow-hidden">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
+                        />
+                      ) : (
+                        <span className="material-symbols-outlined text-cyan-400/20 text-7xl group-hover:scale-110 group-hover:text-cyan-400/35 transition-all">
+                          {item.icon}
                         </span>
-                        <span className="text-[10px] font-bold text-teal-400">{result}</span>
-                      </div>
-                      
-                      <h4 className={`text-base md:text-lg font-bold text-white mb-2.5 leading-tight ${isRtl ? 'text-right' : 'text-left'}`}>
-                        {title}
-                      </h4>
-                      
-                      <p className={`text-xs md:text-sm text-slate-400 leading-relaxed mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
-                        {desc}
-                      </p>
+                      )}
                     </div>
+                    
+                    <div className="p-6 md:p-8 flex-grow flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-center mb-4">
+                          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest bg-cyan-500/10 px-2.5 py-1 rounded">
+                            {service}
+                          </span>
+                          <span className="text-[10px] font-bold text-teal-400">{result}</span>
+                        </div>
+                        
+                        <h4 className={`text-base md:text-lg font-bold text-white mb-2.5 leading-tight ${isRtl ? 'text-right' : 'text-left'}`}>
+                          {title}
+                        </h4>
+                        
+                        <p className={`text-xs md:text-sm text-slate-400 leading-relaxed mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
+                          {desc}
+                        </p>
+                      </div>
 
-                    <div className="pt-4 border-t border-white/5 flex justify-between items-center text-[10px] font-bold text-slate-400">
-                      <span>{isRtl ? `الخدمة: ${service}` : `Service: ${service}`}</span>
-                      <Link href={getHref('contact')} className="text-cyan-400 hover:text-white cursor-pointer transition-colors">
-                        {isRtl ? 'طلب استشارة مماثلة' : 'Request Case Audit'}
-                      </Link>
+                      <div className="pt-4 border-t border-white/5 flex justify-between items-center text-[10px] font-bold text-slate-400">
+                        <span>{isRtl ? `الخدمة: ${service}` : `Service: ${service}`}</span>
+                        <Link href={getHref('contact')} className="text-cyan-400 hover:text-white cursor-pointer transition-colors">
+                          {isRtl ? 'طلب استشارة مماثلة' : 'Request Case Audit'}
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* Action Section */}
@@ -210,12 +230,10 @@ export default function PortfolioPage() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,218,243,0.1),transparent)]"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-8 leading-tight">
-                {isRtl ? 'مستعد لتحقيق نفس نتائج النمو الطبي؟' : 'Ready to Attain Similar Clinic Scale?'}
+                {t('portfolio_cta_title', 'مستعد لتحقيق نفس نتائج النمو الطبي؟')}
               </h2>
               <p className="max-w-xl mx-auto text-slate-400 mb-12">
-                {isRtl 
-                  ? 'دعنا نصمم لك الخطة التسويقية الملائمة لتخصص عيادتك ونبدأ رحلة النمو اليوم.' 
-                  : 'Let us engineer custom clinical funnels optimized perfectly for Riyadh healthcare.'}
+                {t('portfolio_cta_desc', 'دعنا نصمم لك الخطة التسويقية الملائمة لتخصص عيادتك ونبدأ رحلة النمو اليوم.')}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link 

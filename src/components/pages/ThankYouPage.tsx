@@ -44,14 +44,12 @@ export default function ThankYouPage() {
 
             {/* Main Headline */}
             <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight select-none">
-              {isRtl ? 'شكراً لك! تم استلام طلبك بنجاح.' : 'Thank You! Your Inquiry has been Received.'}
+              {t('thankyou_title', 'شكراً لك! تم استلام طلبك بنجاح.')}
             </h1>
 
             {/* Sub-description */}
             <p className="text-slate-300 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
-              {isRtl 
-                ? 'سيقوم أحد مستشاري النمو الطبي لدينا بمراجعة تخصصك ومتطلبات ميزانيتك لإعداد استراتيجية نمو مخصصة. توقع رداً منا خلال أقل من 24 ساعة عمل.' 
-                : 'A clinical growth specialist will review your medical specialty and budget requirements to prepare a customized strategy. Expect a response within 24 business hours.'}
+              {t('thankyou_description', 'سيقوم أحد مستشاري النمو الطبي لدينا بمراجعة تخصصك ومتطلبات ميزانيتك لإعداد استراتيجية نمو مخصصة. توقع رداً منا خلال أقل من 24 ساعة عمل.')}
             </p>
 
             {/* Alert / Notification Card */}
@@ -72,7 +70,7 @@ export default function ThankYouPage() {
                 href={getHref('')} 
                 className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-8 py-4 rounded-xl font-bold text-sm hover:scale-[1.02] transition-all cursor-pointer shadow-[0_0_20px_rgba(0,218,243,0.25)] shrink-0"
               >
-                {isRtl ? 'العودة للرئيسية' : 'Return to Homepage'}
+                {t('thankyou_btn', 'العودة للصفحة الرئيسية')}
               </Link>
               <Link 
                 href={getHref('portfolio')} 

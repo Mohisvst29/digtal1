@@ -58,6 +58,7 @@ interface MediaItem {
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
+  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou'>('general');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -137,7 +138,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 1. SAVE GLOBAL SITE CONTENTコピー (PUT /api/content)
+  // SAVE GLOBAL SITE CONTENT (PUT /api/content)
   const saveContent = async () => {
     setSaving(true);
     try {
@@ -148,7 +149,7 @@ export default function AdminDashboardPage() {
       });
       const data = await res.json();
       if (res.ok && data.status === 'success') {
-        showToast('✓ تم حفظ ومزامنة المظهر العام للموقع بنجاح!', 'success');
+        showToast('✓ تم حفظ ومزامنة إعدادات هذا القسم بنجاح المباشر!', 'success');
       } else {
         showToast(data.message || 'فشل المزامنة', 'error');
       }
@@ -159,7 +160,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 2. BLOG CRUD OPERATIONS
+  // BLOG CRUD OPERATIONS
   const saveArticle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!articleForm) return;
@@ -209,7 +210,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 3. TESTIMONIALS CRUD OPERATIONS
+  // TESTIMONIALS CRUD OPERATIONS
   const saveTestimonial = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!testimonialForm) return;
@@ -254,7 +255,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 4. PORTFOLIO CRUD OPERATIONS
+  // PORTFOLIO CRUD OPERATIONS
   const savePortfolio = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!portfolioForm) return;
@@ -299,7 +300,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 5. CLOUDINARY MEDIA UPLOAD
+  // CLOUDINARY MEDIA UPLOAD
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -344,7 +345,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 6. PASSWORD SECURITY HANDLER
+  // PASSWORD SECURITY HANDLER
   const updatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!securityForm.newPassword) {
@@ -372,7 +373,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // 7. DATABASE BACKUP IMPORT/EXPORT
+  // DATABASE BACKUP IMPORT/EXPORT
   const handleBackupImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -412,6 +413,42 @@ export default function AdminDashboardPage() {
       </div>
     );
   }
+
+  // Helper renderer to render custom input box
+  const renderInput = (key: string, label: string, isEn: boolean = false, isTextArea: boolean = false) => {
+    const val = content[key] || '';
+    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setContent({ ...content, [key]: e.target.value });
+    };
+
+    return (
+      <div className="space-y-1.5 flex flex-col">
+        <div className="flex justify-between items-center">
+          <label className="text-xs font-bold text-slate-300">{label}</label>
+          <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded ${isEn ? 'bg-cyan-500/10 text-cyan-400' : 'bg-amber-500/10 text-amber-400'}`}>
+            {isEn ? 'EN' : 'AR'}
+          </span>
+        </div>
+        {isTextArea ? (
+          <textarea
+            value={val}
+            onChange={onChange}
+            rows={3}
+            dir={isEn ? 'ltr' : 'rtl'}
+            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all resize-none leading-relaxed"
+          />
+        ) : (
+          <input
+            type="text"
+            value={val}
+            onChange={onChange}
+            dir={isEn ? 'ltr' : 'rtl'}
+            className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row font-sans text-right antialiased select-none" dir="rtl">
@@ -547,17 +584,17 @@ export default function AdminDashboardPage() {
       </aside>
 
       {/* Main Panel Content Container */}
-      <main className="flex-1 bg-slate-950 p-6 md:p-10 overflow-y-auto max-w-full">
+      <main className="flex-grow bg-slate-950 p-6 md:p-10 overflow-y-auto max-w-full">
         
         {/* Top greeting bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-slate-850">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-white">لوحة الإشراف العام</h1>
-            <p className="text-xs text-slate-400 mt-1">تعديلCopy المقالات، وتتبع العملاء بالتكامل المباشر مع قواعد البيانات السحابية</p>
+            <p className="text-xs text-slate-400 mt-1">تعديل المقالات، والتحكم المطلق بكامل نصوص وتفاصيل الموقع والمزامنة مع قواعد البيانات</p>
           </div>
-          <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 py-2.5 px-4 rounded-2xl text-xs font-semibold text-cyan-400">
-            <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-            <span>حالة الاتصال بـ MongoDB: متصل وآمن</span>
+          <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 py-2.5 px-4 rounded-2xl text-xs font-semibold text-cyan-400 animate-fade-in">
+            <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shrink-0"></span>
+            <span>MongoDB & Cloudinary: نشط وسحابي</span>
           </div>
         </div>
 
@@ -631,284 +668,249 @@ export default function AdminDashboardPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 2: CONTENT HUB */}
+        {/* TAB 2: CONTENT HUB (MULTI-PAGE CONTENT SUB-NAV) */}
         {/* ========================================================================= */}
         {activeTab === 'content' && (
           <div className="space-y-8">
+            
+            {/* Horizontal Sub-Navigation Tabs */}
+            <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-4 select-none">
+              {[
+                { key: 'general', label: '⚙️ الهوية والبيانات العامة' },
+                { key: 'home', label: '🏠 الصفحة الرئيسية' },
+                { key: 'about', label: '🏢 صفحة من نحن' },
+                { key: 'services', label: '🦷 صفحة الخدمات' },
+                { key: 'portfolio', label: '📈 صفحة قصص النجاح' },
+                { key: 'blog', label: '📰 صفحة المقالات' },
+                { key: 'faq', label: '❓ صفحة الأسئلة الشائعة' },
+                { key: 'contact', label: '📞 صفحة اتصل بنا' },
+                { key: 'thankyou', label: '🎉 صفحة الشكر' },
+              ].map((subTab) => {
+                const isActive = activeSubTab === subTab.key;
+                return (
+                  <button
+                    key={subTab.key}
+                    onClick={() => setActiveSubTab(subTab.key as any)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      isActive 
+                        ? 'bg-cyan-500 text-slate-950 border-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.2)]'
+                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                    }`}
+                  >
+                    {subTab.label}
+                  </button>
+                );
+              })}
+            </div>
+
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-white">إعدادات الهوية والمحتوى العام</h2>
+              <div>
+                <h2 className="text-lg font-extrabold text-white">
+                  {activeSubTab === 'general' && '⚙️ تعديل الهوية، الشعار، الألوان والبيانات العامة'}
+                  {activeSubTab === 'home' && '🏠 تعديل نصوص وبانرات وهيدرات الصفحة الرئيسية'}
+                  {activeSubTab === 'about' && '🏢 تعديل رؤية ورسالة ومميزات صفحة من نحن'}
+                  {activeSubTab === 'services' && '🦷 تعديل باقات وعناوين صفحة الخدمات'}
+                  {activeSubTab === 'portfolio' && '📈 تعديل هيدر صفحة قصص النجاح ومؤشرات الأداء'}
+                  {activeSubTab === 'blog' && '📰 تعديل هيدر صفحة المقالات والنشرة التوعوية'}
+                  {activeSubTab === 'faq' && '❓ تعديل هيدر وعناوين صفحة الأسئلة الشائعة'}
+                  {activeSubTab === 'contact' && '📞 تعديل تفاصيل وموقع صفحة اتصل بنا'}
+                  {activeSubTab === 'thankyou' && '🎉 تعديل رسالة شكر العملاء بعد إرسال التفاصيل'}
+                </h2>
+                <p className="text-[11px] text-slate-400 mt-1">تنعكس التحديثات فورياً بمجرد المزامنة والضغط على الحفظ.</p>
+              </div>
+              
               <button
                 onClick={saveContent}
                 disabled={saving}
                 className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-6 rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center gap-2 cursor-pointer disabled:opacity-50 text-xs"
               >
-                {saving ? 'جاري الحفظ...' : 'حفظ ومزامنة المظهر العام'}
+                {saving ? 'جاري الحفظ...' : 'حفظ ومزامنة إعدادات القسم'}
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Box 1: Contact Details */}
-              <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-4">
-                <h3 className="text-base font-extrabold text-cyan-400 mb-2 border-b border-slate-800 pb-2">📞 بيانات الاتصال والعنوان</h3>
-                
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400">رقم الهاتف</label>
-                  <input
-                    type="text"
-                    value={content['contact_phone'] || ''}
-                    onChange={(e) => setContent({ ...content, contact_phone: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400">رقم الواتساب (مع رمز الدولة)</label>
-                  <input
-                    type="text"
-                    value={content['contact_whatsapp'] || ''}
-                    onChange={(e) => setContent({ ...content, contact_whatsapp: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400">البريد الإلكتروني للعيادة</label>
-                  <input
-                    type="text"
-                    value={content['contact_email'] || ''}
-                    onChange={(e) => setContent({ ...content, contact_email: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400">العنوان الجغرافي بالكامل</label>
-                  <input
-                    type="text"
-                    value={content['contact_address'] || ''}
-                    onChange={(e) => setContent({ ...content, contact_address: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400">رابط إطار خريطة جوجل (Google Maps Iframe URL)</label>
-                  <input
-                    type="text"
-                    value={content['contact_map_iframe'] || ''}
-                    onChange={(e) => setContent({ ...content, contact_map_iframe: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none focus:border-cyan-400/80 transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Box 2: Styling and Fonts */}
-              <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-4">
-                <h3 className="text-base font-extrabold text-cyan-400 mb-2 border-b border-slate-800 pb-2">🎨 الهوية والتصميم العام</h3>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">اسم الشعار بالعربية</label>
-                    <input
-                      type="text"
-                      value={content['logo_text_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, logo_text_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">اسم الشعار بالإنجليزية</label>
-                    <input
-                      type="text"
-                      value={content['logo_text_en'] || ''}
-                      onChange={(e) => setContent({ ...content, logo_text_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">اللون الأساسي (Primary)</label>
-                    <input
-                      type="color"
-                      value={content['primary_color'] || '#00daf3'}
-                      onChange={(e) => setContent({ ...content, primary_color: e.target.value })}
-                      className="w-full h-10 bg-slate-950 border border-slate-850 rounded-xl p-1 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">اللون الفرعي (Secondary)</label>
-                    <input
-                      type="color"
-                      value={content['secondary_color'] || '#00e3fd'}
-                      onChange={(e) => setContent({ ...content, secondary_color: e.target.value })}
-                      className="w-full h-10 bg-slate-950 border border-slate-850 rounded-xl p-1 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">لون الخلفية (Background)</label>
-                    <input
-                      type="color"
-                      value={content['bg_color'] || '#011230'}
-                      onChange={(e) => setContent({ ...content, bg_color: e.target.value })}
-                      className="w-full h-10 bg-slate-950 border border-slate-850 rounded-xl p-1 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">لون الأسطح (Surface)</label>
-                    <input
-                      type="color"
-                      value={content['surface_color'] || '#0e1f3d'}
-                      onChange={(e) => setContent({ ...content, surface_color: e.target.value })}
-                      className="w-full h-10 bg-slate-950 border border-slate-850 rounded-xl p-1 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الخط العربي (Font AR)</label>
-                    <input
-                      type="text"
-                      value={content['font_family_ar'] || 'Tajawal'}
-                      onChange={(e) => setContent({ ...content, font_family_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الخط الإنجليزي (Font EN)</label>
-                    <input
-                      type="text"
-                      value={content['font_family_en'] || 'Plus Jakarta Sans'}
-                      onChange={(e) => setContent({ ...content, font_family_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Box 3: Hero Title Banner */}
-              <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-4 lg:col-span-2">
-                <h3 className="text-base font-extrabold text-cyan-400 mb-2 border-b border-slate-800 pb-2">🚀 نصوص البانر الرئيسي للواجهة (Hero Layout)</h3>
-                
+            <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-6">
+              
+              {/* SUB TAB: GENERAL SETTINGS */}
+              {activeSubTab === 'general' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">العنوان العربي الرئيسي</label>
-                    <input
-                      type="text"
-                      value={content['hero_title_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, hero_title_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-3 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
+                  {renderInput('logo_text_ar', 'اسم الشعار بالعربية')}
+                  {renderInput('logo_text_en', 'اسم الشعار بالإنجليزية', true)}
+                  
+                  {renderInput('font_family_ar', 'الخط العربي المستهدف (Font Family)')}
+                  {renderInput('font_family_en', 'الخط الإنجليزي المستهدف', true)}
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">العنوان الإنجليزي الرئيسي</label>
-                    <input
-                      type="text"
-                      value={content['hero_title_en'] || ''}
-                      onChange={(e) => setContent({ ...content, hero_title_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-3 px-4 text-xs focus:outline-none text-left"
-                      dir="ltr"
-                    />
-                  </div>
+                  {renderInput('primary_color', 'اللون الرئيسي الطاغي (HEX)')}
+                  {renderInput('secondary_color', 'اللون الثانوي (HEX)')}
+                  {renderInput('bg_color', 'لون خلفية الموقع (Background HEX)')}
+                  {renderInput('surface_color', 'لون أسطح الكروت (Surface HEX)')}
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الوصف العربي التعبيري</label>
-                    <textarea
-                      rows={3}
-                      value={content['hero_tagline_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, hero_tagline_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-3 px-4 text-xs focus:outline-none resize-none leading-relaxed"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الوصف الإنجليزي التعبيري</label>
-                    <textarea
-                      rows={3}
-                      value={content['hero_tagline_en'] || ''}
-                      onChange={(e) => setContent({ ...content, hero_tagline_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-3 px-4 text-xs focus:outline-none resize-none leading-relaxed text-left"
-                      dir="ltr"
-                    />
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                    <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">🔎 تهيئة السيو وميتا جوجل للبحث الجغرافي بالرياض</h4>
+                    {renderInput('seo_title_ar', 'عنوان سيو جوجل بالعربية')}
+                    {renderInput('seo_title_en', 'عنوان سيو جوجل بالإنجليزية', true)}
+                    {renderInput('seo_desc_ar', 'وصف الميتا بالعربية لتصدر البحث', false, true)}
+                    {renderInput('seo_desc_en', 'وصف الميتا بالإنجليزية لتصدر البحث', true, true)}
+                    {renderInput('seo_keywords_ar', 'الكلمات المفتاحية الطبية (عربي)')}
+                    {renderInput('seo_keywords_en', 'الكلمات المفتاحية الطبية (إنجليزي)', true)}
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Box 4: SEO Metadata */}
-              <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-4 lg:col-span-2">
-                <h3 className="text-base font-extrabold text-cyan-400 mb-2 border-b border-slate-800 pb-2">📈 تهيئة الترتيب في جوجل ومحركات البحث (SEO Suite)</h3>
-                
+              {/* SUB TAB: HOME PAGE */}
+              {activeSubTab === 'home' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">عنوان السيو (العربي)</label>
-                    <input
-                      type="text"
-                      value={content['seo_title_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_title_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
+                  {renderInput('home_badge_ar', 'شارة الهيرو الصغيرة بالعربية')}
+                  {renderInput('home_badge_en', 'شارة الهيرو الصغيرة بالإنجليزية', true)}
+
+                  {renderInput('hero_title_ar', 'العنوان الرئيسي للبانر (عربي)')}
+                  {renderInput('hero_title_en', 'العنوان الرئيسي للبانر (إنجليزي)', true)}
+
+                  {renderInput('hero_tagline_ar', 'الوصف التفصيلي للبانر بالعربية', false, true)}
+                  {renderInput('hero_tagline_en', 'الوصف التفصيلي للبانر بالإنجليزية', true, true)}
+
+                  {renderInput('home_cta_primary_ar', 'زر الإجراء الرئيسي (عربي)')}
+                  {renderInput('home_cta_primary_en', 'زر الإجراء الرئيسي (إنجليزي)', true)}
+
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                    <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">📈 أرقام ومؤشرات واجهة الصفحة الرئيسية (Stats)</h4>
+                    {renderInput('home_stats_roi_title_ar', 'عنوان الإحصائية 1 (عربي)')}
+                    {renderInput('home_stats_roi_title_en', 'عنوان الإحصائية 1 (إنجليزي)', true)}
+                    {renderInput('home_stats_roi_value_ar', 'قيمة الإحصائية 1 (عربي)')}
+                    {renderInput('home_stats_roi_value_en', 'قيمة الإحصائية 1 (إنجليزي)', true)}
+
+                    {renderInput('home_stats_seo_title_ar', 'عنوان الإحصائية 2 (عربي)')}
+                    {renderInput('home_stats_seo_title_en', 'عنوان الإحصائية 2 (إنجليزي)', true)}
+                    {renderInput('home_stats_seo_value_ar', 'قيمة الإحصائية 2 (عربي)')}
+                    {renderInput('home_stats_seo_value_en', 'قيمة الإحصائية 2 (إنجليزي)', true)}
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">عنوان السيو (الإنجليزي)</label>
-                    <input
-                      type="text"
-                      value={content['seo_title_en'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_title_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none text-left"
-                      dir="ltr"
-                    />
-                  </div>
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                    <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">🦷 قسم المميزات وسيكولوجية المريض (Clinical Advantages)</h4>
+                    {renderInput('home_section_why_badge_ar', 'شارة قسم المميزات بالعربية')}
+                    {renderInput('home_section_why_badge_en', 'شارة قسم المميزات بالإنجليزية', true)}
+                    {renderInput('home_section_why_title_ar', 'عنوان قسم المميزات بالعربية')}
+                    {renderInput('home_section_why_title_en', 'عنوان قسم المميزات بالإنجليزية', true)}
+                    
+                    {renderInput('home_why_years_val', 'قيمة سنوات التخصص (رقم)')}
+                    {renderInput('home_why_years_title_ar', 'عنوان سنوات التخصص بالعربية')}
+                    
+                    {renderInput('home_why_feat1_title_ar', 'ميزة 1: العنوان (عربي)')}
+                    {renderInput('home_why_feat1_title_en', 'ميزة 1: العنوان (إنجليزي)', true)}
+                    {renderInput('home_why_feat1_desc_ar', 'ميزة 1: الوصف (عربي)', false, true)}
+                    {renderInput('home_why_feat1_desc_en', 'ميزة 1: الوصف (إنجليزي)', true, true)}
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">وصف الميتا في جوجل (العربي)</label>
-                    <textarea
-                      rows={3}
-                      value={content['seo_desc_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_desc_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none resize-none leading-relaxed"
-                    />
-                  </div>
+                    {renderInput('home_why_feat2_title_ar', 'ميزة 2: العنوان (عربي)')}
+                    {renderInput('home_why_feat2_title_en', 'ميزة 2: العنوان (إنجليزي)', true)}
+                    {renderInput('home_why_feat2_desc_ar', 'ميزة 2: الوصف (عربي)', false, true)}
+                    {renderInput('home_why_feat2_desc_en', 'ميزة 2: الوصف (إنجليزي)', true, true)}
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">وصف الميتا في جوجل (الإنجليزي)</label>
-                    <textarea
-                      rows={3}
-                      value={content['seo_desc_en'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_desc_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none resize-none leading-relaxed text-left"
-                      dir="ltr"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الكلمات المفتاحية (العربية) - مفصولة بفاصلة</label>
-                    <input
-                      type="text"
-                      value={content['seo_keywords_ar'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_keywords_ar: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400">الكلمات المفتاحية (الإنجليزية) - مفصولة بفاصلة</label>
-                    <input
-                      type="text"
-                      value={content['seo_keywords_en'] || ''}
-                      onChange={(e) => setContent({ ...content, seo_keywords_en: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2.5 px-4 text-xs focus:outline-none text-left"
-                      dir="ltr"
-                    />
+                    {renderInput('home_why_feat3_title_ar', 'ميزة 3: العنوان (عربي)')}
+                    {renderInput('home_why_feat3_title_en', 'ميزة 3: العنوان (إنجليزي)', true)}
+                    {renderInput('home_why_feat3_desc_ar', 'ميزة 3: الوصف (عربي)', false, true)}
+                    {renderInput('home_why_feat3_desc_en', 'ميزة 3: الوصف (إنجليزي)', true, true)}
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* SUB TAB: ABOUT PAGE */}
+              {activeSubTab === 'about' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('about_badge_ar', 'شارة صفحة من نحن بالعربية')}
+                  {renderInput('about_badge_en', 'شارة صفحة من نحن بالإنجليزية', true)}
+                  {renderInput('about_title_ar', 'عنوان صفحة من نحن بالعربية')}
+                  {renderInput('about_title_en', 'عنوان صفحة من نحن بالإنجليزية', true)}
+                  {renderInput('about_description_ar', 'الوصف الأساسي لـ من نحن بالعربية', false, true)}
+                  {renderInput('about_description_en', 'الوصف الأساسي لـ من نحن بالإنجليزية', true, true)}
+
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800/60">
+                    <h4 className="text-xs font-bold text-cyan-400 md:col-span-2">👁️ الرؤية والرسالة الطبية للوكالة (Vision & Mission)</h4>
+                    {renderInput('about_vision_title_ar', 'عنوان الرؤية بالعربية')}
+                    {renderInput('about_vision_title_en', 'عنوان الرؤية بالإنجليزية', true)}
+                    {renderInput('about_vision_desc_ar', 'نص الرؤية بالعربية بالتفصيل', false, true)}
+                    {renderInput('about_vision_desc_en', 'نص الرؤية بالإنجليزية بالتفصيل', true, true)}
+
+                    {renderInput('about_mission_title_ar', 'عنوان الرسالة بالعربية')}
+                    {renderInput('about_mission_title_en', 'عنوان الرسالة بالإنجليزية', true)}
+                    {renderInput('about_mission_desc_ar', 'نص الرسالة بالعربية بالتفصيل', false, true)}
+                    {renderInput('about_mission_desc_en', 'نص الرسالة بالإنجليزية بالتفصيل', true, true)}
+                  </div>
+                </div>
+              )}
+
+              {/* SUB TAB: SERVICES PAGE */}
+              {activeSubTab === 'services' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('services_title_ar', 'عنوان صفحة الخدمات الفاخرة بالعربية')}
+                  {renderInput('services_title_en', 'عنوان صفحة الخدمات الفاخرة بالإنجليزية', true)}
+                  {renderInput('services_title_span_ar', 'العنوان الملون التوضيحي للخدمات (عربي)')}
+                  {renderInput('services_title_span_en', 'العنوان الملون التوضيحي للخدمات (إنجليزي)', true)}
+                  {renderInput('services_description_ar', 'الوصف العام لصفحة الخدمات بالعربية', false, true)}
+                  {renderInput('services_description_en', 'الوصف العام لصفحة الخدمات بالإنجليزية', true, true)}
+                  
+                  {renderInput('services_badge_moh_ar', 'شارة الالتزام وزارة الصحة بالعربية')}
+                  {renderInput('services_badge_moh_en', 'شارة الالتزام وزارة الصحة بالإنجليزية', true)}
+                  {renderInput('services_badge_clinical_ar', 'شارة الأبحاث الطبية والنمو بالعربية')}
+                  {renderInput('services_badge_clinical_en', 'شارة الأبحاث الطبية والنمو بالإنجليزية', true)}
+                </div>
+              )}
+
+              {/* SUB TAB: PORTFOLIO PAGE */}
+              {activeSubTab === 'portfolio' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('portfolio_title_ar', 'عنوان هيدر صفحة قصص النجاح بالعربية')}
+                  {renderInput('portfolio_title_en', 'عنوان هيدر صفحة قصص النجاح بالإنجليزية', true)}
+                  {renderInput('portfolio_description_ar', 'وصف هيدر صفحة قصص النجاح بالعربية', false, true)}
+                  {renderInput('portfolio_description_en', 'وصف هيدر صفحة قصص النجاح بالإنجليزية', true, true)}
+                </div>
+              )}
+
+              {/* SUB TAB: BLOG PAGE */}
+              {activeSubTab === 'blog' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('blog_title_ar', 'عنوان هيدر صفحة المدونة بالعربية')}
+                  {renderInput('blog_title_en', 'عنوان هيدر صفحة المدونة بالإنجليزية', true)}
+                  {renderInput('blog_description_ar', 'وصف هيدر صفحة المدونة بالعربية', false, true)}
+                  {renderInput('blog_description_en', 'وصف هيدر صفحة المدونة بالإنجليزية', true, true)}
+                </div>
+              )}
+
+              {/* SUB TAB: FAQ PAGE */}
+              {activeSubTab === 'faq' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('faq_title_ar', 'عنوان هيدر الأسئلة الشائعة بالعربية')}
+                  {renderInput('faq_title_en', 'عنوان هيدر الأسئلة الشائعة بالإنجليزية', true)}
+                  {renderInput('faq_description_ar', 'وصف هيدر الأسئلة الشائعة بالعربية', false, true)}
+                  {renderInput('faq_description_en', 'وصف هيدر الأسئلة الشائعة بالإنجليزية', true, true)}
+                </div>
+              )}
+
+              {/* SUB TAB: CONTACT PAGE */}
+              {activeSubTab === 'contact' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('contact_title_ar', 'عنوان هيدر صفحة اتصل بنا بالعربية')}
+                  {renderInput('contact_title_en', 'عنوان هيدر صفحة اتصل بنا بالإنجليزية', true)}
+                  {renderInput('contact_description_ar', 'وصف هيدر صفحة اتصل بنا بالعربية', false, true)}
+                  {renderInput('contact_description_en', 'وصف هيدر صفحة اتصل بنا بالإنجليزية', true, true)}
+
+                  {renderInput('contact_phone', 'هاتف اتصال المقر بالرياض')}
+                  {renderInput('contact_whatsapp', 'رقم الواتساب للاستشارات')}
+                  {renderInput('contact_email', 'البريد الإلكتروني المهني')}
+                  {renderInput('contact_address', 'العنوان الجغرافي الكامل للمكتب')}
+                </div>
+              )}
+
+              {/* SUB TAB: THANK YOU PAGE */}
+              {activeSubTab === 'thankyou' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('thankyou_title_ar', 'عنوان صفحة الشكر الفوري بالعربية')}
+                  {renderInput('thankyou_title_en', 'عنوان صفحة الشكر الفوري بالإنجليزية', true)}
+                  {renderInput('thankyou_description_ar', 'رسالة وصف صفحة الشكر الفوري بالعربية', false, true)}
+                  {renderInput('thankyou_description_en', 'رسالة وصف صفحة الشكر الفوري بالإنجليزية', true, true)}
+                  {renderInput('thankyou_btn_ar', 'نص زر التوجيه بالعربية')}
+                  {renderInput('thankyou_btn_en', 'نص زر التوجيه بالإنجليزية', true)}
+                </div>
+              )}
+
             </div>
           </div>
         )}
@@ -1046,7 +1048,7 @@ export default function AdminDashboardPage() {
                           required
                           value={articleForm.date || ''}
                           onChange={(e) => setArticleForm({ ...articleForm, date: e.target.value })}
-                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none text-left animate-none"
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none text-left"
                           dir="ltr"
                         />
                       </div>
@@ -1125,8 +1127,8 @@ export default function AdminDashboardPage() {
                       {t.image ? (
                         <img src={t.image} alt={t.name_ar} className="w-12 h-12 rounded-full object-cover border border-slate-700" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-500 font-bold">
-                          {t.name_ar[0]}
+                        <div className="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-500 font-bold text-center">
+                          {t.name_ar ? t.name_ar[0] : 'Dr'}
                         </div>
                       )}
                       <div>
