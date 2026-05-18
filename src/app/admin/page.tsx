@@ -119,6 +119,7 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security'>('leads');
   const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images'>('general');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -825,6 +826,11 @@ export default function AdminDashboardPage() {
     );
   };
 
+  const selectTab = (tab: 'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security') => {
+    setActiveTab(tab);
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row font-sans text-right antialiased select-none" dir="rtl">
       
@@ -840,8 +846,40 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
+      {/* Mobile Top Header Bar */}
+      <div className="flex md:hidden items-center justify-between bg-slate-900 border-b border-slate-800 px-6 py-4 sticky top-0 z-[110] w-full">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-cyan-400 rounded-lg flex items-center justify-center shadow-[0_0_10px_rgba(0,218,243,0.3)]">
+            <span className="material-symbols-outlined text-slate-950 text-base font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
+              medical_services
+            </span>
+          </div>
+          <div className="text-right">
+            <h2 className="text-sm font-bold text-white leading-tight">ديجيتال هيلث</h2>
+            <p className="text-[9px] text-slate-500 font-semibold tracking-wide">لوحة الإشراف</p>
+          </div>
+        </div>
+        
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="w-10 h-10 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-cyan-400 hover:text-white transition-all cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-xl">{isSidebarOpen ? 'close' : 'menu'}</span>
+        </button>
+      </div>
+
+      {/* Backdrop for mobile drawer */}
+      {isSidebarOpen && (
+        <div 
+          onClick={() => setIsSidebarOpen(false)} 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[115] md:hidden animate-fade-in" 
+        />
+      )}
+
       {/* Sidebar Section */}
-      <aside className="w-full md:w-72 bg-slate-900 border-l border-slate-800 flex flex-col justify-between shrink-0">
+      <aside className={`fixed inset-y-0 right-0 z-[120] w-72 h-full bg-slate-900 border-l border-slate-800 flex flex-col justify-between shrink-0 transition-transform duration-300 md:static md:translate-x-0 ${
+        isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
         <div>
           {/* Sidebar Header Brand */}
           <div className="p-8 border-b border-slate-800 flex items-center justify-between">
@@ -861,7 +899,7 @@ export default function AdminDashboardPage() {
           {/* Navigation Links */}
           <nav className="p-4 space-y-1">
             <button
-              onClick={() => setActiveTab('leads')}
+              onClick={() => selectTab('leads')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'leads' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -876,7 +914,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('content')}
+              onClick={() => selectTab('content')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'content' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -886,7 +924,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('services')}
+              onClick={() => selectTab('services')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'services' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -901,7 +939,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('faqs')}
+              onClick={() => selectTab('faqs')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'faqs' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -916,7 +954,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('blog')}
+              onClick={() => selectTab('blog')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'blog' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -926,7 +964,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('testimonials')}
+              onClick={() => selectTab('testimonials')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'testimonials' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -936,7 +974,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('portfolio')}
+              onClick={() => selectTab('portfolio')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'portfolio' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -946,7 +984,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('media')}
+              onClick={() => selectTab('media')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'media' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -956,7 +994,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('team')}
+              onClick={() => selectTab('team')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'team' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}
@@ -966,7 +1004,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('security')}
+              onClick={() => selectTab('security')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === 'security' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
               }`}

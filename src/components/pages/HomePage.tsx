@@ -284,10 +284,9 @@ export default function HomePage() {
           );
         })()}
 
-        {/* Dynamic Services grid */}
         <section className="py-24">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center mb-20">
+            <div className="text-center mb-20 reveal-on-scroll">
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
                 {t('home_section_services_title', 'التسويق الطبي الدقيق')}
               </h2>
@@ -305,26 +304,30 @@ export default function HomePage() {
                 { key: 'ads', icon: 'ads_click', path: 'services/paid-ads', arName: 'الإعلانات المستهدفة', enName: 'Targeted Patient Ads', arDesc: 'حملات إعلانية مدفوعة دقيقة تقلل من تكلفة جذب المريض وتملأ غرف الاستشارة.', enDesc: 'High-conversion paid campaigns on Meta & Google targeting verified active inquiries.' },
                 { key: 'reputation', icon: 'verified', path: 'services/reputation-management', arName: 'إدارة السمعة الطبية', enName: 'Reputation Governance', arDesc: 'بناء وحماية المرجعية الرقمية للأطباء والعيادات وجمع تقييمات المرضى الإيجابية.', enDesc: 'Governing and expanding clinical stars, reviews, and professional credibility automatic tools.' },
                 { key: 'web', icon: 'web', path: 'services/medical-website', arName: 'المواقع الطبية الفاخرة', enName: 'High-End Medical Web', arDesc: 'مواقع ويب طبية ذكية وسريعة متكاملة مع أنظمة الحجوزات ومتوافقة مع المعايير الطبية.', enDesc: 'Ultra-fast booking systems and interactive responsive interfaces with direct conversions.' }
-              ].map((serv) => (
-                <div key={serv.key} className="glass-card p-8 rounded-2xl group hover:-translate-y-2 select-none flex flex-col">
-                  <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors duration-300 text-cyan-400">
-                    <span className="material-symbols-outlined text-2xl">{serv.icon}</span>
+              ].map((serv, idx) => {
+                const delays = ['delay-100', 'delay-200', 'delay-300', 'delay-100', 'delay-200', 'delay-300'];
+                const delayClass = delays[idx] || '';
+                return (
+                  <div key={serv.key} className={`glass-card p-8 rounded-2xl group hover:-translate-y-2 select-none flex flex-col reveal-on-scroll ${delayClass}`}>
+                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors duration-300 text-cyan-400">
+                      <span className="material-symbols-outlined text-2xl">{serv.icon}</span>
+                    </div>
+                    <h3 className={`text-xl font-bold text-white mb-3.5 ${isRtl ? 'text-right' : 'text-left'}`}>
+                      {isRtl ? serv.arName : serv.enName}
+                    </h3>
+                    <p className={`text-xs text-slate-400 leading-relaxed mb-6 flex-grow ${isRtl ? 'text-right' : 'text-left'}`}>
+                      {isRtl ? serv.arDesc : serv.enDesc}
+                    </p>
+                    <Link 
+                      href={getHref(serv.path)} 
+                      className={`inline-flex items-center text-xs font-bold text-cyan-400 group-hover:text-white transition-colors gap-1.5 ${isRtl ? 'justify-start' : 'justify-start'}`}
+                    >
+                      {isRtl ? 'معرفة المزيد' : 'Learn More'}
+                      <span className={`material-symbols-outlined text-sm ${isRtl ? 'rotate-180' : ''}`}>arrow_forward</span>
+                    </Link>
                   </div>
-                  <h3 className={`text-xl font-bold text-white mb-3.5 ${isRtl ? 'text-right' : 'text-left'}`}>
-                    {isRtl ? serv.arName : serv.enName}
-                  </h3>
-                  <p className={`text-xs text-slate-400 leading-relaxed mb-6 flex-grow ${isRtl ? 'text-right' : 'text-left'}`}>
-                    {isRtl ? serv.arDesc : serv.enDesc}
-                  </p>
-                  <Link 
-                    href={getHref(serv.path)} 
-                    className={`inline-flex items-center text-xs font-bold text-cyan-400 group-hover:text-white transition-colors gap-1.5 ${isRtl ? 'justify-start' : 'justify-start'}`}
-                  >
-                    {isRtl ? 'معرفة المزيد' : 'Learn More'}
-                    <span className={`material-symbols-outlined text-sm ${isRtl ? 'rotate-180' : ''}`}>arrow_forward</span>
-                  </Link>
-                </div>
-              ))}
+                );
+              })}
 
             </div>
           </div>
@@ -334,8 +337,8 @@ export default function HomePage() {
         <section className="py-24 bg-slate-950/30 overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
-            {/* Visual graphics */}
-            <div className="relative order-2 lg:order-1 flex justify-center">
+             {/* Visual graphics */}
+            <div className="relative order-2 lg:order-1 flex justify-center reveal-scale">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-cyan-950/40 to-slate-950 flex items-center justify-center border border-white/5 group hover:border-cyan-400/20 transition-all duration-500">
                 {data?.content?.['home_why_img'] ? (
                   <img
@@ -349,7 +352,7 @@ export default function HomePage() {
                 
                 {/* Visual glass overlay to keep premium dark-mode look */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent pointer-events-none z-10" />
-
+ 
                 {/* Years badge */}
                 <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl select-none animate-bounce-subtle z-20">
                   <div className="text-cyan-400 text-3xl font-extrabold mb-1">{t('home_why_years_val', '12+')}</div>
@@ -357,9 +360,9 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-
+ 
             {/* Core Features */}
-            <div className={`order-1 lg:order-2 flex flex-col ${isRtl ? 'items-start text-right' : 'items-start text-left'}`}>
+            <div className={`order-1 lg:order-2 flex flex-col ${isRtl ? 'items-start text-right' : 'items-start text-left'} reveal-on-scroll`}>
               <span className="text-xs font-bold text-cyan-400 tracking-wider uppercase mb-3">
                 {t('home_section_why_badge', 'ما يميز عيادتنا')}
               </span>
@@ -372,44 +375,47 @@ export default function HomePage() {
                   { icon: 'biotech', titleKey: 'home_why_feat1_title', descKey: 'home_why_feat1_desc', titleDef: 'التوجيه العلمي القائم على التحليلات', descDef: 'نحن لا نخمن عشوائياً. نستخدم تحليلات دقيقة لتحديد المرضى ذوي الرغبة الحقيقية في العلاج بمركزك.' },
                   { icon: 'gavel', titleKey: 'home_why_feat2_title', descKey: 'home_why_feat2_desc', titleDef: 'الامتثال القانوني الصحي التام', descDef: 'كل حملة نطلقها متوافقة 100% مع أنظمة وزارة الصحة السعودية ولوائح خصوصية البيانات الطبية للمريض.' },
                   { icon: 'award_star', titleKey: 'home_why_feat3_title', descKey: 'home_why_feat3_desc', titleDef: 'خبرة عيادية سريرية حصرية', descDef: 'نحن لا نعمل في مجالات المطاعم أو البيع بالتجزئة. تركيزنا حصري 100% على الأطباء والعيادات فقط.' }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4 items-start">
-                    <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
-                      <span className="material-symbols-outlined">{item.icon}</span>
+                ].map((item, idx) => {
+                  const delays = ['delay-100', 'delay-200', 'delay-300'];
+                  const delayClass = delays[idx] || '';
+                  return (
+                    <div key={idx} className={`flex gap-4 items-start reveal-on-scroll ${delayClass}`}>
+                      <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
+                        <span className="material-symbols-outlined">{item.icon}</span>
+                      </div>
+                      <div className={`${isRtl ? 'text-right' : 'text-left'}`}>
+                        <h4 className="text-base font-bold text-white mb-1.5">
+                          {t(item.titleKey, item.titleDef)}
+                        </h4>
+                        <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                          {t(item.descKey, item.descDef)}
+                        </p>
+                      </div>
                     </div>
-                    <div className={`${isRtl ? 'text-right' : 'text-left'}`}>
-                      <h4 className="text-base font-bold text-white mb-1.5">
-                        {t(item.titleKey, item.titleDef)}
-                      </h4>
-                      <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-                        {t(item.descKey, item.descDef)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
           </div>
         </section>
 
-        {/* Real-time stats */}
         <section className="py-20 border-y border-white/5 bg-slate-950/50 select-none">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-              <div>
+              <div className="reveal-scale delay-100">
                 <div className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-2">{t('home_stat1_val', '250%')}</div>
                 <p className="text-xs font-bold text-slate-300">{t('home_stat1_desc', 'متوسط زيادة عائد الاستثمار')}</p>
               </div>
-              <div>
+              <div className="reveal-scale delay-200">
                 <div className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-2">{t('home_stat2_val', '15K+')}</div>
                 <p className="text-xs font-bold text-slate-300">{t('home_stat2_desc', 'مريض جديد محتمل شهرياً')}</p>
               </div>
-              <div>
+              <div className="reveal-scale delay-300">
                 <div className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-2">{t('home_stat3_val', '85+')}</div>
                 <p className="text-xs font-bold text-slate-300">{t('home_stat3_desc', 'عيادة ومركز نثق به بالرياض')}</p>
               </div>
-              <div>
+              <div className="reveal-scale delay-400">
                 <div className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-2">{t('home_stat4_val', '12+')}</div>
                 <p className="text-xs font-bold text-slate-300">{t('home_stat4_desc', 'سنة خبرة متخصصة')}</p>
               </div>
@@ -417,11 +423,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Dynamic Testimonials */}
         {testimonials.length > 0 && (
           <section className="py-24">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
-              <div className="text-center mb-16">
+              <div className="text-center mb-16 reveal-on-scroll">
                 <span className="text-xs font-bold text-cyan-400 tracking-wider uppercase mb-3 block">
                   {t('home_testimonials_badge', 'تقييمات الأطباء')}
                 </span>
@@ -431,34 +436,38 @@ export default function HomePage() {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {testimonials.map((tItem: any, idx: number) => (
-                  <div key={idx} className="glass-card p-8 rounded-2xl border-cyan-400/10 flex flex-col justify-between hover:border-cyan-400/30 transition-all duration-300">
-                    <div>
-                      <div className="flex text-cyan-400 mb-6 justify-start">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <span key={i} className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        ))}
-                      </div>
-                      <p className={`text-sm text-slate-300 leading-relaxed italic mb-8 ${isRtl ? 'text-right' : 'text-left'}`}>
-                        "{isRtl ? tItem.quote_ar : (tItem.quote_en || tItem.quote_ar)}"
-                      </p>
-                    </div>
-                    
-                    <div className={`flex items-center gap-4 ${isRtl ? 'justify-start' : 'justify-start'}`}>
-                      {tItem.image ? (
-                        <img className="w-12 h-12 rounded-full object-cover border border-cyan-400/20" src={tItem.image} alt={tItem.name_ar} />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-sm font-bold">
-                          {isRtl ? tItem.name_ar[0] : (tItem.name_en ? tItem.name_en[0] : 'Dr')}
+                {testimonials.map((tItem: any, idx: number) => {
+                  const delays = ['delay-100', 'delay-200', 'delay-300'];
+                  const delayClass = delays[idx] || '';
+                  return (
+                    <div key={idx} className={`glass-card p-8 rounded-2xl border-cyan-400/10 flex flex-col justify-between hover:border-cyan-400/30 transition-all duration-300 reveal-on-scroll ${delayClass}`}>
+                      <div>
+                        <div className="flex text-cyan-400 mb-6 justify-start">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <span key={i} className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                          ))}
                         </div>
-                      )}
-                      <div className={`${isRtl ? 'text-right' : 'text-left'}`}>
-                        <h5 className="text-sm font-bold text-white">{isRtl ? tItem.name_ar : (tItem.name_en || tItem.name_ar)}</h5>
-                        <p className="text-[10px] text-slate-400">{isRtl ? tItem.title_ar : (tItem.title_en || tItem.title_ar)}</p>
+                        <p className={`text-sm text-slate-300 leading-relaxed italic mb-8 ${isRtl ? 'text-right' : 'text-left'}`}>
+                          "{isRtl ? tItem.quote_ar : (tItem.quote_en || tItem.quote_ar)}"
+                        </p>
+                      </div>
+                      
+                      <div className={`flex items-center gap-4 ${isRtl ? 'justify-start' : 'justify-start'}`}>
+                        {tItem.image ? (
+                          <img className="w-12 h-12 rounded-full object-cover border border-cyan-400/20" src={tItem.image} alt={tItem.name_ar} />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-sm font-bold">
+                            {isRtl ? tItem.name_ar[0] : (tItem.name_en ? tItem.name_en[0] : 'Dr')}
+                          </div>
+                        )}
+                        <div className={`${isRtl ? 'text-right' : 'text-left'}`}>
+                          <h5 className="text-sm font-bold text-white">{isRtl ? tItem.name_ar : (tItem.name_en || tItem.name_ar)}</h5>
+                          <p className="text-[10px] text-slate-400">{isRtl ? tItem.title_ar : (tItem.title_en || tItem.title_ar)}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -467,7 +476,7 @@ export default function HomePage() {
         {/* Dynamic CTA */}
         <section className="py-20 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
-            <div className="relative bg-slate-900 rounded-[2rem] overflow-hidden p-12 md:p-20 text-center border border-white/5">
+            <div className="relative bg-slate-900 rounded-[2rem] overflow-hidden p-12 md:p-20 text-center border border-white/5 reveal-scale">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-cyan-950/20 to-transparent"></div>
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">

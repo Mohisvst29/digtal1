@@ -124,3 +124,70 @@ body {
   animation: float-diag-3 10s ease-in-out infinite;
 }
 
+/* Premium Scroll Reveal Transitions */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-on-scroll.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.93);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-scale.reveal-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-left.reveal-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-right.reveal-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Smooth sequential delays for children */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Interactive Hover Glow effects */
+.hover-glow {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-glow:hover {
+  box-shadow: 0 0 25px rgba(0, 218, 243, 0.2);
+  border-color: rgba(0, 218, 243, 0.4) !important;
+  transform: translateY(-4px);
+}
+
+

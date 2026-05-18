@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Tajawal, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { ContentProvider } from '@/components/ContentProvider';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const tajawal = Tajawal({
   subsets: ['arabic'],
@@ -34,6 +35,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-900">
         <ContentProvider>
+          <ScrollReveal />
           {children}
         </ContentProvider>
       </body>
