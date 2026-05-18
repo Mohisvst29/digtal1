@@ -97,6 +97,7 @@ export async function seedDatabase() {
     { key: 'home_why_feat3_title_en', value: 'Exclusive Clinical Specialization' },
     { key: 'home_why_feat3_desc_ar', value: 'نحن لا نعمل في مجالات المطاعم أو البيع بالتجزئة. تركيزنا حصري 100% على الأطباء والعيادات فقط.' },
     { key: 'home_why_feat3_desc_en', value: 'Unlike generic creative agencies, we work 100% on medical, knowing the exact patient journey.' },
+    { key: 'home_why_img', value: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800' },
     { key: 'home_stat1_val', value: '250%' },
     { key: 'home_stat1_desc_ar', value: 'متوسط زيادة عائد الاستثمار' },
     { key: 'home_stat1_desc_en', value: 'Average ROI Increase' },

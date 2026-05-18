@@ -337,10 +337,21 @@ export default function HomePage() {
             {/* Visual graphics */}
             <div className="relative order-2 lg:order-1 flex justify-center">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-cyan-950/40 to-slate-950 flex items-center justify-center border border-white/5 group hover:border-cyan-400/20 transition-all duration-500">
-                <span className="material-symbols-outlined text-8xl text-cyan-400/10 group-hover:text-cyan-400/20 group-hover:scale-110 transition-all duration-700">medical_services</span>
+                {data?.content?.['home_why_img'] ? (
+                  <img
+                    src={data.content['home_why_img']}
+                    alt="Why Choose Us"
+                    className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
+                  />
+                ) : (
+                  <span className="material-symbols-outlined text-8xl text-cyan-400/10 group-hover:text-cyan-400/20 group-hover:scale-110 transition-all duration-700">medical_services</span>
+                )}
                 
+                {/* Visual glass overlay to keep premium dark-mode look */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent pointer-events-none z-10" />
+
                 {/* Years badge */}
-                <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl select-none animate-bounce-subtle">
+                <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl select-none animate-bounce-subtle z-20">
                   <div className="text-cyan-400 text-3xl font-extrabold mb-1">{t('home_why_years_val', '12+')}</div>
                   <div className="text-white text-xs font-bold">{t('home_why_years_title', 'سنة من التخصص الطبي')}</div>
                 </div>
