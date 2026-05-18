@@ -1,0 +1,10 @@
+# Robots.txt file for Digital Health Medical Marketing Agency
+# Location: website/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /logs/
+
+Sitemap: sitemap.xml

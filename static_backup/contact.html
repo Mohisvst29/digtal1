@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="dark" lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>تواصل معنا | ديجيتال هيلث</title>
+<meta name="description" content="تواصل مع ديجيتال هيلث لتطوير حضورك الرقمي الطبي. احجز استشارتك المجانية اليوم مع أفضل خبراء التسويق الطبي بالرياض."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#00daf3","surface-container-high":"#192a48","surface-container":"#0e1f3d","surface":"#011230","surface-variant":"#253453","surface-container-low":"#091b39","glass-border":"rgba(255,255,255,0.12)","background":"#011230","on-secondary":"#00363d","on-secondary-fixed":"#001f24","deep-navy-surface":"#020C1B","primary":"#b9c7e4","on-surface-variant":"#c5c6cd","on-surface":"#d8e2ff","secondary":"#bdf4ff","glass-bg":"rgba(10,25,47,0.7)","primary-container":"#0a192f","surface-container-lowest":"#000d27","on-background":"#d8e2ff","surface-dim":"#011230"},spacing:{"margin-desktop":"64px","gutter":"24px","section-padding":"120px","container-max":"1280px","margin-mobile":"16px","stack-lg":"48px","stack-md":"24px","stack-sm":"8px"},fontFamily:{"display-lg":["IBM Plex Sans Arabic"],"label-caps":["Tajawal"],"body-lg":["Tajawal"],"display-lg-mobile":["IBM Plex Sans Arabic"],"headline-lg":["IBM Plex Sans Arabic"],"headline-xl":["IBM Plex Sans Arabic"],"body-md":["Tajawal"]},fontSize:{"display-lg":["64px",{lineHeight:"72px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-caps":["14px",{lineHeight:"20px",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"display-lg-mobile":["40px",{lineHeight:"48px",letterSpacing:"-0.01em",fontWeight:"700"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"headline-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}]}}}}
+</script>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.glass-card{background:rgba(10,25,47,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12)}
+.medical-glow:hover{box-shadow:0 0 40px rgba(0,229,255,0.15);border-color:#00daf3}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#00daf3!important;box-shadow:0 0 10px rgba(0,218,243,0.2)}
+body{background-color:#011230;color:#d8e2ff;font-family:'Tajawal', sans-serif;}
+h1, h2, h3, h4, h5, h6 { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+</style>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary-fixed-dim selection:text-on-secondary">
+<!-- Navigation -->
+<header class="fixed top-0 w-full z-50 bg-glass-bg backdrop-blur-[20px] border-b border-glass-border shadow-sm">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop h-20">
+  <div class="font-headline-lg text-headline-lg text-primary">ديجيتال هيلث</div>
+  <nav class="hidden md:flex items-center gap-8">
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="./">الرئيسية</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="about">من نحن</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="services">خدماتنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="portfolio">أعمالنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="blog">مقالات</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="faq">أسئلة</a>
+    <a class="font-label-caps text-label-caps text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim pb-1" href="contact">تواصل معنا</a>
+  </nav>
+  <div class="flex items-center gap-6">
+    <button id="mobile-menu-btn" class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <a href="contact" class="bg-secondary-fixed-dim text-on-secondary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(0,218,243,0.3)] hidden md:block">احجز استشارة مجانية</a>
+  </div>
+</div>
+<div id="mobile-menu" class="hidden md:hidden bg-glass-bg border-t border-glass-border px-6 py-4 flex flex-col gap-4">
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="./">الرئيسية</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="about">من نحن</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="services">خدماتنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="portfolio">أعمالنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="blog">مقالات</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="faq">أسئلة</a>
+  <a class="font-label-caps text-label-caps text-secondary-fixed-dim" href="contact">تواصل معنا</a>
+</div>
+</header>
+
+<main class="pt-40 pb-section-padding">
+<!-- Hero -->
+<section class="max-w-container-max mx-auto px-margin-desktop mb-stack-lg text-right">
+  <div class="max-w-3xl">
+    <span class="font-label-caps text-label-caps text-secondary-fixed-dim tracking-widest mb-4 block">تواصل معنا</span>
+    <h1 class="font-display-lg text-display-lg text-on-background mb-6 text-4xl md:text-5xl">تواصل معنا لتطوير حضورك الرقمي</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">خطوتك الأولى نحو بناء سمعة طبية قوية وجذب المزيد من المرضى لعيادتك أو مركزك الطبي تبدأ من هنا.</p>
+  </div>
+</section>
+
+<!-- Main Layout -->
+<section class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter text-right">
+  <!-- Contact Form -->
+  <div class="lg:col-span-7 glass-card p-8 md:p-12 rounded-xl">
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-6" id="contact-form">
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="full-name">الاسم الكامل *</label>
+        <input id="full-name" class="bg-surface-variant/30 border border-glass-border p-4 rounded-lg text-on-surface transition-all text-right" placeholder="د. أحمد محمد" type="text" required/>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="phone">رقم الجوال *</label>
+        <input id="phone" class="bg-surface-variant/30 border border-glass-border p-4 rounded-lg text-on-surface transition-all text-left" placeholder="+966 50 000 0000" type="tel" required dir="ltr"/>
+      </div>
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="email">البريد الإلكتروني *</label>
+        <input id="email" class="bg-surface-variant/30 border border-glass-border p-4 rounded-lg text-on-surface transition-all text-left" placeholder="dr.ahmad@clinic.com" type="email" required dir="ltr"/>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="client-type">نوع العميل *</label>
+        <select id="client-type" class="bg-[#0e1f3d] border border-glass-border p-4 rounded-lg text-on-surface transition-all">
+          <option value="طبيب">طبيب (عيادة فردية)</option>
+          <option value="مركز طبي">مركز طبي</option>
+          <option value="مستشفى">مستشفى</option>
+          <option value="عيادة تخصصية">عيادة تخصصية</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="specialty">التخصص الطبي *</label>
+        <input id="specialty" class="bg-surface-variant/30 border border-glass-border p-4 rounded-lg text-on-surface transition-all" placeholder="مثال: أسنان، جلدية، تجميل" type="text" required/>
+      </div>
+      
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant">الخدمة المطلوبة (يمكنك اختيار أكثر من خدمة) *</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="الهوية الطبية الرقمية" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">الهوية الطبية الرقمية</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="إدارة السوشيال ميديا الطبية" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">إدارة السوشيال ميديا الطبية</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="تحسين محركات البحث السيو الطبي" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">تحسين محركات البحث السيو الطبي</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="الإعلانات الممولة" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">الإعلانات الممولة</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="إدارة السيرة الطبية" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">إدارة السيرة الطبية</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 bg-surface-variant/20 rounded-lg border border-glass-border cursor-pointer hover:border-secondary-fixed-dim transition-all">
+            <input type="checkbox" name="services" value="تصميم المواقع والتطبيقات الطبية" class="rounded border-glass-border text-secondary-fixed-dim focus:ring-secondary-fixed-dim bg-[#011230]"/>
+            <span class="text-sm">تصميم المواقع والتطبيقات</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="budget">الميزانية التقريبية *</label>
+        <select id="budget" class="bg-[#0e1f3d] border border-glass-border p-4 rounded-lg text-on-surface transition-all">
+          <option value="أقل من 5,000 ريال">أقل من 5,000 ريال سعودي</option>
+          <option value="5,000 - 10,000 ريال">5,000 – 10,000 ريال سعودي</option>
+          <option value="أكثر من 10,000 ريال">أكثر من 10,000 ريال سعودي</option>
+          <option value="غير محدد">غير محدد</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="referrer">كيف عرفت عنا؟ *</label>
+        <select id="referrer" class="bg-[#0e1f3d] border border-glass-border p-4 rounded-lg text-on-surface transition-all">
+          <option value="جوجل">محرك البحث جوجل</option>
+          <option value="سوشيال ميديا">منصات التواصل الاجتماعي</option>
+          <option value="توصية">توصية من زميل</option>
+          <option value="إعلان">إعلان ممول</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label class="font-label-caps text-label-caps text-on-surface-variant" for="message">الرسالة</label>
+        <textarea id="message" class="bg-surface-variant/30 border border-glass-border p-4 rounded-lg text-on-surface transition-all resize-none" placeholder="اشرح لنا أهداف عيادتك والنتائج التي تطمح لتحقيقها..." rows="4"></textarea>
+      </div>
+      <div class="md:col-span-2 pt-4">
+        <button class="w-full bg-secondary-fixed-dim text-on-secondary font-label-caps text-label-caps py-4 rounded-lg hover:scale-[1.01] transition-all shadow-lg flex items-center justify-center gap-2 group text-lg font-bold" type="submit">
+          <span>إرسال الطلب والاستشارة</span>
+          <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="lg:col-span-5 flex flex-col gap-gutter">
+    <!-- Location -->
+    <div class="glass-card p-8 rounded-xl medical-glow transition-all duration-300">
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-12 h-12 rounded-lg bg-surface-variant/50 flex items-center justify-center border border-glass-border shrink-0"><span class="material-symbols-outlined text-secondary-fixed-dim">location_on</span></div>
+        <div>
+          <h3 class="font-headline-lg text-headline-lg text-on-background mb-1 text-xl">مقر الشركة بالرياض</h3>
+          <p class="font-body-md text-on-surface-variant leading-relaxed">الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض – السعودية</p>
+        </div>
+      </div>
+      <div class="aspect-video w-full rounded-lg bg-surface-container-high border border-glass-border overflow-hidden relative">
+        <iframe class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.9782522502677!2d46.708890784999994!3d24.6589332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCbDM5JzMyLjIiTiA0NsKwNDInMzIuMCJF!5e0!3m2!1sar!2ssa!4v1700000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <!-- WhatsApp -->
+    <a class="glass-card p-6 rounded-xl flex items-center gap-4 medical-glow transition-all duration-300 group" href="https://wa.me/966541659332" target="_blank" rel="noopener">
+      <div class="w-10 h-10 rounded-full bg-[#25D366]/20 flex items-center justify-center border border-[#25D366]/30 shrink-0"><span class="material-symbols-outlined text-[#25D366]">chat</span></div>
+      <div class="flex-1">
+        <p class="font-label-caps text-label-caps text-on-surface-variant">تواصل سريع عبر واتساب</p>
+        <p class="font-body-lg text-on-surface font-bold dir-ltr text-right" dir="ltr">+966 54 165 9332</p>
+      </div>
+      <span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-fixed-dim transition-transform group-hover:-translate-x-1">arrow_back_ios</span>
+    </a>
+    <!-- Email -->
+    <div class="glass-card p-6 rounded-xl flex items-center gap-4 medical-glow transition-all duration-300">
+      <div class="w-10 h-10 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center border border-secondary-fixed-dim/30 shrink-0"><span class="material-symbols-outlined text-secondary-fixed-dim">mail</span></div>
+      <div class="flex-1">
+        <p class="font-label-caps text-label-caps text-on-surface-variant">البريد الإلكتروني للشركة</p>
+        <p class="font-body-lg text-on-surface font-bold text-right">Info@DigitalHealth-sa.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Thank You Popup Modal (Success State) -->
+<section class="hidden fixed inset-0 z-[100] bg-surface/90 flex items-center justify-center px-margin-mobile" id="confirmation-state">
+  <div class="glass-card max-w-lg w-full p-12 rounded-2xl text-center relative overflow-hidden">
+    <div class="w-20 h-20 bg-secondary-fixed-dim rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_40px_rgba(0,218,243,0.4)] animate-bounce">
+      <span class="material-symbols-outlined text-on-secondary text-4xl" style="font-variation-settings:'FILL' 1">check_circle</span>
+    </div>
+    <h2 class="font-headline-xl text-headline-xl text-on-background mb-4 text-2xl">شكراً لتواصلك معنا!</h2>
+    <p class="font-body-lg text-lg text-on-surface-variant mb-4">تم استلام طلب الاستشارة الخاص بك بنجاح.</p>
+    <p class="text-sm text-on-surface-variant/80 mb-10">سيقوم مستشارو التسويق الطبي لدينا بمراجعة ملفك والتواصل معك خلال أقل من 24 ساعة.</p>
+    <button class="w-full border border-secondary-fixed-dim text-secondary-fixed-dim px-10 py-3 rounded-lg font-label-caps hover:bg-secondary-fixed-dim hover:text-on-secondary transition-all font-bold" onclick="window.location.href='./'">العودة للموقع الرئيسي</button>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-deep-navy-surface border-t border-glass-border">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto py-section-padding px-margin-desktop text-right">
+    <div>
+      <div class="font-headline-lg text-headline-lg text-primary mb-6">ديجيتال هيلث</div>
+      <p class="font-body-md text-on-surface-variant">تمكين مقدمي الرعاية الصحية في المملكة العربية السعودية من النمو والتميز الرقمي.</p>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">استكشف</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="about">من نحن</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="services">خدماتنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="portfolio">أعمالنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">قانوني</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">سياسة الخصوصية</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">الشروط والأحكام</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">تواصل معنا</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><span class="text-on-surface-variant">الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض</span></li>
+        <li dir="ltr"><span class="text-secondary-fixed-dim">+966 054 165 9332</span></li>
+        <li><span class="text-secondary-fixed-dim">Info@DigitalHealth-sa.com</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-glass-border/30 text-center text-on-surface-variant font-body-md">© 2025 ديجيتال هيلث. جميع الحقوق محفوظة</div>
+</footer>
+<script src="nav.js"></script>
+
+<script>
+// Contact Form Handler with WhatsApp Auto-notification & thank you popup redirect behavior
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('full-name').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const clientType = document.getElementById('client-type').value;
+  const specialty = document.getElementById('specialty').value;
+  const budget = document.getElementById('budget').value;
+  const referrer = document.getElementById('referrer').value;
+  const msg = document.getElementById('message').value;
+  
+  // Selected services multi-select gathering
+  const selectedServices = [];
+  document.querySelectorAll('input[name="services"]:checked').forEach(function(checkbox) {
+    selectedServices.push(checkbox.value);
+  });
+  
+  if (selectedServices.length === 0) {
+    alert("الرجاء تحديد خدمة مطلوبة واحدة على الأقل.");
+    return;
+  }
+  
+  // Form WhatsApp Text generation
+  const waText = `مرحباً، تم تقديم طلب استشارة جديد من الموقع الإلكتروني:%0A%0A` +
+                 `*الاسم:* ${encodeURIComponent(name)}%0A` +
+                 `*الجوال:* ${encodeURIComponent(phone)}%0A` +
+                 `*الإيميل:* ${encodeURIComponent(email)}%0A` +
+                 `*نوع العميل:* ${encodeURIComponent(clientType)}%0A` +
+                 `*التخصص:* ${encodeURIComponent(specialty)}%0A` +
+                 `*الخدمات:* ${encodeURIComponent(selectedServices.join(', '))}%0A` +
+                 `*الميزانية:* ${encodeURIComponent(budget)}%0A` +
+                 `*كيف عرف عنا:* ${encodeURIComponent(referrer)}%0A` +
+                 `*الرسالة:* ${encodeURIComponent(msg)}`;
+  
+  // Show thank you overlay
+  const thankYouModal = document.getElementById('confirmation-state');
+  thankYouModal.classList.remove('hidden');
+  
+  // Open whatsapp after a small delay
+  setTimeout(function() {
+    window.open(`https://wa.me/966541659332?text=${waText}`, '_blank');
+  }, 1000);
+});
+</script>
+</body>
+</html>

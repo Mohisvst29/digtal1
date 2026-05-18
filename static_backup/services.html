@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="dark" lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>خدماتنا | ديجيتال هيلث</title>
+<meta name="description" content="اكتشف باقة خدماتنا المتكاملة في التسويق الطبي الرقمي: الهوية الطبية، السوشيال ميديا، السيو الطبي، الإعلانات المدفوعة، إدارة السمعة وتصميم المواقع."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.glass-card{background:rgba(10,25,47,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12)}
+.medical-glow:hover{box-shadow:0 0 40px rgba(0,218,243,0.15);border-color:#00daf3}
+body{background-color:#011230;color:#d8e2ff;font-family:'Tajawal', sans-serif;}
+h1, h2, h3, h4, h5, h6 { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+</style>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#00daf3","surface-container-high":"#192a48","surface-container":"#0e1f3d","surface":"#011230","surface-variant":"#253453","surface-container-low":"#091b39","secondary-container":"#00e3fd","glass-border":"rgba(255,255,255,0.12)","background":"#011230","on-secondary":"#00363d","on-secondary-fixed":"#001f24","deep-navy-surface":"#020C1B","primary":"#b9c7e4","on-surface-variant":"#c5c6cd","on-surface":"#d8e2ff","secondary-fixed":"#9cf0ff","secondary":"#bdf4ff","glass-bg":"rgba(10,25,47,0.7)","primary-container":"#0a192f","surface-container-lowest":"#000d27","on-primary-fixed":"#0d1c32","surface-dim":"#011230","on-background":"#d8e2ff"},spacing:{"margin-desktop":"64px","gutter":"24px","section-padding":"120px","container-max":"1280px","margin-mobile":"16px","stack-lg":"48px","stack-md":"24px","stack-sm":"8px"},fontFamily:{"display-lg":["IBM Plex Sans Arabic"],"label-caps":["Tajawal"],"body-lg":["Tajawal"],"display-lg-mobile":["IBM Plex Sans Arabic"],"headline-lg":["IBM Plex Sans Arabic"],"headline-xl":["IBM Plex Sans Arabic"],"body-md":["Tajawal"]},fontSize:{"display-lg":["64px",{lineHeight:"72px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-caps":["14px",{lineHeight:"20px",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"display-lg-mobile":["40px",{lineHeight:"48px",letterSpacing:"-0.01em",fontWeight:"700"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"headline-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}]}}}}
+</script>
+</head>
+<body class="font-body-md text-body-md selection:bg-secondary-fixed-dim selection:text-surface">
+<!-- Navigation -->
+<header class="fixed top-0 w-full z-50 bg-glass-bg backdrop-blur-[20px] border-b border-glass-border shadow-sm h-20">
+<nav class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop h-full">
+  <div class="font-headline-lg text-headline-lg text-primary flex items-center gap-2"><span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings:'FILL' 1">health_metrics</span>ديجيتال هيلث</div>
+  <div class="hidden md:flex items-center gap-stack-lg">
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="./">الرئيسية</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="about">من نحن</a>
+    <a class="font-label-caps text-label-caps text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim pb-1" href="services">خدماتنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="portfolio">أعمالنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="blog">مقالات</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="faq">أسئلة</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="contact">تواصل معنا</a>
+  </div>
+  <div class="flex items-center gap-4">
+    <button id="mobile-menu-btn" class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <a href="contact" class="bg-secondary-fixed-dim text-on-secondary font-label-caps text-label-caps px-6 py-3 rounded-lg hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(0,218,243,0.3)] hidden md:block">احجز استشارة مجانية</a>
+  </div>
+</nav>
+<div id="mobile-menu" class="hidden md:hidden bg-glass-bg border-t border-glass-border px-6 py-4 flex flex-col gap-4">
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="./">الرئيسية</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="about">من نحن</a>
+  <a class="font-label-caps text-label-caps text-secondary-fixed-dim" href="services">خدماتنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="portfolio">أعمالنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="blog">مقالات</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="faq">أسئلة</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="contact">تواصل معنا</a>
+</div>
+</header>
+
+<main class="pt-32 text-right">
+<!-- Hero -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-section-padding text-center">
+  <h1 class="font-display-lg text-display-lg mb-6 tracking-tight text-4xl md:text-5xl lg:text-6xl">هندسة الحلول وبناء <br/><span class="text-secondary-fixed-dim">الريادة الطبية الرقمية</span></h1>
+  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">باقات متكاملة ومصممة خصيصاً للعيادات والمراكز والمستشفيات التخصصية الطموحة لضمان نمو تدفق المرضى بأعلى معايير الالتزام الطبي والمهني.</p>
+  <div class="flex justify-center gap-6">
+    <div class="flex items-center gap-2 text-primary"><span class="material-symbols-outlined text-secondary-fixed-dim">verified</span><span class="font-label-caps text-label-caps">متوافق مع معايير وزارة الصحة</span></div>
+    <div class="flex items-center gap-2 text-primary"><span class="material-symbols-outlined text-secondary-fixed-dim">clinical_notes</span><span class="font-label-caps text-label-caps">استراتيجيات نمو طبي تخصصي</span></div>
+  </div>
+</section>
+
+<!-- Services Bento Grid -->
+<section class="max-w-container-max mx-auto px-margin-desktop pb-section-padding">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <!-- Digital Medical Identity -->
+    <div class="md:col-span-8 glass-card p-10 rounded-xl flex flex-col justify-between medical-glow transition-all duration-300">
+      <div>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim"><span class="material-symbols-outlined text-3xl">fingerprint</span></div>
+          <h3 class="font-headline-xl text-headline-xl text-2xl md:text-3xl">الهوية الطبية الرقمية</h3>
+        </div>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-xl">تأسيس براند طبي قوي ومهيب يعبر عن كفاءتكم الطبية عبر مختلف قنوات الإنترنت لربط قيمكم ورسالتكم الطبية بالمرضى بشكل راقٍ.</p>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="flex items-start gap-3"><span class="material-symbols-outlined text-secondary-fixed-dim">check_circle</span><div><p class="font-bold text-on-surface">تماسك الهوية</p><p class="text-sm text-on-surface-variant">لغة بصرية وشعار وقيم موحدة على كافة المنصات.</p></div></div>
+          <div class="flex items-start gap-3"><span class="material-symbols-outlined text-secondary-fixed-dim">check_circle</span><div><p class="font-bold text-on-surface">ترسيخ المرجعية</p><p class="text-sm text-on-surface-variant">إبراز اسم الطبيب كمرجع أساسي في تخصصه.</p></div></div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-glass-border pt-8 mt-auto">
+        <div class="flex gap-4"><span class="px-3 py-1 bg-surface-variant rounded text-xs font-label-caps">استراتيجية</span><span class="px-3 py-1 bg-surface-variant rounded text-xs font-label-caps">تصميم هوية</span></div>
+        <a href="service-identity" class="group flex items-center gap-2 text-secondary-fixed-dim font-label-caps text-label-caps hover:scale-105 transition-transform font-bold text-sm">عرض التفاصيل <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform rotate-180">arrow_forward</span></a>
+      </div>
+    </div>
+    
+    <!-- Medical السيو -->
+    <div class="md:col-span-4 glass-card p-10 rounded-xl medical-glow transition-all duration-300 flex flex-col">
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim mb-6"><span class="material-symbols-outlined text-3xl">search_insights</span></div>
+      <h3 class="font-headline-lg text-headline-lg text-xl md:text-2xl mb-4">السيو الطبي (سيو طبي)</h3>
+      <p class="text-on-surface-variant mb-8">التصدر الأول لنتائج البحث المحلية في مدينة الرياض للمرضى الباحثين عن تخصصك وخدمات عيادتك مباشرة.</p>
+      <ul class="space-y-4 mb-8">
+        <li class="flex items-center gap-2 text-sm"><span class="w-1.5 h-1.5 bg-secondary-fixed-dim rounded-full"></span>سيو خرائط جوجل والمواقع المحلية للعيادات</li>
+        <li class="flex items-center gap-2 text-sm"><span class="w-1.5 h-1.5 bg-secondary-fixed-dim rounded-full"></span>تحسين هيكل المحتوى وتجربة المريض</li>
+        <li class="flex items-center gap-2 text-sm"><span class="w-1.5 h-1.5 bg-secondary-fixed-dim rounded-full"></span>تصدر الكلمات البحثية عالية القيمة والحجوزات</li>
+      </ul>
+      <a href="service-seo" class="block w-full py-3 mt-auto border border-secondary-fixed-dim text-secondary-fixed-dim rounded-lg font-label-caps text-label-caps hover:bg-secondary-fixed-dim hover:text-on-secondary transition-all text-center font-bold">عرض التفاصيل</a>
+    </div>
+
+    <!-- Reputation -->
+    <div class="md:col-span-4 glass-card p-10 rounded-xl medical-glow transition-all duration-300 flex flex-col">
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim mb-6"><span class="material-symbols-outlined text-3xl">star_half</span></div>
+      <h3 class="font-headline-lg text-headline-lg text-xl md:text-2xl mb-4">إدارة السيرة والسمعة الطبية</h3>
+      <p class="text-on-surface-variant mb-6">حماية ومراقبة سمعتك الطبية الرقمية على منصات التقييم مثل خرائط جوجل والأدلة الطبية المتخصصة.</p>
+      <div class="mt-auto pt-6 border-t border-glass-border mb-6"><div class="text-secondary-fixed-dim font-headline-lg mb-1 text-2xl font-bold">98%</div><div class="text-xs font-label-caps text-on-surface-variant">معدل الانطباع الإيجابي لشركائنا</div></div>
+      <a href="service-reputation" class="block w-full py-3 border border-secondary-fixed-dim text-secondary-fixed-dim rounded-lg font-label-caps text-label-caps hover:bg-secondary-fixed-dim hover:text-on-secondary transition-all text-center font-bold">عرض التفاصيل</a>
+    </div>
+
+    <!-- Web Design -->
+    <div class="md:col-span-8 glass-card rounded-xl overflow-hidden medical-glow transition-all duration-300 group p-10 flex flex-col">
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim mb-6"><span class="material-symbols-outlined text-3xl">devices</span></div>
+      <h3 class="font-headline-lg text-headline-lg text-xl md:text-2xl mb-4">تصميم المواقع والتطبيقات الطبية</h3>
+      <p class="text-on-surface-variant mb-8 max-w-xl">تطوير منصات طبية ومواقع ويب تفاعلية فائقة السرعة تتيح حجز مواعيد مرن وسلس وتقدم تجربة استخدام لا مثيل لها.</p>
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="px-3 py-1 border border-glass-border rounded-full text-xs font-label-caps">متوافق مع حجز المواعيد الفوري</span>
+        <span class="px-3 py-1 border border-glass-border rounded-full text-xs font-label-caps">أمان وتشفير كامل</span>
+        <span class="px-3 py-1 border border-glass-border rounded-full text-xs font-label-caps">سريع ومتجاوب مع الجوال 100%</span>
+      </div>
+      <div class="mt-auto border-t border-glass-border pt-6 flex justify-end">
+         <a href="service-web" class="group flex items-center gap-2 text-secondary-fixed-dim font-label-caps text-label-caps hover:scale-105 transition-transform font-bold text-sm">عرض التفاصيل <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform rotate-180">arrow_forward</span></a>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="md:col-span-6 glass-card p-10 rounded-xl medical-glow transition-all duration-300 flex flex-col">
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim mb-6"><span class="material-symbols-outlined text-3xl">share_reviews</span></div>
+      <h3 class="font-headline-lg text-headline-lg text-xl md:text-2xl mb-4">إدارة السوشيال ميديا الطبية</h3>
+      <p class="text-on-surface-variant mb-6">ترجمة المحتوى الطبي العلمي إلى مقاطع فيديو قصيرة وتصاميم مبهرة وسهلة الفهم لبناء قاعدة متابعين مخلصين لعيادتك.</p>
+      <div class="space-y-4 mb-8">
+        <div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden"><div class="h-full bg-secondary-fixed-dim w-3/4"></div></div>
+        <div class="flex justify-between text-xs font-label-caps text-on-surface-variant"><span>معدل نمو التفاعل</span><span>+75% متوسط الزيادة لعملائنا</span></div>
+      </div>
+      <div class="mt-auto border-t border-glass-border pt-6">
+         <a href="service-social" class="group flex items-center gap-2 text-secondary-fixed-dim font-label-caps text-label-caps hover:scale-105 transition-transform font-bold text-sm">عرض التفاصيل <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform rotate-180">arrow_forward</span></a>
+      </div>
+    </div>
+
+    <!-- الدفع مقابل النقرة -->
+    <div class="md:col-span-6 glass-card p-10 rounded-xl medical-glow transition-all duration-300 flex flex-col">
+      <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary-fixed-dim mb-6"><span class="material-symbols-outlined text-3xl">ads_click</span></div>
+      <h3 class="font-headline-lg text-headline-lg text-xl md:text-2xl mb-4">الإعلانات الممولة (الإعلانات الطبية المدفوعة)</h3>
+      <p class="text-on-surface-variant mb-6">استهداف دقيق للمرضى المحتملين الباحثين عن العلاجات التجميلية، الأسنان، الجراحة والليزر بأعلى عائد وأقل تكلفة حجز.</p>
+      <div class="flex items-center gap-6 mb-8">
+        <div class="p-4 bg-surface-container rounded-lg border border-glass-border flex-1"><p class="text-xs font-label-caps text-on-surface-variant mb-1">إعلانات جوجل وسناب شات</p><p class="text-secondary-fixed-dim font-bold">أداء فائق للعيادات</p></div>
+        <div class="p-4 bg-surface-container rounded-lg border border-glass-border flex-1"><p class="text-xs font-label-caps text-on-surface-variant mb-1">تخفيض تكلفة التحويل</p><p class="text-secondary-fixed-dim font-bold">بنسبة 30% كمتوسط</p></div>
+      </div>
+      <div class="mt-auto border-t border-glass-border pt-6">
+         <a href="service-ppc" class="group flex items-center gap-2 text-secondary-fixed-dim font-label-caps text-label-caps hover:scale-105 transition-transform font-bold text-sm">عرض التفاصيل <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform rotate-180">arrow_forward</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="bg-surface-container-lowest py-section-padding">
+  <div class="max-w-container-max mx-auto px-margin-desktop">
+    <div class="text-center mb-16"><h2 class="font-headline-xl text-headline-xl mb-4 text-3xl">منهجية العمل الطبية الاحترافية</h2><p class="text-on-surface-variant">دورة عمل صارمة ودقيقة لتحقيق نتائج نمو حقيقية.</p></div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter relative">
+      <div class="absolute top-1/4 left-0 w-full h-[2px] bg-glass-border hidden md:block"></div>
+      <div class="relative z-10 text-center"><div class="w-16 h-16 rounded-full bg-surface-dim border-2 border-secondary-fixed-dim flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(0,218,243,0.2)]"><span class="font-headline-lg text-secondary-fixed-dim">01</span></div><h4 class="font-bold mb-2">الدراسة والتحليل</h4><p class="text-sm text-on-surface-variant">فحص دقيق لتخصص عيادتك والمنافسين المحليين بالرياض.</p></div>
+      <div class="relative z-10 text-center"><div class="w-16 h-16 rounded-full bg-surface-dim border-2 border-glass-border flex items-center justify-center mx-auto mb-6 hover:border-secondary-fixed-dim transition-colors"><span class="font-headline-lg text-on-surface-variant">02</span></div><h4 class="font-bold mb-2">هندسة الاستراتيجية</h4><p class="text-sm text-on-surface-variant">رسم خريطة متكاملة لرحلة المريض من التصفح للحجز الفعلي.</p></div>
+      <div class="relative z-10 text-center"><div class="w-16 h-16 rounded-full bg-surface-dim border-2 border-glass-border flex items-center justify-center mx-auto mb-6 hover:border-secondary-fixed-dim transition-colors"><span class="font-headline-lg text-on-surface-variant">03</span></div><h4 class="font-bold mb-2">إطلاق الحملات</h4><p class="text-sm text-on-surface-variant">تفعيل الإعلانات والمحتوى والموقع وبدء استقبال الحجوزات.</p></div>
+      <div class="relative z-10 text-center"><div class="w-16 h-16 rounded-full bg-surface-dim border-2 border-glass-border flex items-center justify-center mx-auto mb-6 hover:border-secondary-fixed-dim transition-colors"><span class="font-headline-lg text-on-surface-variant">04</span></div><h4 class="font-bold mb-2">التحسين المستمر</h4><p class="text-sm text-on-surface-variant">قراءة دورية للبيانات وتكبير حجم الحملات لمزيد من المرضى.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="max-w-container-max mx-auto px-margin-desktop mb-section-padding mt-section-padding">
+  <div class="relative glass-card p-16 rounded-3xl overflow-hidden text-center">
+    <div class="absolute inset-0 bg-gradient-to-tr from-secondary-fixed-dim/10 to-transparent pointer-events-none"></div>
+    <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8 relative z-10 text-3xl md:text-5xl">مستعد لتمكين وترسيخ ريادتك <br/><span class="text-secondary-fixed-dim">الطبية الرقمية بالرياض؟</span></h2>
+    <div class="flex flex-col md:flex-row justify-center gap-6 relative z-10">
+      <a href="contact" class="bg-secondary-fixed-dim text-on-secondary font-bold px-10 py-5 rounded-lg text-lg hover:shadow-[0_0_30px_rgba(0,218,243,0.4)] transition-all">احجز جلسة استشارة مجانية</a>
+      <a href="portfolio" class="border border-glass-border backdrop-blur-md px-10 py-5 rounded-lg text-lg hover:bg-surface-variant transition-colors">تصفح أعمالنا ونجاحاتنا</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-deep-navy-surface border-t border-glass-border">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto py-section-padding px-margin-desktop text-right">
+    <div>
+      <div class="font-headline-lg text-headline-lg text-primary mb-6">ديجيتال هيلث</div>
+      <p class="font-body-md text-on-surface-variant">تمكين مقدمي الرعاية الصحية في المملكة العربية السعودية من النمو والتميز الرقمي.</p>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">استكشف</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="about">من نحن</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="services">خدماتنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="portfolio">أعمالنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">قانوني</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">سياسة الخصوصية</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">الشروط والأحكام</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">تواصل معنا</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><span class="text-on-surface-variant">الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض</span></li>
+        <li dir="ltr"><span class="text-secondary-fixed-dim">+966 054 165 9332</span></li>
+        <li><span class="text-secondary-fixed-dim">Info@DigitalHealth-sa.com</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-glass-border/30 text-center text-on-surface-variant font-body-md">© 2025 ديجيتال هيلث. جميع الحقوق محفوظة</div>
+</footer>
+<script src="nav.js"></script>
+</body>
+</html>

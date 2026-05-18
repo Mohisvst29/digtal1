@@ -1,0 +1,114 @@
+# Production-Hardened Apache Configurations & Optimization Rules
+# Location: website/.htaccess
+
+# ----------------------------------------------------------------------
+# 1. FORCE SECURE HTTPS REDIRECTS
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # If request is not secure, permanently redirect (301) to HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Redirect index.html to directory root
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(([^/]+/)*)index\.html\ HTTP/
+    RewriteRule ^(([^/]+/)*)index\.html$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Redirect any page.html to clean URL (excluding index.html)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(([^/]+/)*)([^.]+)\.html\ HTTP/
+    RewriteCond %3 !^index$
+    RewriteRule ^(([^/]+/)*)([^.]+)\.html$ https://%{HTTP_HOST}/$1%3 [R=301,L]
+
+    # Internally serve the .html file if requested clean URL exists as a file
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 2. HTTP SECURITY HEADERS HARDENING
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Clickjacking protection: Deny loading inside iframes on other domains
+    Header set X-Frame-Options "SAMEORIGIN"
+
+    # MIME-type Sniffing Shield: Forces browser to stick to server MIME definitions
+    Header set X-Content-Type-Options "nosniff"
+
+    # Legacy browser XSS filter activation
+    Header set X-XSS-Protection "1; mode=block"
+
+    # HTTP Strict Transport Security (HSTS): Enforce HTTPS globally for 1 year
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Referrer policy: Strict-origin policy
+    Header set Referrer-Policy "no-referrer-when-downgrade"
+    
+    # Content Security Policy (CSP): Hardened to allow standard assets, Tailwind CDN, and Google Fonts
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: *; connect-src 'self';"
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 3. DIRECTORY BROWSING & CONFIGURATION BLOCKS
+# ----------------------------------------------------------------------
+# Disable directory listing for maximum privacy
+Options -Indexes
+
+# Deny HTTP requests targeting sensitive system files
+<FilesMatch "\.(log|ini|sh|bak|sql|db|json|md)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow exception for backup.json restore or manifest files if required,
+# but keep generic backups secure.
+<Files "digital_health_db_backup.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# ----------------------------------------------------------------------
+# 4. GZIP GZIP COMPRESSION & ACCELERATION (mod_deflate)
+# ----------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    # Active compression for common text and dynamic resources
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 5. BROWSER CACHING ACCELERATION (mod_expires)
+# ----------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # Images cache policy: 1 year
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Dynamic styles & scripts caching
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Webfonts cache policy
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>

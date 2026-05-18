@@ -1,0 +1,36 @@
+# Securing the Website Uploads Folder
+# Location: website/uploads/.htaccess
+
+# 1. Disable execution of PHP script engines completely in this directory
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+# Remove handlers to prevent execution of server-side scripts
+RemoveHandler .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .pl .py .jsp .asp .sh .cgi
+RemoveType .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .pl .py .jsp .asp .sh .cgi
+
+# 2. Deny direct access to all executable files or code blocks
+<FilesMatch "\.(php|phtml|php3|php4|php5|php6|php7|php8|pl|py|jsp|asp|sh|cgi|exe|bat|cmd|bin|dll|jar)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# 3. Restrict directory indexing and force secure downloads or direct display of images only
+Options -Indexes
+Options -ExecCGI
+
+# 4. Strictly allow only common static web asset types
+<FilesMatch "\.(?i:jpe?g|png|gif|webp|svg|ico)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

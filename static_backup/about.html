@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="dark" lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>من نحن | ديجيتال هيلث</title>
+<meta name="description" content="تعرف على ديجيتال هيلث - وكالة تسويق رقمي متخصصة في القطاع الطبي بالرياض، شريك النمو الأول للأطباء والمراكز الطبية."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+body{background-color:#011230;color:#d8e2ff;font-family:'Tajawal', sans-serif;}
+h1, h2, h3, h4, h5, h6, .font-headline-lg, .font-headline-xl, .font-display-lg { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.glass-card{background:rgba(10,25,47,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12)}
+.medical-glow:hover{box-shadow:0 0 40px rgba(0,229,255,0.15);border-color:#00daf3}
+</style>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-container":"#0a192f","surface-container":"#0e1f3d","on-background":"#d8e2ff","background":"#011230","glass-bg":"rgba(10,25,47,0.7)","glass-border":"rgba(255,255,255,0.12)","surface-container-low":"#091b39","secondary-fixed-dim":"#00daf3","on-secondary":"#00363d","on-secondary-container":"#00616d","on-surface-variant":"#c5c6cd","surface-variant":"#253453","secondary-container":"#00e3fd","surface-container-highest":"#253453","surface-bright":"#293958","on-secondary-fixed":"#001f24","on-surface":"#d8e2ff","surface-tint":"#b9c7e4","surface-container-high":"#192a48","primary-fixed":"#d6e3ff","medical-cyan-glow":"rgba(0,229,255,0.3)","outline":"#8f9097","primary":"#b9c7e4","deep-navy-surface":"#020C1B","surface":"#011230","secondary-fixed":"#9cf0ff","secondary":"#bdf4ff","inverse-surface":"#d8e2ff","surface-container-lowest":"#000d27","on-primary-fixed":"#0d1c32","primary-fixed-dim":"#b9c7e4","tertiary":"#c4c7c9"},spacing:{"stack-md":"24px","container-max":"1280px","gutter":"24px","margin-mobile":"16px","stack-sm":"8px","stack-lg":"48px","margin-desktop":"64px","section-padding":"120px"},fontFamily:{"label-caps":["Tajawal"],"display-lg":["IBM Plex Sans Arabic"],"body-md":["Tajawal"],"headline-lg":["IBM Plex Sans Arabic"],"headline-xl":["IBM Plex Sans Arabic"],"body-lg":["Tajawal"]},fontSize:{"label-caps":["14px",{lineHeight:"20px",letterSpacing:"0.05em",fontWeight:"600"}],"display-lg":["64px",{lineHeight:"72px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"headline-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}]}}}}
+</script>
+</head>
+<body class="font-body-md selection:bg-secondary-fixed-dim selection:text-primary-container">
+<!-- Navigation -->
+<header class="fixed top-0 w-full z-50 bg-glass-bg backdrop-blur-[20px] border-b border-glass-border shadow-sm">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop h-20">
+  <div class="font-headline-lg text-headline-lg text-primary">ديجيتال هيلث</div>
+  <nav class="hidden md:flex gap-8 items-center">
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="./">الرئيسية</a>
+    <a class="font-label-caps text-label-caps text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim pb-1" href="about">من نحن</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="services">خدماتنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="portfolio">أعمالنا</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="blog">مقالات</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="faq">أسئلة</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="contact">تواصل معنا</a>
+  </nav>
+  <div class="flex items-center gap-6">
+    <button id="mobile-menu-btn" class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <a href="contact" class="bg-secondary-fixed-dim text-on-primary-fixed px-6 py-3 rounded-lg font-label-caps text-label-caps hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(0,218,243,0.2)] hidden md:block">احجز استشارة مجانية</a>
+  </div>
+</div>
+<div id="mobile-menu" class="hidden md:hidden bg-glass-bg border-t border-glass-border px-6 py-4 flex flex-col gap-4">
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="./">الرئيسية</a>
+  <a class="font-label-caps text-label-caps text-secondary-fixed-dim" href="about">من نحن</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="services">خدماتنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="portfolio">أعمالنا</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="blog">مقالات</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="faq">أسئلة</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="contact">تواصل معنا</a>
+</div>
+</header>
+
+<main class="pt-20">
+<!-- Hero -->
+<section class="relative min-h-[600px] flex items-center justify-center overflow-hidden py-section-padding px-margin-mobile md:px-margin-desktop" style="background-image: url('assets/team.png'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0 bg-background/90 z-0"></div>
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    <div class="absolute top-1/4 left-20 w-96 h-96 bg-secondary-fixed-dim/20 rounded-full blur-[120px]"></div>
+  </div>
+  <div class="max-w-container-max mx-auto text-center z-10">
+    <span class="inline-block font-label-caps text-label-caps text-secondary-fixed-dim mb-6 tracking-widest px-4 py-1 glass-card rounded-full">تأسست في الرياض</span>
+    <h1 class="font-display-lg text-display-lg mb-8 text-on-surface leading-tight max-w-4xl mx-auto text-4xl md:text-6xl">من نحن؟</h1>
+    <p class="font-body-lg text-[22px] text-on-surface-variant max-w-3xl mx-auto mb-6 leading-relaxed">وكالة تسويق رقمي متخصصة في القطاع الطبي مقرها الرياض، تم تأسيسها لتكون شريك النمو الأول للأطباء والمراكز الطبية والمستشفيات.</p>
+    <p class="font-body-lg text-[18px] text-on-surface-variant/80 max-w-3xl mx-auto mb-10 leading-relaxed">نحن شركة ناشئة بفكر متطور، نركز على تحويل الخدمات الطبية إلى علامات رقمية قوية قادرة على جذب المرضى وبناء الثقة.</p>
+    <div class="flex flex-col md:flex-row gap-gutter justify-center items-center">
+      <a href="services" class="bg-secondary-fixed-dim text-on-primary-fixed px-10 py-5 rounded-lg font-label-caps text-label-caps hover:scale-[1.05] transition-all shadow-[0_0_30px_rgba(0,218,243,0.25)] text-lg">خدماتنا الطبية</a>
+      <a href="contact" class="glass-card text-secondary-fixed-dim border border-secondary-fixed-dim/30 px-10 py-5 rounded-lg font-label-caps text-label-caps hover:bg-secondary-fixed-dim/10 transition-all text-lg">تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- Vision & Mission -->
+<section class="py-section-padding px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div class="glass-card p-12 rounded-xl medical-glow transition-all duration-300 relative overflow-hidden group text-right">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-secondary-fixed-dim/5 rounded-full blur-3xl group-hover:bg-secondary-fixed-dim/10 transition-colors"></div>
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-8 block">visibility</span>
+      <h2 class="font-headline-xl text-headline-xl mb-6 text-2xl md:text-3xl text-on-surface">رؤيتنا</h2>
+      <p class="font-body-lg text-lg text-on-surface-variant leading-relaxed">أن نكون الشريك الرقمي الأول لنمو القطاع الصحي في المملكة العربية السعودية عبر استراتيجيات تسويق طبي مبنية على الثقة وبناء المصداقية وتحقيق نتائج قابلة للقياس تدعم نمو المنشآت الطبية وتزيد وصولها للمرضى وتحول الحضور الرقمي إلى حجوزات فعلية ونمو مستدام.</p>
+    </div>
+    <div class="glass-card p-12 rounded-xl medical-glow transition-all duration-300 relative overflow-hidden group text-right">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-8 block">rocket_launch</span>
+      <h2 class="font-headline-xl text-headline-xl mb-6 text-2xl md:text-3xl text-on-surface">رسالتنا</h2>
+      <p class="font-body-lg text-lg text-on-surface-variant leading-relaxed">نساعد مقدمي الرعاية الصحية على جذب المرضى المناسبين، بناء سيرة مهنية قوية، وتحقيق نمو مستدام باستخدام التسويق الرقمي، مع الالتزام الكامل بأخلاقيات المجال الطبي والمعايير المهنية.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Why we are different -->
+<section class="py-section-padding bg-deep-navy-surface">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-right">
+    <div class="mb-20 text-center">
+      <h2 class="font-headline-xl text-headline-xl mb-4 text-on-surface">لماذا نختلف؟</h2>
+      <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">على عكس الوكالات العامة نحن متخصصون في التسويق الطبي فقط لأن هذا المجال يحتاج:</p>
+      <div class="w-24 h-1 bg-secondary-fixed-dim mx-auto mt-4"></div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">psychology</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">سيكولوجية المريض</h4>
+        <p class="text-sm text-on-surface-variant">فهم طريقة تفكير المرضى وما الذي يدفعهم للحجز والثقة.</p>
+      </div>
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">location_on</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">خبرة بالسوق السعودي</h4>
+        <p class="text-sm text-on-surface-variant">معرفة المنافسة وسلوك المرضى وكيف تبني حضوراً طبياً قوياً.</p>
+      </div>
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">analytics</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">قرارات مبنية على البيانات</h4>
+        <p class="text-sm text-on-surface-variant">تحليل شامل لكل حملة تسويقية لضمان أعلى عائد استثماري للعيادات.</p>
+      </div>
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">health_and_safety</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">الالتزام بأخلاقيات المهنة</h4>
+        <p class="text-sm text-on-surface-variant">المحافظة التامة على المعايير وأخلاقيات التسويق الطبي المعتمدة بالمملكة.</p>
+      </div>
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">tune</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">استراتيجيات مخصصة</h4>
+        <p class="text-sm text-on-surface-variant">خطط واستراتيجيات فريدة ومفصلة خصيصاً لكل تخصص طبي.</p>
+      </div>
+      <div class="p-8 bg-surface-container rounded-xl border border-glass-border">
+        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-4">verified</span>
+        <h4 class="font-bold text-on-surface text-lg mb-2">تخصص طبي حصري</h4>
+        <p class="text-sm text-on-surface-variant">التركيز 100% على الرعاية الصحية والطبية دون تشتت في قطاعات أخرى.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Target Audience -->
+<section class="py-section-padding px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-right">
+  <div class="text-center mb-16">
+    <h2 class="font-headline-xl text-headline-xl mb-4 text-on-surface">عملاؤنا المستهدفون</h2>
+    <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">نصمم خدماتنا خصيصاً لتناسب احتياجات مختلف مقدمي الرعاية الصحية:</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="glass-card p-8 rounded-xl border border-glass-border text-center hover:border-secondary-fixed-dim transition-all">
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-4">person</span>
+      <h3 class="font-bold text-lg text-on-surface">الأطباء</h3>
+      <p class="text-sm text-on-surface-variant mt-2">بناء البراند الشخصي والسمعة الطبية.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl border border-glass-border text-center hover:border-secondary-fixed-dim transition-all">
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-4">local_hospital</span>
+      <h3 class="font-bold text-lg text-on-surface">المراكز الطبية</h3>
+      <p class="text-sm text-on-surface-variant mt-2">تسويق متكامل لجميع التخصصات.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl border border-glass-border text-center hover:border-secondary-fixed-dim transition-all">
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-4">domain</span>
+      <h3 class="font-bold text-lg text-on-surface">المستشفيات</h3>
+      <p class="text-sm text-on-surface-variant mt-2">إدارة الحضور الرقمي المؤسسي وجذب المرضى.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl border border-glass-border text-center hover:border-secondary-fixed-dim transition-all">
+      <span class="material-symbols-outlined text-secondary-fixed-dim text-5xl mb-4">medical_services</span>
+      <h3 class="font-bold text-lg text-on-surface">العيادات التخصصية</h3>
+      <p class="text-sm text-on-surface-variant mt-2">تجميل – أسنان – تغذية – جراحة – جلدية وغيرها.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="py-section-padding px-margin-mobile md:px-margin-desktop bg-surface-container-low text-right">
+  <div class="max-w-container-max mx-auto">
+    <div class="mb-16 text-center">
+      <h2 class="font-headline-xl text-headline-xl mb-4">فريق العمل</h2>
+      <p class="font-body-lg text-on-surface-variant">مبدعون ومختصون يجمعهم هدف واحد: نمو علامتكم الطبية.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="group relative glass-card p-6 rounded-xl border border-glass-border flex flex-col items-center text-center">
+        <div class="w-32 h-32 rounded-full overflow-hidden mb-6 bg-surface-container-high flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary-fixed-dim text-[60px]">person</span>
+        </div>
+        <h3 class="font-bold text-xl mb-1 text-on-surface">مستشار تسويق رقمي</h3>
+        <p class="text-sm text-secondary-fixed-dim font-bold">عضو فريق عمل</p>
+      </div>
+      <div class="group relative glass-card p-6 rounded-xl border border-glass-border flex flex-col items-center text-center">
+        <div class="w-32 h-32 rounded-full overflow-hidden mb-6 bg-surface-container-high flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary-fixed-dim text-[60px]">person</span>
+        </div>
+        <h3 class="font-bold text-xl mb-1 text-on-surface">مطور ويب وتجربة المريض</h3>
+        <p class="text-sm text-secondary-fixed-dim font-bold">عضو فريق عمل</p>
+      </div>
+      <div class="group relative glass-card p-6 rounded-xl border border-glass-border flex flex-col items-center text-center">
+        <div class="w-32 h-32 rounded-full overflow-hidden mb-6 bg-surface-container-high flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary-fixed-dim text-[60px]">person</span>
+        </div>
+        <h3 class="font-bold text-xl mb-1 text-on-surface">صانع محتوى طبي</h3>
+        <p class="text-sm text-secondary-fixed-dim font-bold">عضو فريق عمل</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-section-padding px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+  <div class="max-w-4xl mx-auto glass-card p-16 rounded-3xl text-center border-secondary-fixed-dim/20 shadow-2xl relative z-10">
+    <h2 class="font-display-lg text-[32px] md:text-[48px] mb-8 text-on-surface">انضم إلى قائمة شركاء النجاح في القطاع الصحي</h2>
+    <p class="font-body-lg text-on-surface-variant mb-12">اتخذ الخطوة الأولى نحو بناء حضور رقمي قوي لعيادتك أو مركزك الطبي اليوم.</p>
+    <div class="flex flex-col sm:flex-row gap-gutter justify-center">
+      <a href="contact" class="bg-secondary-fixed-dim text-on-primary-fixed px-12 py-5 rounded-lg font-label-caps text-label-caps hover:scale-[1.05] transition-all text-lg font-bold">احجز جلسة استشارية مجانية</a>
+      <a href="services" class="glass-card text-on-surface px-12 py-5 rounded-lg font-label-caps text-label-caps hover:bg-surface-variant transition-all text-lg">خدماتنا الطبية</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-deep-navy-surface border-t border-glass-border">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto py-section-padding px-margin-desktop text-right">
+    <div>
+      <div class="font-headline-lg text-headline-lg text-primary mb-6">ديجيتال هيلث</div>
+      <p class="font-body-md text-on-surface-variant">تمكين مقدمي الرعاية الصحية في المملكة العربية السعودية من النمو والتميز الرقمي.</p>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">استكشف</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="about">من نحن</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="services">خدماتنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="portfolio">أعمالنا</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">قانوني</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">سياسة الخصوصية</a></li>
+        <li><a class="hover:text-secondary-fixed-dim transition-all" href="#">الشروط والأحكام</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-6">تواصل معنا</h4>
+      <ul class="space-y-4 font-body-md text-on-surface-variant">
+        <li><span class="text-on-surface-variant">الأمير عبدالعزيز بن مساعد بن جلوي – المربع – الرياض</span></li>
+        <li dir="ltr"><span class="text-secondary-fixed-dim">+966 054 165 9332</span></li>
+        <li><span class="text-secondary-fixed-dim">Info@DigitalHealth-sa.com</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-glass-border/30 text-center text-on-surface-variant font-body-md">© 2025 ديجيتال هيلث. جميع الحقوق محفوظة</div>
+</footer>
+<script src="nav.js"></script>
+</body>
+</html>

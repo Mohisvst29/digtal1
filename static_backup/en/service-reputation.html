@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Reputation Management | Digital Health Agency</title>
+<meta name="description" content="Protect, monitor, and enhance your clinical reputation online. Automate patient feedback collection and build unwavering digital trust."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.glass-card{background:rgba(10,25,47,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12)}
+body{background-color:#011230;color:#d8e2ff;font-family:'Plus Jakarta Sans', sans-serif;}
+h1, h2, h3, h4, h5, h6, .font-headline-lg, .font-headline-xl, .font-display-lg { font-family: 'Outfit', sans-serif; }
+</style>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#00daf3","surface-container-high":"#192a48","surface-container":"#0e1f3d","surface":"#011230","glass-border":"rgba(255,255,255,0.12)","on-secondary-fixed":"#001f24","primary":"#b9c7e4","on-surface-variant":"#c5c6cd","on-surface":"#d8e2ff","glass-bg":"rgba(10,25,47,0.7)"},spacing:{"margin-desktop":"64px","gutter":"24px","section-padding":"120px","container-max":"1280px","margin-mobile":"16px"},fontFamily:{"display-lg":["Outfit"],"label-caps":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Outfit"],"headline-xl":["Outfit"],"body-md":["Plus Jakarta Sans"]},fontSize:{"display-lg":["64px",{lineHeight:"72px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-caps":["14px",{lineHeight:"20px",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",fontWeight:"600"}],"headline-xl":["48px",{lineHeight:"56px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}}
+</script>
+</head>
+<body class="font-body-md bg-background text-on-background">
+<!-- Navigation -->
+<header class="fixed top-0 w-full z-50 bg-glass-bg backdrop-blur-[20px] border-b border-glass-border shadow-sm h-20">
+<nav class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop h-full">
+  <div class="font-headline-lg text-headline-lg text-primary flex items-center gap-2"><span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings:'FILL' 1">health_metrics</span>Digital Health</div>
+  <div class="hidden md:flex items-center gap-8">
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="./">Home</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="about">About Us</a>
+    <a class="font-label-caps text-label-caps text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim pb-1" href="services">Services</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="portfolio">Our Work</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="blog">Blog</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="faq">FAQ</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim" href="contact">Contact Us</a>
+  </div>
+  <div class="flex items-center gap-4">
+    <button id="mobile-menu-btn" class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <a href="contact" class="bg-secondary-fixed-dim text-on-secondary font-label-caps text-label-caps px-6 py-3 rounded-lg hidden md:block">Book Free Consultation</a>
+  </div>
+</nav>
+</header>
+
+<main class="pt-32 pb-section-padding text-left">
+<!-- Hero -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-20 relative">
+  <div class="absolute top-0 right-10 w-96 h-96 bg-secondary-fixed-dim/10 rounded-full blur-[100px] pointer-events-none"></div>
+  <a href="services" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-secondary-fixed-dim mb-8 font-label-caps text-xs"><span class="material-symbols-outlined text-sm">arrow_back</span> Back to Services</a>
+  <div class="flex items-center gap-6 mb-8">
+    <div class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center border border-secondary-fixed-dim/30"><span class="material-symbols-outlined text-secondary-fixed-dim text-4xl">star_half</span></div>
+    <span class="font-label-caps text-label-caps tracking-widest text-secondary-fixed-dim">Trust & Professional Standing</span>
+  </div>
+  <h1 class="font-display-lg text-[48px] md:text-display-lg mb-8 max-w-4xl leading-tight">Clinical Reputation Management</h1>
+  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12">Protect and elevate your clinical authority online. We automate positive patient feedback collection and analyze reviews to establish unwavering digital trust.</p>
+  <a href="contact" class="bg-secondary-fixed-dim text-on-secondary px-10 py-5 rounded-lg font-label-caps hover:scale-105 inline-block shadow-lg font-bold">Enhance Your Clinic Reviews Now</a>
+</section>
+
+<!-- Content Grid -->
+<section class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+  <div class="glass-card p-10 rounded-xl">
+    <h3 class="font-headline-lg text-headline-lg mb-6 text-on-surface text-2xl">Why Your Digital Reputation Matters</h3>
+    <p class="text-on-surface-variant font-body-md mb-6 leading-relaxed">Over 90% of patients consult Google Business reviews and medical platforms before choosing a specialist or booking a clinical visit. An impeccable digital reputation is the single most deciding factor for modern healthcare consumers.</p>
+    <ul class="space-y-4 text-on-surface-variant">
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-secondary-fixed-dim">verified</span><div><strong>Instant Credibility:</strong> Real, positive clinical reviews provide patients with complete reassurance and peace of mind.</div></li>
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-secondary-fixed-dim">verified</span><div><strong>Mitigate Negative Feedback:</strong> Automated survey routing systems resolve patient friction points internally before reviews go public.</div></li>
+    </ul>
+  </div>
+  <div class="glass-card p-10 rounded-xl">
+    <h3 class="font-headline-lg text-headline-lg mb-6 text-on-surface text-2xl">Reputation Management Pillars</h3>
+    <ul class="space-y-6 text-on-surface-variant">
+      <li class="border-b border-glass-border pb-4">
+        <h4 class="text-secondary-fixed-dim font-bold mb-2 text-lg">Automated Feedback Loops</h4>
+        <p class="text-sm">Deploying automated, patient-friendly SMS and WhatsApp surveys right after clinical visits to capture glowing reviews.</p>
+      </li>
+      <li class="border-b border-glass-border pb-4">
+        <h4 class="text-secondary-fixed-dim font-bold mb-2 text-lg">Google Map Reviews Monitoring</h4>
+        <p class="text-sm">Real-time monitoring and professional, MOH-compliant responses to all patient reviews and inquiries.</p>
+      </li>
+      <li class="pb-4">
+        <h4 class="text-secondary-fixed-dim font-bold mb-2 text-lg">Video Patient Testimonial Production</h4>
+        <p class="text-sm">Professionally filming and producing authentic success stories with satisfied patients to showcase on your website and social channels.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+</main>
+<script src="../nav.js"></script>
+</body>
+</html>

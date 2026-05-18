@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Digital Health Agency | Premium Medical Marketing Agency in Riyadh</title>
+<meta name="description" content="Specialized medical digital marketing agency in Riyadh. We help doctors, clinics, and hospitals attract more patients and maximize bookings through tailored medical strategies."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(10, 25, 47, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .medical-cyan-glow:hover {
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .animate-float-slow {
+            animation: float 5s ease-in-out infinite;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline-lg, .font-headline-xl, .font-display-lg {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "surface-container-lowest": "#000d27",
+                "secondary-fixed-dim": "#00daf3",
+                "error-container": "#93000a",
+                "primary-fixed": "#d6e3ff",
+                "tertiary-fixed": "#e0e3e5",
+                "on-tertiary-fixed-variant": "#444749",
+                "tertiary-fixed-dim": "#c4c7c9",
+                "surface-container-high": "#192a48",
+                "surface-container": "#0e1f3d",
+                "surface": "#011230",
+                "surface-variant": "#253453",
+                "on-error": "#690005",
+                "surface-container-low": "#091b39",
+                "medical-cyan-glow": "rgba(0, 229, 255, 0.3)",
+                "on-error-container": "#ffdad6",
+                "on-primary-container": "#74829d",
+                "secondary-container": "#00e3fd",
+                "glass-border": "rgba(255, 255, 255, 0.12)",
+                "surface-dim": "#011230",
+                "background": "#011230",
+                "inverse-on-surface": "#20304f",
+                "on-secondary": "#00363d",
+                "inverse-surface": "#d8e2ff",
+                "on-primary": "#233148",
+                "surface-container-highest": "#253453",
+                "on-primary-fixed-variant": "#39475f",
+                "on-background": "#d8e2ff",
+                "primary-fixed-dim": "#b9c7e4",
+                "on-secondary-container": "#00616d",
+                "error": "#ffb4ab",
+                "on-secondary-fixed": "#001f24",
+                "on-secondary-fixed-variant": "#004f58",
+                "deep-navy-surface": "#020C1B",
+                "inverse-primary": "#515f78",
+                "tertiary-container": "#16191b",
+                "on-tertiary-container": "#7f8284",
+                "primary": "#b9c7e4",
+                "on-primary-fixed": "#0d1c32",
+                "on-tertiary": "#2d3133",
+                "surface-bright": "#293958",
+                "surface-tint": "#b9c7e4",
+                "glass-bg": "rgba(10, 25, 47, 0.7)",
+                "primary-container": "#0a192f",
+                "on-surface-variant": "#c5c6cd",
+                "on-tertiary-fixed": "#191c1e",
+                "on-surface": "#d8e2ff",
+                "outline-variant": "#44474d",
+                "tertiary": "#c4c7c9",
+                "secondary-fixed": "#9cf0ff",
+                "secondary": "#bdf4ff",
+                "outline": "#8f9097"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-desktop": "64px",
+                "gutter": "24px",
+                "stack-md": "24px",
+                "stack-sm": "8px",
+                "section-padding": "120px",
+                "container-max": "1280px",
+                "margin-mobile": "16px",
+                "stack-lg": "48px"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary-fixed-dim selection:text-on-secondary-fixed antialiased overflow-x-hidden">
+<!-- TopNavBar Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-glass-bg backdrop-blur-[20px] border-b border-glass-border shadow-sm">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-desktop h-20">
+<div class="font-headline-lg text-headline-lg text-primary">Digital Health</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim pb-1" href="./">Home</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="about">About Us</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="services">Services</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="portfolio">Our Work</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="blog">Blog</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="faq">FAQ</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors duration-200" href="contact">Contact Us</a>
+</nav>
+<div class="flex items-center gap-6">
+<button id="mobile-menu-btn" class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+<a href="contact" class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-lg font-label-caps text-label-caps scale-102 hover:scale-[1.02] transition-transform duration-200 ease-out shadow-lg hidden md:block text-center">Book Free Consultation</a>
+</div>
+</div>
+<div id="mobile-menu" class="hidden md:hidden bg-glass-bg backdrop-blur-xl border-t border-glass-border px-6 py-4 flex flex-col gap-4">
+  <a class="font-label-caps text-label-caps text-secondary-fixed-dim" href="./">Home</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="about">About Us</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="services">Services</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="portfolio">Our Work</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="blog">Blog</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="faq">FAQ</a>
+  <a class="font-label-caps text-label-caps text-on-surface-variant" href="contact">Contact Us</a>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-secondary-fixed-dim opacity-[0.03] blur-[120px] rounded-full"></div>
+<div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary opacity-[0.03] blur-[120px] rounded-full"></div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-7 z-10 text-left">
+<span class="inline-block font-label-caps text-label-caps text-secondary-fixed-dim tracking-widest mb-4 uppercase">Riyadh's Premier Healthcare Agency</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6 leading-tight">
+    Healthcare Digital Marketing Agency in <span class="text-secondary-fixed-dim">Riyadh</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl">
+    We help doctors, clinics, and hospitals attract more patients and turn trust into real bookings through specialized medical marketing strategies.
+</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-start">
+<a href="contact" class="bg-secondary-fixed-dim text-on-secondary-fixed px-10 py-5 rounded-lg font-label-caps text-label-caps font-bold hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,218,243,0.3)] text-center">
+    Start Growing Now
+</a>
+<a href="portfolio" class="border border-glass-border bg-glass-bg text-on-surface px-10 py-5 rounded-lg font-label-caps text-label-caps hover:bg-surface-variant transition-all duration-300 backdrop-blur-md text-center">
+    View Case Studies
+</a>
+</div>
+</div>
+<!-- Floating UI Elements -->
+<div class="md:col-span-5 relative hidden md:block">
+<div class="relative w-full h-[600px]">
+<!-- Analytics Card -->
+<div class="absolute top-0 left-0 w-64 p-6 glass-card rounded-xl animate-float-slow">
+<div class="flex justify-between items-center mb-4">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="analytics">analytics</span>
+<span class="text-xs font-label-caps text-on-surface-variant">Real-time</span>
+</div>
+<div class="h-32 flex items-end gap-2">
+<div class="w-1/4 bg-secondary-fixed-dim/20 h-1/2 rounded-t-sm"></div>
+<div class="w-1/4 bg-secondary-fixed-dim/40 h-3/4 rounded-t-sm"></div>
+<div class="w-1/4 bg-secondary-fixed-dim/60 h-full rounded-t-sm"></div>
+<div class="w-1/4 bg-secondary-fixed-dim h-2/3 rounded-t-sm"></div>
+</div>
+<p class="mt-4 font-label-caps text-label-caps text-on-surface text-center">+142% Patient ROI</p>
+</div>
+<!-- SEO Chart Card -->
+<div class="absolute top-1/3 -right-12 w-72 p-6 glass-card rounded-xl shadow-2xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="search_insights">search_insights</span>
+</div>
+<div>
+<h4 class="text-xs font-bold text-on-surface">SEO Visibility</h4>
+<p class="text-[10px] text-on-surface-variant">Top 3 Rankings in Riyadh</p>
+</div>
+</div>
+<img class="w-full h-24 object-cover rounded-lg opacity-80" data-alt="A sophisticated data visualization dashboard showing upward trending medical analytics and search engine optimization metrics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmFng-sR2Cb9WKxhidL_6IjOuhN_76Vpt9ngGgX7gS1obWoJvWg6Yh-J1JI3z0r7-P-wizFP2jrxYqsSdCR9N-dX97TaFR8hMQwkvPJHk4YsiNn70hLFINhSMq8Ib9h7xtXxVUpCrqQ1cqwbbnf8WkcvUbHu7aeI5sKoVLjLxiHFoszDuwKEYfDIgko4EUOZasiHqOLOL1h43ckOfvIZtxGWW7R0fouVMue0frk8m3gN3zSD9uT1HEH8CT7QGt5SFQ2s3qekw-Rhg"/>
+</div>
+<!-- Medical Data Card -->
+<div class="absolute bottom-10 left-4 w-56 p-4 glass-card rounded-xl border-secondary-fixed-dim/30">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-label-caps text-secondary-fixed-dim">Patient Bookings</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+<div class="space-y-3">
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full w-4/5 bg-secondary-fixed-dim"></div>
+</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trusted Partners Marquee -->
+<section class="py-12 border-y border-glass-border bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
+<p class="text-center font-label-caps text-label-caps text-on-surface-variant mb-8">Official Platform Partners</p>
+<div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale">
+<img class="h-8 md:h-10 w-auto object-contain" data-alt="Google logo monochrome style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlbVgW_xpY3cohX3dl1q_6RC-7AzPyJ-JXwIDteW7v_o1ZlAFS0ofPCk7QXHs6OdVU2STNZewnCi77p6Fo-Q0suf-2_chEi-rjlc8S2PvGnwnp-b3_YyCK0JAUF-TyYFSsD4VxTC0VjBiMa-TdLhuZv_S0dNZ65dDq5XMlBzkRaqY7IawAGkqQ9_MUj0l8VN1c6oIffUn1b9lb4DTyZfLdkAuXOK8Ej9AR_1S4pbvIjohVidsQgutAF8spB2D0cgiD623M4Rx-ZnE"/>
+<img class="h-8 md:h-10 w-auto object-contain" data-alt="Meta logo monochrome" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJwtR-wmkFMLiI0rGD41Ntx4AHKWlXprunhs3nrvXypHsfxG4xjeBy_0FU7C4c5qBvUM_KMsAHy5CZWnuoekHhtWycdvERoYEEgt_xTNOJeepg1sERj3eNp2XjkMkI837vzu84nYsBOdYkdd88tHIuk63F7ghboyoWQXAFgdO0reUlfwzmPe0-C2ys3k0FazUkhrzp0u4VYmjVIkXMCgZa7p4uBDeaKwdwO_c87EYPBGqUvZv6Vh-v8DQygrJJl2YXVvW6MtxYWWo"/>
+<img class="h-8 md:h-10 w-auto object-contain" data-alt="TikTok logo monochrome" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdImiciZy_NHTCOBnpK4fg5eys78G1yKBT_N5PyBq31yBDUsTHz4KpXbF02XHYnPnYN0L-pPq_7wLoumZdFyhoLzXNgu6xG9cEzW5X39UKiEMbbP8U7l6HgY0siJZeTPGwoDsEFJkFriTDrPTWNVzTzpgkMz6GzmxosGVtdBCbu74ElbFCZqIB9NF9lUZhj_xhjyXTvStQt1yxLKs_-uIEMM1CKfpA-CIWy9nBu90YJI1rjvALGVAHiUJpHMq_aaUNdUMPrNVoPMI"/>
+<img class="h-8 md:h-10 w-auto object-contain" data-alt="LinkedIn logo monochrome" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR5ICDxkqXSnVETcMp2gfEz3b34aKckSB-e4Qzi8Ela-Jzd38tczWlzjgiMdCDai-fUlyTVd8vdULz5oxZc56DOjwxsmEIUkymjWOYIE7imGYQ7xx8mgMfV_wp4speC78jWrwZwE4f4dDXS4F1R8UwCgF_Rj8gkAiEqP8i7rHF1fA3NLkG6K13ILnLWEBV2_z0LMeWGKvDG3T3eIXX13MAHLc-mcfDpSAQ2luazPdwneS7nSp3ssLAcjtkRaiPwewWcFtyEpwOPEk"/>
+</div>
+</div>
+</section>
+<!-- Service Cards -->
+<section class="py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-xl text-on-surface mb-4">Precision Medical Marketing</h2>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">Scalable growth solutions designed exclusively for the healthcare ecosystem.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter text-left">
+<!-- Identity -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="medical_information">medical_information</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Medical Identity</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Crafting a premium brand that balances clinical authority with modern patient approachability.</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-identity">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Social -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="share_reviews">share_reviews</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Social Strategy</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Building patient communities and authority through educational, high-retention content.</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-social">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- SEO -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow border-secondary-fixed-dim/20">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="travel_explore">travel_explore</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Healthcare SEO</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Dominating Riyadh search results for high-intent keywords like "best surgeon" or "top clinic".</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-seo">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Ads -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="ads_click">ads_click</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Targeted Ads</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Precision PPC and Meta campaigns that lower patient acquisition costs and maximize clinic fill-rates.</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-ppc">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Reputation -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="verified">verified</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Reputation Hub</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Automated patient review collection and management to build unbreakable digital trust.</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-reputation">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Web -->
+<div class="glass-card p-10 rounded-xl group hover:-translate-y-2 transition-all duration-300 medical-cyan-glow">
+<div class="w-14 h-14 bg-surface-variant rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary-fixed-dim transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim group-hover:text-on-secondary-fixed" data-icon="web">web</span>
+</div>
+<h3 class="font-headline-lg text-on-surface mb-4">Luxury Medical Web</h3>
+<p class="font-body-md text-on-surface-variant mb-6">High-performance, HIPAA-ready websites optimized for speed, booking, and user experience.</p>
+<a class="inline-flex items-center text-secondary-fixed-dim font-label-caps text-label-caps group-hover:gap-2 transition-all" href="service-web">Learn More <span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-section-padding bg-surface-container-low overflow-hidden relative">
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<div class="absolute top-0 left-0 w-[500px] h-[500px] bg-secondary-fixed-dim/20 blur-[100px] rounded-full"></div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+<div class="relative order-2 md:order-1">
+<img class="rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full aspect-square object-cover" data-alt="A professional medical environment showing a high-end consultation room in Riyadh." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJWJR6mIZkq1DpnodfrC6AjqGkGjhx1M8sSYu9Ud8p9Y5AHfTRU2hSrJn69p6tceB-BNYpQdRfwauY0aTW1wcWs1Ptiu8tblTNqhwAlav8SDa0LRrNaCZSzw-gcuF6lYxjGaQq4VzsWz2mWxK9WgyLtw92pv2dhi1Y04BYJkmgFl71_j3PDwq2S6JXDfX-FzoybQ9VbEkwjpYVnr57cvsE0RTmFUSweokmfj1ZMEs1kZdn6BayyzvtC1ENCkBdv5tJC6KDmxISs_A"/>
+<div class="absolute -bottom-10 -left-10 glass-card p-8 rounded-2xl hidden lg:block">
+<div class="text-secondary-fixed-dim text-4xl font-bold mb-1">12+</div>
+<div class="text-on-surface font-label-caps text-label-caps text-sm font-semibold uppercase">12+ Years Specialized</div>
+</div>
+</div>
+<div class="order-1 md:order-2 text-left">
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim mb-4 block uppercase tracking-wider">The Digital Health Advantage</span>
+<h2 class="font-headline-xl text-on-surface mb-8 leading-tight">We speak 'Medicine' and 'Marketing' fluently.</h2>
+<div class="space-y-8">
+<div class="flex gap-6 justify-start">
+<div class="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="biotech">biotech</span>
+</div>
+<div>
+<h4 class="font-headline-lg text-on-surface mb-2">Scientific Data-Driven</h4>
+<p class="font-body-md text-on-surface-variant">We don't guess. We use predictive analytics to identify which patient segments will yield the highest lifetime value for your clinic.</p>
+</div>
+</div>
+<div class="flex gap-6 justify-start">
+<div class="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="gavel">gavel</span>
+</div>
+<div>
+<h4 class="font-headline-lg text-on-surface mb-2">Healthcare Compliance</h4>
+<p class="font-body-md text-on-surface-variant">Every campaign we run is fully compliant with Saudi medical regulations and international patient privacy standards.</p>
+</div>
+</div>
+<div class="flex gap-6 justify-start">
+<div class="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="award_star">award_star</span>
+</div>
+<div>
+<h4 class="font-headline-lg text-on-surface mb-2">Exclusively Medical</h4>
+<p class="font-body-md text-on-surface-variant">Unlike general agencies, we focus 100% on the healthcare vertical, meaning our benchmarks and strategies are industry-specific.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How We Work - Timeline -->
+<section class="py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-xl text-on-surface mb-4">Our Methodology</h2>
+<p class="font-body-lg text-on-surface-variant">A clinical approach to digital growth.</p>
+</div>
+<div class="relative pt-12">
+<!-- Timeline Track -->
+<div class="absolute top-12 left-0 w-full h-[2px] bg-glass-border hidden md:block">
+<div class="absolute top-0 left-0 w-1/3 h-full bg-secondary-fixed-dim shadow-[0_0_10px_rgba(0,218,243,0.8)]"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter relative text-left">
+<!-- Step 1 -->
+<div class="relative group">
+<div class="hidden md:block absolute -top-4 right-0 w-8 h-8 rounded-full bg-secondary-fixed-dim border-4 border-background z-10"></div>
+<div class="pt-8 md:pt-16">
+<span class="text-secondary-fixed-dim font-bold text-4xl mb-4 block">01</span>
+<h4 class="font-headline-lg text-on-surface mb-4">Diagnosis</h4>
+<p class="font-body-md text-on-surface-variant">Deep audit of your current digital footprint, competitor analysis, and patient path mapping.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative group">
+<div class="hidden md:block absolute -top-4 right-0 w-8 h-8 rounded-full bg-surface-variant border-4 border-background z-10 group-hover:bg-secondary-fixed-dim transition-colors"></div>
+<div class="pt-8 md:pt-16">
+<span class="text-on-surface-variant font-bold text-4xl mb-4 block group-hover:text-secondary-fixed-dim transition-colors">02</span>
+<h4 class="font-headline-lg text-on-surface mb-4">Treatment Plan</h4>
+<p class="font-body-md text-on-surface-variant">Developing a customized 12-month strategy focused on high-intent lead generation.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative group">
+<div class="hidden md:block absolute -top-4 right-0 w-8 h-8 rounded-full bg-surface-variant border-4 border-background z-10 group-hover:bg-secondary-fixed-dim transition-colors"></div>
+<div class="pt-8 md:pt-16">
+<span class="text-on-surface-variant font-bold text-4xl mb-4 block group-hover:text-secondary-fixed-dim transition-colors">03</span>
+<h4 class="font-headline-lg text-on-surface mb-4">Execution</h4>
+<p class="font-body-md text-on-surface-variant">Daily optimization of ads, SEO, and content by our specialized medical marketing team.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative group">
+<div class="hidden md:block absolute -top-4 right-0 w-8 h-8 rounded-full bg-surface-variant border-4 border-background z-10 group-hover:bg-secondary-fixed-dim transition-colors"></div>
+<div class="pt-8 md:pt-16">
+<span class="text-on-surface-variant font-bold text-4xl mb-4 block group-hover:text-secondary-fixed-dim transition-colors">04</span>
+<h4 class="font-headline-lg text-on-surface mb-4">Recovery & Scale</h4>
+<p class="font-body-md text-on-surface-variant">Real-time reporting and continuous scaling of successful channels for maximum ROI.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-24 bg-surface-container-highest">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter text-center">
+<div>
+<div class="text-5xl md:text-6xl font-extrabold text-secondary-fixed-dim mb-2 counter">250</div>
+<p class="font-label-caps text-label-caps text-on-surface uppercase text-sm">Avg. ROI Increase %</p>
+</div>
+<div>
+<div class="text-5xl md:text-6xl font-extrabold text-secondary-fixed-dim mb-2 counter">15</div>
+<p class="font-label-caps text-label-caps text-on-surface uppercase text-sm">Thousand+ Monthly Leads</p>
+</div>
+<div>
+<div class="text-5xl md:text-6xl font-extrabold text-secondary-fixed-dim mb-2 counter">85</div>
+<p class="font-label-caps text-label-caps text-on-surface uppercase text-sm">Riyadh Clinics Trust Us</p>
+</div>
+<div>
+<div class="text-5xl md:text-6xl font-extrabold text-secondary-fixed-dim mb-2 counter">12</div>
+<p class="font-label-caps text-label-caps text-on-surface uppercase text-sm">Dominance</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-section-padding bg-background relative text-left">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-xl">
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim mb-4 block uppercase tracking-wider">Clinical Testimonials</span>
+<h2 class="font-headline-xl text-on-surface">Trusted by the region's top medical practitioners.</h2>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 rounded-full border border-glass-border flex items-center justify-center text-on-surface-variant hover:border-secondary-fixed-dim hover:text-secondary-fixed-dim transition-all">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-glass-border flex items-center justify-center text-on-surface-variant hover:border-secondary-fixed-dim hover:text-secondary-fixed-dim transition-all">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter overflow-x-auto no-scrollbar pb-8">
+<!-- Testimonial 1 -->
+<div class="glass-card p-10 rounded-2xl min-w-[320px]">
+<div class="flex text-secondary-fixed-dim mb-6 justify-start">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-on-surface italic mb-10">"The Digital Health team transformed our clinic's digital presence in Riyadh. We saw a 40% increase in patient bookings within the first 3 months of SEO and Ads."</p>
+<div class="flex items-center gap-4 justify-start">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of Dr. Ahmed Al-Saud" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWkwRpijmM47KVJRQ2uInOM_wWMbvGJX04Tm55KsqFghZWH6l9kKL02-Cl49q7S_umEoSNDHEGuhwhOOsIuS6Pk1hc2OCTfb9etcqKWSQx7SUBWLDKIaJ3fQWu9GwhTTKSpI0Gl-Ap4UfP47W8GBh8bw1yJUGaw_qTYRtgN4svyxrekwTaB0CfNiiS57lJDcBNac-HsmHgS1KZ8faOp4kqtAStjDMVeSZNwnTw_exeg8UnkwS-VJA1rIMiRS_Iyqw3zThe6k-tZM"/>
+<div>
+<h5 class="text-on-surface font-bold">Dr. Ahmed Al-Saud</h5>
+<p class="text-on-surface-variant text-xs">Medical Director, Elite Dental Riyadh</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="glass-card p-10 rounded-2xl min-w-[320px] border-secondary-fixed-dim/30">
+<div class="flex text-secondary-fixed-dim mb-6 justify-start">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-on-surface italic mb-10">"Specialization matters. Digital Health understands the nuances of healthcare marketing that other agencies simply miss. Their data-driven approach is refreshing."</p>
+<div class="flex items-center gap-4 justify-start">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of Dr. Sarah Mansour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBo2OZQPWLEaeghDkU4W34DxhrWHL5JDBVe1CMu5bNgNV7kNEAKUvqnN1F7021BqaF5v-_PwDilSgc8qx04QrycaOCI-krGUPVS0IrU5LJL4HNSKVBaQrmnHtdjyrhPBckFKZln8wlYujBS93XV4NeA5i58BHYR7VIrBLdnuKfPsYEvmciaty87V_EQhbyUsaS40iRnTV8FK1xB0w8jqIT8zW6tnK7pOIwKIlVHa2bLH1eqaODRMAEZ_px8qK1BYRKLUIZw2lL7JE"/>
+<div>
+<h5 class="text-on-surface font-bold">Dr. Sarah Mansour</h5>
+<p class="text-on-surface-variant text-xs">Founder, Radiance Dermatology</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="glass-card p-10 rounded-2xl min-w-[320px]">
+<div class="flex text-secondary-fixed-dim mb-6 justify-start">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-on-surface italic mb-10">"Finally, an agency that doesn't just promise traffic, but delivers real patients. Their lead tracking and transparency are world-class."</p>
+<div class="flex items-center gap-4 justify-start">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of Faisal bin Khalid" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXQkbWLGY25kuB-Xpv65yxhYNPkGC0MCW_T3YE-6ua5ho6sMHJ3DKIVq4HqefY1FaFw7jzr5ZJNhXTQbMauIm2W61WFHydcQZrK6G5Oud9EWw1NmFrwmOET0BW7-E0b7p7kJ-TiHhDCYWO6kIetnSf4qUqpuPLFBaJJk2aEeS0iflmD1qlKtynQdNlEO_NXie8IUz4L0gh804M7U4WWiHRb3D4VfR7R7fKLM9CVAOoU2XFdU8v6P6NpzxmDRkkPZg02M1IqB3BCz8"/>
+<div>
+<h5 class="text-on-surface font-bold">Faisal bin Khalid</h5>
+<p class="text-on-surface-variant text-xs">CEO, City Health Medical Group</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-padding px-margin-mobile">
+<div class="max-w-container-max mx-auto">
+<div class="relative bg-surface-container rounded-[2rem] overflow-hidden p-12 md:p-24 text-center border border-glass-border">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-fixed-dim/10 to-transparent"></div>
+<div class="relative z-10">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-8">Ready to double your clinic's growth?</h2>
+<p class="font-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto">Book a free 30-minute consultation where we audit your current digital footprint and provide a customized growth roadmap.</p>
+<a href="contact" class="inline-block bg-secondary-fixed-dim text-on-secondary-fixed px-12 py-6 rounded-xl font-headline-lg hover:scale-105 transition-all duration-300 shadow-2xl text-center font-bold">
+    Claim My Free Audit
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="relative w-full bg-deep-navy-surface border-t border-glass-border">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto py-section-padding px-margin-desktop text-left">
+<div class="md:col-span-1">
+<div class="font-headline-lg text-headline-lg text-primary mb-6">Digital Health</div>
+<p class="font-body-md text-on-surface-variant mb-8">Riyadh's Premier Healthcare Marketing Partner.</p>
+<div class="flex gap-4 justify-start">
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-all" href="#">Facebook</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-all" href="#">LinkedIn</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-all" href="#">Instagram</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-all" href="#">Twitter</a>
+</div>
+</div>
+<div>
+<h6 class="font-label-caps text-label-caps text-on-surface mb-6 uppercase tracking-wider text-xs">Services</h6>
+<ul class="space-y-4 font-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="service-identity">Medical Identity</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="service-seo">SEO Medical</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="service-ppc">Targeted Ads</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="service-web">Web & App Design</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-caps text-label-caps text-on-surface mb-6 uppercase tracking-wider text-xs">Company</h6>
+<ul class="space-y-4 font-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="about">About Us</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="portfolio">Our Work</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="blog">Blog</a></li>
+<li><a class="hover:text-secondary-fixed-dim transition-all" href="contact">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-caps text-label-caps text-on-surface mb-6 uppercase tracking-wider text-xs">Riyadh Headquarters</h6>
+<p class="font-body-md text-on-surface-variant mb-4">King Fahad Rd, Al Olaya, Riyadh 12211, Saudi Arabia</p>
+<p class="font-body-md text-secondary-fixed-dim" dir="ltr">+966 054 165 9332</p>
+<p class="font-body-md text-secondary-fixed-dim">Info@DigitalHealth-sa.com</p>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-glass-border flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2025 Digital Health Agency. All rights reserved.</p>
+<div class="flex gap-8 font-body-md text-on-surface-variant">
+<a class="hover:text-secondary-fixed-dim transition-all" href="#">Terms & Conditions</a>
+<a class="hover:text-secondary-fixed-dim transition-all" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+<script src="../nav.js"></script>
+</body>
+</html>
