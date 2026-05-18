@@ -77,7 +77,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--surface-color)]/70 backdrop-blur-xl border-b border-white/5 shadow-sm">
-      <div className="flex justify-between items-center w-full max-w-7xl mx-auto px-6 md:px-12 h-20">
+      <div className="relative flex justify-between items-center w-full max-w-7xl mx-auto px-6 md:px-12 h-20">
         
         {/* Brand Logo */}
         {(() => {
@@ -86,7 +86,7 @@ export default function Header() {
           return (
             <Link 
               href={locale === 'en' ? '/en' : '/'} 
-              className="flex items-center hover:opacity-90 transition-opacity shrink-0"
+              className={`flex items-center hover:opacity-90 transition-opacity shrink-0 absolute lg:relative ${locale === 'ar' ? 'right-6 left-auto' : 'left-6 right-auto'} top-1/2 -translate-y-1/2 lg:top-auto lg:translate-y-0`}
             >
               {logoImg ? (
                 <img 
@@ -195,7 +195,7 @@ export default function Header() {
         </div>
 
         {/* Mobile controls */}
-        <div className="flex lg:hidden items-center gap-4">
+        <div className={`flex lg:hidden items-center gap-4 absolute top-1/2 -translate-y-1/2 ${locale === 'ar' ? 'left-6 right-auto' : 'right-6 left-auto'}`}>
           <button 
             onClick={toggleLanguage}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 text-xs text-slate-300 hover:text-white transition-all cursor-pointer"
