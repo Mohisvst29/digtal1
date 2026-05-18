@@ -6,6 +6,7 @@ import Testimonial from '../models/Testimonial';
 import Portfolio from '../models/Portfolio';
 import FAQ from '../models/FAQ';
 import Service from '../models/Service';
+import TeamMember from '../models/TeamMember';
 import dbConnect from './mongodb';
 
 export async function seedDatabase() {
@@ -788,5 +789,38 @@ export async function seedDatabase() {
     ];
     await Service.insertMany(defaultServices);
     console.log('Seeded default Services.');
+  }
+
+  // 8. Seed default Team Members if empty
+  const teamMemberCount = await TeamMember.countDocuments();
+  if (teamMemberCount === 0) {
+    const defaultTeam = [
+      {
+        name_ar: 'مستشار تسويق رقمي طبي',
+        name_en: 'Clinical Growth Lead',
+        role_ar: 'عضو فريق عمل استراتيجي',
+        role_en: 'Senior Medical Growth Advisor',
+        image_url: '',
+        order: 0,
+      },
+      {
+        name_ar: 'مطور ويب وتجربة المريض',
+        name_en: 'UX Patient-Path Architect',
+        role_ar: 'مهندس الحلول الطبية الرقمية',
+        role_en: 'Fullstack Systems Architect',
+        image_url: '',
+        order: 1,
+      },
+      {
+        name_ar: 'صانع محتوى طبي مرخص',
+        name_en: 'Clinical Copywriter',
+        role_ar: 'مختص تبسيط المعرفة الطبية',
+        role_en: 'MOH Compliant Content Lead',
+        image_url: '',
+        order: 2,
+      }
+    ];
+    await TeamMember.insertMany(defaultTeam);
+    console.log('Seeded default Team Members.');
   }
 }

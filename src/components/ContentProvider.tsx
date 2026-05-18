@@ -11,6 +11,7 @@ export interface SiteData {
   leads?: any[];
   faqs?: any[];
   services?: any[];
+  teamMembers?: any[];
 }
 
 interface ContentContextType {
@@ -266,6 +267,7 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
     leads: [],
     faqs: [],
     services: [],
+    teamMembers: [],
   });
   const [loading, setLoading] = useState(true);
   const [locale, setLocale] = useState<'ar' | 'en'>(initialLocale);

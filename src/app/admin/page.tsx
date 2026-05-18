@@ -55,6 +55,16 @@ interface MediaItem {
   sizeBytes: number;
 }
 
+interface TeamMember {
+  _id?: string;
+  name_ar: string;
+  name_en: string;
+  role_ar: string;
+  role_en: string;
+  image_url: string;
+  order: number;
+}
+
 interface FAQ {
   _id: string;
   question_ar: string;
@@ -106,7 +116,7 @@ interface Service {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'security'>('leads');
+  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security'>('leads');
   const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images'>('general');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -122,6 +132,7 @@ export default function AdminDashboardPage() {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
 
   // Modals / forms states
   const [articleForm, setArticleForm] = useState<Partial<Article> | null>(null);
@@ -129,7 +140,9 @@ export default function AdminDashboardPage() {
   const [portfolioForm, setPortfolioForm] = useState<Partial<Portfolio> | null>(null);
   const [faqForm, setFaqForm] = useState<Partial<FAQ> | null>(null);
   const [serviceForm, setServiceForm] = useState<Partial<Service> | null>(null);
+  const [teamMemberForm, setTeamMemberForm] = useState<Partial<TeamMember> | null>(null);
   const [mediaUploading, setMediaUploading] = useState(false);
+  const [teamMemberUploading, setTeamMemberUploading] = useState(false);
 
   // Security Credentials form
   const [securityForm, setSecurityForm] = useState({
@@ -169,6 +182,7 @@ export default function AdminDashboardPage() {
             setLeads(data.leads || []);
             setFaqs(data.faqs || []);
             setServices(data.services || []);
+            setTeamMembers(data.teamMembers || []);
           }
         }
       } catch (err) {
@@ -446,6 +460,79 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       showToast('خطأ أثناء حذف الخدمة', 'error');
+    }
+  };
+
+  // TEAM MEMBERS CRUD OPERATIONS
+  const saveTeamMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!teamMemberForm) return;
+    setSaving(true);
+    const isNew = !teamMemberForm._id;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch('/api/team', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNew ? teamMemberForm : { id: teamMemberForm._id, ...teamMemberForm }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast(isNew ? '✓ تم إضافة عضو الفريق بنجاح!' : '✓ تم تعديل عضو الفريق بنجاح!', 'success');
+        const updated = await fetch('/api/content').then(r => r.json());
+        setTeamMembers(updated.teamMembers || []);
+        setTeamMemberForm(null);
+      } else {
+        showToast(data.message || 'حدث خطأ ما', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حفظ عضو الفريق', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteTeamMember = async (id: string) => {
+    if (!window.confirm('هل تريد حذف عضو الفريق هذا نهائياً؟')) return;
+    try {
+      const res = await fetch(`/api/team?id=${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        showToast('✓ تم حذف عضو الفريق بنجاح!', 'success');
+        setTeamMembers(teamMembers.filter(t => t._id !== id));
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حذف عضو الفريق', 'error');
+    }
+  };
+
+  const handleTeamMemberImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setTeamMemberUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع صورة العضو بنجاح!', 'success');
+        setTeamMemberForm(prev => ({ ...prev, image_url: data.media.url }));
+        setMedia(prev => [data.media, ...prev]);
+      } else {
+        showToast(data.message || 'فشل رفع صورة العضو', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء رفع الصورة', 'error');
+    } finally {
+      setTeamMemberUploading(false);
     }
   };
 
@@ -803,6 +890,16 @@ export default function AdminDashboardPage() {
             >
               <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'media' ? "'FILL' 1" : '' }}>photo_library</span>
               <span>مكتبة الصور (Cloudinary)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('team')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                activeTab === 'team' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'team' ? "'FILL' 1" : '' }}>group</span>
+              <span>فريق العمل</span>
             </button>
 
             <button
@@ -2797,6 +2894,212 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 8: TEAM MEMBERS MANAGER */}
+        {/* ========================================================================= */}
+        {activeTab === 'team' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold text-white">👥 إدارة أعضاء فريق العمل</h2>
+                <p className="text-xs text-slate-400 mt-1">تحكم بالكامل في طاقم العمل، ووظائفهم، ورتبهم لعرضهم في الصفحة التعريفية كعنصر متحرك راقٍ.</p>
+              </div>
+              <button
+                onClick={() => setTeamMemberForm({ name_ar: '', name_en: '', role_ar: '', role_en: '', image_url: '', order: 0 })}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-4 rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center gap-2 cursor-pointer text-xs"
+              >
+                <span className="material-symbols-outlined text-sm">add</span>
+                <span>إضافة عضو جديد</span>
+              </button>
+            </div>
+
+            {/* Team Members Grid Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {teamMembers.map((t) => (
+                <div key={t._id} className="bg-slate-900 border border-slate-800 p-6 rounded-[2rem] hover:border-cyan-400/20 transition-all flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      {t.image_url ? (
+                        <img src={t.image_url} alt={t.name_ar} className="w-12 h-12 rounded-full object-cover border border-slate-700" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-500 font-bold text-center">
+                          {t.name_ar ? t.name_ar[0] : '👨‍⚕️'}
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="font-bold text-white text-sm">{t.name_ar}</h4>
+                        <p className="text-[10px] text-cyan-400 mt-0.5">{t.role_ar}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-850 mb-6 space-y-2 text-[11px] text-slate-400">
+                      <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                        <span>الاسم بالإنجليزية:</span>
+                        <span className="text-white font-medium">{t.name_en}</span>
+                      </div>
+                      <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                        <span>المسمى بالإنجليزية:</span>
+                        <span className="text-white font-medium">{t.role_en}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>ترتيب الظهور:</span>
+                        <span className="text-cyan-400 font-bold">{t.order}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setTeamMemberForm(t)}
+                      className="flex-1 bg-cyan-500/10 hover:bg-cyan-400 hover:text-slate-950 text-cyan-400 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border border-cyan-500/10"
+                    >
+                      تعديل
+                    </button>
+                    <button
+                      onClick={() => deleteTeamMember(t._id!)}
+                      className="flex-1 bg-rose-500/10 hover:bg-rose-500 hover:text-slate-950 text-rose-400 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border border-rose-500/10"
+                    >
+                      حذف
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Modal: Create/Edit Team Member */}
+            {teamMemberForm && (
+              <div className="fixed inset-0 z-[150] bg-slate-950/85 flex items-center justify-center p-6 backdrop-blur-sm animate-fade-in-slow">
+                <div className="bg-slate-900 border border-slate-800 max-w-lg w-full p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between max-h-[90vh]">
+                  <h3 className="text-xl font-bold text-white mb-6 border-b border-slate-800 pb-3">
+                    {teamMemberForm._id ? '✏️ تعديل بيانات العضو' : '➕ إضافة عضو فريق عمل جديد'}
+                  </h3>
+
+                  <form onSubmit={saveTeamMember} className="space-y-4 overflow-y-auto pr-1 flex-1 mb-8">
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">الاسم بالعربية</label>
+                        <input
+                          type="text"
+                          required
+                          value={teamMemberForm.name_ar || ''}
+                          onChange={(e) => setTeamMemberForm({ ...teamMemberForm, name_ar: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">الاسم بالإنجليزية</label>
+                        <input
+                          type="text"
+                          required
+                          value={teamMemberForm.name_en || ''}
+                          onChange={(e) => setTeamMemberForm({ ...teamMemberForm, name_en: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">الوظيفة بالعربية</label>
+                        <input
+                          type="text"
+                          required
+                          value={teamMemberForm.role_ar || ''}
+                          onChange={(e) => setTeamMemberForm({ ...teamMemberForm, role_ar: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-400">الوظيفة بالإنجليزية</label>
+                        <input
+                          type="text"
+                          required
+                          value={teamMemberForm.role_en || ''}
+                          onChange={(e) => setTeamMemberForm({ ...teamMemberForm, role_en: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Image Uploader */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-400">الصورة الشخصية للتعريف</label>
+                      <div className="flex items-center gap-4 bg-slate-950 border border-slate-800 p-4 rounded-xl">
+                        {teamMemberForm.image_url ? (
+                          <img src={teamMemberForm.image_url} alt="Profile" className="w-14 h-14 rounded-full object-cover border border-slate-700" />
+                        ) : (
+                          <div className="w-14 h-14 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 font-bold text-center text-xs">
+                            لا يوجد
+                          </div>
+                        )}
+                        <div className="flex-1 space-y-1.5">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id="team-avatar-uploader"
+                            onChange={handleTeamMemberImageUpload}
+                            className="hidden"
+                          />
+                          <label
+                            htmlFor="team-avatar-uploader"
+                            className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-850 text-slate-300 py-1.5 px-3 rounded-lg text-xs transition-all border border-slate-800 cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-sm">cloud_upload</span>
+                            <span>{teamMemberUploading ? '⏳ جاري الرفع...' : 'اختر صورة من جهازك'}</span>
+                          </label>
+                          <p className="text-[10px] text-slate-500">الرفع سحابي مباشر عالي الجودة إلى Cloudinary</p>
+                        </div>
+                      </div>
+
+                      {/* Manual Image Link Input */}
+                      <div className="space-y-1">
+                        <label className="text-[10px] text-slate-500 font-semibold">أو رابط الصورة المباشر (اختياري)</label>
+                        <input
+                          type="text"
+                          value={teamMemberForm.image_url || ''}
+                          onChange={(e) => setTeamMemberForm({ ...teamMemberForm, image_url: e.target.value })}
+                          className="w-full bg-slate-950 border border-slate-850 text-slate-300 rounded-xl py-2 px-3 text-[11px] focus:outline-none text-left"
+                          dir="ltr"
+                          placeholder="https://res.cloudinary.com/..."
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-slate-400">ترتيب الظهور (الرقم الأقل يظهر أولاً)</label>
+                      <input
+                        type="number"
+                        required
+                        value={teamMemberForm.order ?? 0}
+                        onChange={(e) => setTeamMemberForm({ ...teamMemberForm, order: Number(e.target.value) })}
+                        className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
+                      />
+                    </div>
+
+                  </form>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={saveTeamMember}
+                      disabled={saving || teamMemberUploading}
+                      className="flex-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-3 px-6 rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs"
+                    >
+                      {saving ? '⏳ جاري الحفظ...' : '✓ حفظ العضو في الفريق'}
+                    </button>
+                    <button
+                      onClick={() => setTeamMemberForm(null)}
+                      className="flex-1 bg-slate-950 hover:bg-slate-850 text-slate-400 font-semibold py-3 px-6 rounded-xl transition-all border border-slate-800 cursor-pointer text-xs"
+                    >
+                      إلغاء
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

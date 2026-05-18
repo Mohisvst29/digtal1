@@ -16,6 +16,36 @@ export default function AboutPage() {
   const description = t('about_description', 'وكالة تسويق رقمي متخصصة في القطاع الطبي مقرها الرياض، تم تأسيسها لتكون شريك النمو الأول للأطباء والمراكز الطبية والمستشفيات.');
   const subDescription = t('about_sub_description', 'نحن شركة ناشئة بفكر متطور، نركز على تحويل الخدمات الطبية إلى علامات رقمية قوية قادرة على جذب المرضى وبناء الثقة.');
 
+  const dbTeam = data?.teamMembers || [];
+  const defaultTeam = [
+    {
+      name_ar: 'مستشار تسويق رقمي طبي',
+      name_en: 'Clinical Growth Lead',
+      role_ar: 'عضو فريق عمل استراتيجي',
+      role_en: 'Senior Medical Growth Advisor',
+      image_url: '',
+      order: 1
+    },
+    {
+      name_ar: 'مطور ويب وتجربة المريض',
+      name_en: 'UX Patient-Path Architect',
+      role_ar: 'مهندس الحلول الطبية الرقمية',
+      role_en: 'Fullstack Systems Architect',
+      image_url: '',
+      order: 2
+    },
+    {
+      name_ar: 'صانع محتوى طبي مرخص',
+      name_en: 'Clinical Copywriter',
+      role_ar: 'مختص تبسيط المعرفة الطبية',
+      role_en: 'MOH Compliant Content Lead',
+      image_url: '',
+      order: 3
+    }
+  ];
+
+  const activeTeam = dbTeam.length > 0 ? [...dbTeam].sort((a, b) => (a.order || 0) - (b.order || 0)) : defaultTeam;
+
   const getHref = (path: string) => {
     if (locale === 'en') {
       return path === '' ? '/en' : `/en/${path}`;
@@ -166,32 +196,69 @@ export default function AboutPage() {
         </section>
 
         {/* Team Members */}
-        <section className="py-24 bg-slate-950/40">
-          <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-                {t('about_team_title', 'فريق العمل')}
-              </h2>
-              <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto">
-                {t('about_team_desc', 'مبدعون ومختصون طبيون يجمعهم هدف واحد: نمو علامتكم الصحية وتفوقها.')}
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { nameAr: 'مستشار تسويق رقمي طبي', nameEn: 'Clinical Growth Lead', roleAr: 'عضو فريق عمل استراتيجي', roleEn: 'Senior Medical Growth Advisor' },
-                { nameAr: 'مطور ويب وتجربة المريض', nameEn: 'UX Patient-Path Architect', roleAr: 'مهندس الحلول الطبية الرقمية', roleEn: 'Fullstack Systems Architect' },
-                { nameAr: 'صانع محتوى طبي مرخص', nameEn: 'Clinical Copywriter', roleAr: 'مختص تبسيط المعرفة الطبية', roleEn: 'MOH Compliant Content Lead' }
-              ].map((member, idx) => (
-                <div key={idx} className="glass-card p-8 rounded-2xl flex flex-col items-center text-center select-none">
-                  <div className="w-24 h-24 rounded-full bg-cyan-400/10 flex items-center justify-center text-cyan-400 mb-6">
-                    <span className="material-symbols-outlined text-5xl">person</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-1.5">
-                    {isRtl ? member.nameAr : member.nameEn}
+        <section className="py-24 bg-slate-950/40 overflow-hidden select-none">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+              {t('about_team_title', 'فريق العمل')}
+            </h2>
+            <p className="text-sm md:text-base text-slate-400 max-w-xl mx-auto">
+              {t('about_team_desc', 'مبدعون ومختصون طبيون يجمعهم هدف واحد: نمو علامتكم الصحية وتفوقها.')}
+            </p>
+          </div>
+          
+          <div className="relative w-full overflow-hidden flex py-4">
+            <div className={`flex gap-8 items-center whitespace-nowrap ${isRtl ? 'animate-marquee-rtl' : 'animate-marquee-ltr'} duration-[40s] hover:[animation-play-state:paused] pointer-events-auto`}>
+              {/* Set 1 */}
+              {activeTeam.map((member, idx) => (
+                <div key={`tm1-${idx}`} className="glass-card p-6 rounded-[2rem] border border-white/5 flex flex-col items-center text-center select-none w-72 shrink-0 hover:border-cyan-400/30 transition-all duration-300 transform hover:scale-[1.02]">
+                  {member.image_url ? (
+                    <img src={member.image_url} alt={isRtl ? member.name_ar : member.name_en} className="w-24 h-24 rounded-full object-cover border border-cyan-400/20 mb-5 shadow-[0_0_15px_rgba(6,182,212,0.1)]" />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-cyan-500/5 border border-cyan-500/10 flex items-center justify-center text-cyan-400 mb-5">
+                      <span className="material-symbols-outlined text-4xl">person</span>
+                    </div>
+                  )}
+                  <h3 className="text-base font-extrabold text-white mb-1.5 truncate max-w-full">
+                    {isRtl ? member.name_ar : member.name_en}
                   </h3>
-                  <p className="text-xs text-cyan-400 font-semibold">
-                    {isRtl ? member.roleAr : member.roleEn}
+                  <p className="text-xs text-cyan-400 font-extrabold truncate max-w-full">
+                    {isRtl ? member.role_ar : member.role_en}
+                  </p>
+                </div>
+              ))}
+              {/* Duplicate Set 2 */}
+              {activeTeam.map((member, idx) => (
+                <div key={`tm2-${idx}`} className="glass-card p-6 rounded-[2rem] border border-white/5 flex flex-col items-center text-center select-none w-72 shrink-0 hover:border-cyan-400/30 transition-all duration-300 transform hover:scale-[1.02]">
+                  {member.image_url ? (
+                    <img src={member.image_url} alt={isRtl ? member.name_ar : member.name_en} className="w-24 h-24 rounded-full object-cover border border-cyan-400/20 mb-5 shadow-[0_0_15px_rgba(6,182,212,0.1)]" />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-cyan-500/5 border border-cyan-500/10 flex items-center justify-center text-cyan-400 mb-5">
+                      <span className="material-symbols-outlined text-4xl">person</span>
+                    </div>
+                  )}
+                  <h3 className="text-base font-extrabold text-white mb-1.5 truncate max-w-full">
+                    {isRtl ? member.name_ar : member.name_en}
+                  </h3>
+                  <p className="text-xs text-cyan-400 font-extrabold truncate max-w-full">
+                    {isRtl ? member.role_ar : member.role_en}
+                  </p>
+                </div>
+              ))}
+              {/* Duplicate Set 3 */}
+              {activeTeam.map((member, idx) => (
+                <div key={`tm3-${idx}`} className="glass-card p-6 rounded-[2rem] border border-white/5 flex flex-col items-center text-center select-none w-72 shrink-0 hover:border-cyan-400/30 transition-all duration-300 transform hover:scale-[1.02]">
+                  {member.image_url ? (
+                    <img src={member.image_url} alt={isRtl ? member.name_ar : member.name_en} className="w-24 h-24 rounded-full object-cover border border-cyan-400/20 mb-5 shadow-[0_0_15px_rgba(6,182,212,0.1)]" />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-cyan-500/5 border border-cyan-500/10 flex items-center justify-center text-cyan-400 mb-5">
+                      <span className="material-symbols-outlined text-4xl">person</span>
+                    </div>
+                  )}
+                  <h3 className="text-base font-extrabold text-white mb-1.5 truncate max-w-full">
+                    {isRtl ? member.name_ar : member.name_en}
+                  </h3>
+                  <p className="text-xs text-cyan-400 font-extrabold truncate max-w-full">
+                    {isRtl ? member.role_ar : member.role_en}
                   </p>
                 </div>
               ))}
