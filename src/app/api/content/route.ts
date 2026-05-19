@@ -9,6 +9,8 @@ import Media from '@/models/Media';
 import Lead from '@/models/Lead';
 import FAQ from '@/models/FAQ';
 import Service from '@/models/Service';
+import Doctor from '@/models/Doctor';
+import Clinic from '@/models/Clinic';
 import TeamMember from '@/models/TeamMember';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
@@ -62,6 +64,12 @@ export async function GET() {
     // 8. Fetch Team Members
     const teamMembers = await TeamMember.find({}).sort({ order: 1, createdAt: 1 });
 
+    // 8a. Fetch Doctors
+    const doctors = await Doctor.find({}).sort({ order: 1, createdAt: 1 });
+
+    // 8b. Fetch Clinics
+    const clinics = await Clinic.find({}).sort({ order: 1, createdAt: 1 });
+
     // 9. Fetch leads / consults (STRICTLY FOR LOGGED IN ADMIN ONLY)
     let leads: any[] = [];
     const isAdmin = await checkAdminAuth();
@@ -80,6 +88,8 @@ export async function GET() {
       faqs,
       services,
       teamMembers,
+      doctors,
+      clinics,
     });
   } catch (e: any) {
     console.error('Error fetching site content:', e);

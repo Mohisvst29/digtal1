@@ -55,6 +55,31 @@ interface MediaItem {
   sizeBytes: number;
 }
 
+
+interface Doctor {
+  _id?: string;
+  name_ar: string;
+  name_en: string;
+  specialty_ar: string;
+  specialty_en: string;
+  desc_ar: string;
+  desc_en: string;
+  image_url: string;
+  order: number;
+}
+
+interface Clinic {
+  _id?: string;
+  name_ar: string;
+  name_en: string;
+  specialty_ar: string;
+  specialty_en: string;
+  desc_ar: string;
+  desc_en: string;
+  image_url: string;
+  order: number;
+}
+
 interface TeamMember {
   _id?: string;
   name_ar: string;
@@ -117,7 +142,7 @@ interface Service {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security'>('leads');
+  const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security' | 'doctors' | 'clinics'>('leads');
   const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images'>('general');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -135,6 +160,9 @@ export default function AdminDashboardPage() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [clinics, setClinics] = useState<Clinic[]>([]);
+
 
   // Modals / forms states
   const [articleForm, setArticleForm] = useState<Partial<Article> | null>(null);
@@ -143,6 +171,11 @@ export default function AdminDashboardPage() {
   const [faqForm, setFaqForm] = useState<Partial<FAQ> | null>(null);
   const [serviceForm, setServiceForm] = useState<Partial<Service> | null>(null);
   const [teamMemberForm, setTeamMemberForm] = useState<Partial<TeamMember> | null>(null);
+  const [doctorForm, setDoctorForm] = useState<Partial<Doctor> | null>(null);
+  const [clinicForm, setClinicForm] = useState<Partial<Clinic> | null>(null);
+  const [doctorUploading, setDoctorUploading] = useState(false);
+  const [clinicUploading, setClinicUploading] = useState(false);
+
   const [mediaUploading, setMediaUploading] = useState(false);
   const [teamMemberUploading, setTeamMemberUploading] = useState(false);
   const [serviceImageUploading, setServiceImageUploading] = useState(false);
@@ -187,6 +220,8 @@ export default function AdminDashboardPage() {
             setFaqs(data.faqs || []);
             setServices(data.services || []);
             setTeamMembers(data.teamMembers || []);
+            setDoctors(data.doctors || []);
+            setClinics(data.clinics || []);
           }
         }
       } catch (err) {
@@ -203,6 +238,120 @@ export default function AdminDashboardPage() {
     setToast({ message, type });
     setTimeout(() => setToast(null), 4000);
   };
+
+  
+  // DOCTORS CRUD OPERATIONS
+  const saveDoctor = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!doctorForm) return;
+    setSaving(true);
+    const isNew = !doctorForm._id;
+    const method = isNew ? 'POST' : 'PUT';
+    try {
+      const res = await fetch('/api/doctors', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNew ? doctorForm : { id: doctorForm._id, ...doctorForm }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast(isNew ? '✓ تم إضافة الطبيب بنجاح!' : '✓ تم تعديل الطبيب بنجاح!', 'success');
+        const updated = await fetch('/api/content').then(r => r.json());
+        setDoctors(updated.doctors || []);
+        setDoctorForm(null);
+      } else {
+        showToast(data.message || 'حدث خطأ', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء حفظ الطبيب', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteDoctor = async (id: string) => {
+    if (!window.confirm('هل تريد حذف هذا الطبيب نهائياً؟')) return;
+    try {
+      const res = await fetch('/api/doctors?id=' + id, { method: 'DELETE' });
+      if (res.ok) {
+        showToast('✓ تم الحذف بنجاح!', 'success');
+        setDoctors(doctors.filter(d => d._id !== id));
+      }
+    } catch (err) { showToast('خطأ', 'error'); }
+  };
+
+  // CLINICS CRUD OPERATIONS
+  const saveClinic = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!clinicForm) return;
+    setSaving(true);
+    const isNew = !clinicForm._id;
+    const method = isNew ? 'POST' : 'PUT';
+    try {
+      const res = await fetch('/api/clinics', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNew ? clinicForm : { id: clinicForm._id, ...clinicForm }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast(isNew ? '✓ تم الإضافة بنجاح!' : '✓ تم التعديل بنجاح!', 'success');
+        const updated = await fetch('/api/content').then(r => r.json());
+        setClinics(updated.clinics || []);
+        setClinicForm(null);
+      } else {
+        showToast(data.message || 'حدث خطأ', 'error');
+      }
+    } catch (err) {
+      showToast('خطأ أثناء الحفظ', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteClinic = async (id: string) => {
+    if (!window.confirm('هل تريد الحذف نهائياً؟')) return;
+    try {
+      const res = await fetch('/api/clinics?id=' + id, { method: 'DELETE' });
+      if (res.ok) {
+        showToast('✓ تم الحذف بنجاح!', 'success');
+        setClinics(clinics.filter(c => c._id !== id));
+      }
+    } catch (err) { showToast('خطأ', 'error'); }
+  };
+
+  const handleDoctorImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setDoctorUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await fetch('/api/media', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع الصورة!', 'success');
+        setDoctorForm(prev => prev ? { ...prev, image_url: data.media.url } : { image_url: data.media.url });
+      }
+    } catch (err) {} finally { setDoctorUploading(false); }
+  };
+
+  const handleClinicImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setClinicUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await fetch('/api/media', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (res.ok && data.status === 'success') {
+        showToast('✓ تم رفع الصورة!', 'success');
+        setClinicForm(prev => prev ? { ...prev, image_url: data.media.url } : { image_url: data.media.url });
+      }
+    } catch (err) {} finally { setClinicUploading(false); }
+  };
+
 
   const handleLogout = async () => {
     try {
@@ -3404,6 +3553,239 @@ export default function AdminDashboardPage() {
         )}
 
           </>
+      
+        {/* ========================================================================= */}
+        {/* TAB: DOCTORS */}
+        {/* ========================================================================= */}
+        {activeTab === 'doctors' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">إدارة الأطباء ({doctors.length})</h2>
+              <button
+                onClick={() => setDoctorForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', order: 0 })}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">add</span>
+                <span>إضافة طبيب جديد</span>
+              </button>
+            </div>
+
+            {doctorForm && (
+              <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl animate-fade-in relative">
+                <button 
+                  onClick={() => setDoctorForm(null)}
+                  className="absolute top-6 left-6 w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+                <h3 className="text-lg font-bold text-white mb-6">
+                  {doctorForm._id ? 'تعديل بيانات الطبيب' : 'إضافة طبيب جديد'}
+                </h3>
+                <form onSubmit={saveDoctor} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">اسم الطبيب بالعربية *</label>
+                      <input type="text" required value={doctorForm.name_ar || ''} onChange={e => setDoctorForm({ ...doctorForm, name_ar: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">اسم الطبيب بالإنجليزية *</label>
+                      <input type="text" required dir="ltr" value={doctorForm.name_en || ''} onChange={e => setDoctorForm({ ...doctorForm, name_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">التخصص بالعربية *</label>
+                      <input type="text" required value={doctorForm.specialty_ar || ''} onChange={e => setDoctorForm({ ...doctorForm, specialty_ar: e.target.value })} placeholder="مثال: أطفال، باطنة..." className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">التخصص بالإنجليزية *</label>
+                      <input type="text" required dir="ltr" value={doctorForm.specialty_en || ''} onChange={e => setDoctorForm({ ...doctorForm, specialty_en: e.target.value })} placeholder="e.g. Pediatrics" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الوصف بالعربية</label>
+                      <textarea rows={3} value={doctorForm.desc_ar || ''} onChange={e => setDoctorForm({ ...doctorForm, desc_ar: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الوصف بالإنجليزية</label>
+                      <textarea rows={3} dir="ltr" value={doctorForm.desc_en || ''} onChange={e => setDoctorForm({ ...doctorForm, desc_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">صورة الطبيب (اختياري)</label>
+                      <div className="flex gap-4 items-center">
+                        <div className="w-16 h-16 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden flex items-center justify-center shrink-0">
+                          {doctorForm.image_url ? (
+                            <img src={doctorForm.image_url} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="material-symbols-outlined text-slate-600">person</span>
+                          )}
+                        </div>
+                        <div className="flex-grow space-y-2">
+                          <input type="text" placeholder="رابط الصورة" value={doctorForm.image_url || ''} onChange={e => setDoctorForm({ ...doctorForm, image_url: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white text-left" dir="ltr" />
+                          <label className="bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-3 py-1.5 rounded-lg cursor-pointer inline-flex items-center gap-1 transition-colors">
+                            <span className="material-symbols-outlined text-[12px]">{doctorUploading ? 'sync' : 'upload'}</span>
+                            {doctorUploading ? 'جاري الرفع...' : 'رفع من الجهاز'}
+                            <input type="file" accept="image/*" onChange={handleDoctorImageUpload} className="hidden" disabled={doctorUploading} />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الترتيب</label>
+                      <input type="number" value={doctorForm.order || 0} onChange={e => setDoctorForm({ ...doctorForm, order: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                  </div>
+                  <div className="pt-4 flex justify-end">
+                    <button type="submit" disabled={saving} className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-8 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer">
+                      {saving ? 'جاري الحفظ...' : 'حفظ الطبيب'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {doctors.map(doc => (
+                <div key={doc._id} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col group hover:border-cyan-400/30 transition-colors">
+                  <div className="aspect-square bg-slate-950 flex items-center justify-center relative">
+                    {doc.image_url ? (
+                      <img src={doc.image_url} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="material-symbols-outlined text-4xl text-slate-700">person</span>
+                    )}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
+                      <button onClick={() => setDoctorForm(doc)} className="w-10 h-10 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-lg" title="تعديل">
+                        <span className="material-symbols-outlined text-lg">edit</span>
+                      </button>
+                      <button onClick={() => deleteDoctor(doc._id!)} className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-lg" title="حذف">
+                        <span className="material-symbols-outlined text-lg">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-4 text-center">
+                    <span className="text-[9px] font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded mb-2 inline-block">{doc.specialty_ar}</span>
+                    <h4 className="text-sm font-bold text-white truncate">{doc.name_ar}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: CLINICS */}
+        {/* ========================================================================= */}
+        {activeTab === 'clinics' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">إدارة العيادات والمراكز ({clinics.length})</h2>
+              <button
+                onClick={() => setClinicForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', order: 0 })}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">add</span>
+                <span>إضافة عيادة/مركز جديد</span>
+              </button>
+            </div>
+
+            {clinicForm && (
+              <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl animate-fade-in relative">
+                <button 
+                  onClick={() => setClinicForm(null)}
+                  className="absolute top-6 left-6 w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+                <h3 className="text-lg font-bold text-white mb-6">
+                  {clinicForm._id ? 'تعديل العيادة' : 'إضافة عيادة جديدة'}
+                </h3>
+                <form onSubmit={saveClinic} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الاسم بالعربية *</label>
+                      <input type="text" required value={clinicForm.name_ar || ''} onChange={e => setClinicForm({ ...clinicForm, name_ar: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الاسم بالإنجليزية *</label>
+                      <input type="text" required dir="ltr" value={clinicForm.name_en || ''} onChange={e => setClinicForm({ ...clinicForm, name_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">التخصص بالعربية (اختياري)</label>
+                      <input type="text" value={clinicForm.specialty_ar || ''} onChange={e => setClinicForm({ ...clinicForm, specialty_ar: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">التخصص بالإنجليزية (اختياري)</label>
+                      <input type="text" dir="ltr" value={clinicForm.specialty_en || ''} onChange={e => setClinicForm({ ...clinicForm, specialty_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الوصف بالعربية</label>
+                      <textarea rows={3} value={clinicForm.desc_ar || ''} onChange={e => setClinicForm({ ...clinicForm, desc_ar: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الوصف بالإنجليزية</label>
+                      <textarea rows={3} dir="ltr" value={clinicForm.desc_en || ''} onChange={e => setClinicForm({ ...clinicForm, desc_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">صورة العيادة (اختياري)</label>
+                      <div className="flex gap-4 items-center">
+                        <div className="w-16 h-16 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden flex items-center justify-center shrink-0">
+                          {clinicForm.image_url ? (
+                            <img src={clinicForm.image_url} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="material-symbols-outlined text-slate-600">local_hospital</span>
+                          )}
+                        </div>
+                        <div className="flex-grow space-y-2">
+                          <input type="text" placeholder="رابط الصورة" value={clinicForm.image_url || ''} onChange={e => setClinicForm({ ...clinicForm, image_url: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white text-left" dir="ltr" />
+                          <label className="bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-3 py-1.5 rounded-lg cursor-pointer inline-flex items-center gap-1 transition-colors">
+                            <span className="material-symbols-outlined text-[12px]">{clinicUploading ? 'sync' : 'upload'}</span>
+                            {clinicUploading ? 'جاري الرفع...' : 'رفع من الجهاز'}
+                            <input type="file" accept="image/*" onChange={handleClinicImageUpload} className="hidden" disabled={clinicUploading} />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300">الترتيب</label>
+                      <input type="number" value={clinicForm.order || 0} onChange={e => setClinicForm({ ...clinicForm, order: Number(e.target.value) })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white" />
+                    </div>
+                  </div>
+                  <div className="pt-4 flex justify-end">
+                    <button type="submit" disabled={saving} className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-8 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer">
+                      {saving ? 'جاري الحفظ...' : 'حفظ العيادة'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {clinics.map(clinic => (
+                <div key={clinic._id} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col group hover:border-cyan-400/30 transition-colors">
+                  <div className="aspect-video bg-slate-950 flex items-center justify-center relative">
+                    {clinic.image_url ? (
+                      <img src={clinic.image_url} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="material-symbols-outlined text-4xl text-slate-700">local_hospital</span>
+                    )}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
+                      <button onClick={() => setClinicForm(clinic)} className="w-10 h-10 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-lg" title="تعديل">
+                        <span className="material-symbols-outlined text-lg">edit</span>
+                      </button>
+                      <button onClick={() => deleteClinic(clinic._id!)} className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-lg" title="حذف">
+                        <span className="material-symbols-outlined text-lg">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-4 text-center">
+                    {clinic.specialty_ar && <span className="text-[9px] font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded mb-2 inline-block">{clinic.specialty_ar}</span>}
+                    <h4 className="text-sm font-bold text-white truncate">{clinic.name_ar}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );
