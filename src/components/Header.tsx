@@ -107,7 +107,7 @@ export default function Header() {
         })()}
 
         {/* Desktop Navbar Navigation */}
-        <nav className="hidden lg:flex items-center gap-8 h-full">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-6 h-full">
           {navItems.map((item) => {
             const active = isActive(item.path);
             const name = locale === 'ar' ? item.name_ar : item.name_en;
@@ -117,7 +117,7 @@ export default function Header() {
                 <div key={item.path} className="relative group flex items-center h-full cursor-pointer py-4">
                   <Link
                     href={getHref(item.path)}
-                    className={`text-sm font-semibold transition-all duration-200 flex items-center gap-0.5 ${
+                    className={`text-sm font-semibold transition-all duration-200 whitespace-nowrap flex items-center gap-0.5 ${
                       active 
                         ? 'text-[var(--primary-color)]' 
                         : 'text-slate-300 hover:text-[var(--primary-color)]'
@@ -166,7 +166,7 @@ export default function Header() {
               <Link
                 key={item.path}
                 href={getHref(item.path)}
-                className={`text-sm font-semibold transition-all duration-200 ${
+                className={`text-[13px] xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
                   active 
                     ? 'text-[var(--primary-color)] border-b-2 border-[var(--primary-color)] pb-1' 
                     : 'text-slate-300 hover:text-[var(--primary-color)]'

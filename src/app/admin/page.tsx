@@ -143,7 +143,7 @@ interface Service {
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security' | 'doctors' | 'clinics'>('leads');
-  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images'>('general');
+  const [activeSubTab, setActiveSubTab] = useState<'general' | 'home' | 'about' | 'services' | 'portfolio' | 'blog' | 'faq' | 'contact' | 'thankyou' | 'partners' | 'images' | 'doctors_clinics'>('general');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -1349,6 +1349,27 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[2rem] space-y-6">
+              
+              {/* SUB TAB: DOCTORS & CLINICS */}
+              {activeSubTab === 'doctors_clinics' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {renderInput('doctors_title_ar', 'عنوان صفحة الأطباء بالعربية')}
+                  {renderInput('doctors_title_en', 'عنوان صفحة الأطباء بالإنجليزية', true)}
+                  {renderInput('doctors_description_ar', 'وصف صفحة الأطباء بالعربية', false, true)}
+                  {renderInput('doctors_description_en', 'وصف صفحة الأطباء بالإنجليزية', true, true)}
+                  {renderInput('doctors_bg_image', '🖼️ رابط صورة خلفية هيدر الأطباء (اختياري)', true)}
+                  <div className="md:col-span-1"></div>
+
+                  <div className="md:col-span-2 border-b border-slate-800 my-4"></div>
+
+                  {renderInput('clinics_title_ar', 'عنوان صفحة العيادات بالعربية')}
+                  {renderInput('clinics_title_en', 'عنوان صفحة العيادات بالإنجليزية', true)}
+                  {renderInput('clinics_description_ar', 'وصف صفحة العيادات بالعربية', false, true)}
+                  {renderInput('clinics_description_en', 'وصف صفحة العيادات بالإنجليزية', true, true)}
+                  {renderInput('clinics_bg_image', '🖼️ رابط صورة خلفية هيدر العيادات (اختياري)', true)}
+                </div>
+              )}
+
               
               {/* SUB TAB: GENERAL SETTINGS */}
               {activeSubTab === 'general' && (
