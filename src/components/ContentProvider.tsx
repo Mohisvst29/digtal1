@@ -374,9 +374,9 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
   };
 
   const primaryColor = data.content['primary_color'] || '#00daf3';
-  const secondaryColor = data.content['secondary_color'] || '#00e3fd';
-  const bgColor = data.content['bg_color'] || '#011230';
-  const surfaceColor = data.content['surface_color'] || '#0e1f3d';
+  const secondaryColor = data.content['secondary_color'] || '#0aebff';
+  const bgColor = data.content['bg_color'] || '#020d1f';
+  const surfaceColor = data.content['surface_color'] || '#061428';
   const fontAr = data.content['font_family_ar'] || 'Tajawal';
   const fontEn = data.content['font_family_en'] || 'Plus Jakarta Sans';
 
@@ -392,7 +392,10 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
     }
     body {
       background-color: var(--bg-color) !important;
-      color: #ffffff;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -20%, color-mix(in srgb, ${primaryColor} 6%, transparent) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(6, 30, 70, 0.4) 0%, transparent 60%);
+      color: #f0f8ff;
       font-family: var(--font-family) !important;
       transition: background-color 0.5s ease;
     }

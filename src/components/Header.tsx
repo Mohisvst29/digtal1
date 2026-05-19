@@ -78,7 +78,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-[var(--surface-color)]/70 backdrop-blur-xl border-b border-white/5 shadow-sm">
+    <header className="fixed top-0 w-full z-50 bg-[#020d1f]/85 backdrop-blur-2xl border-b border-cyan-400/10 shadow-[0_1px_0_rgba(0,218,243,0.05),0_4px_24px_rgba(0,0,0,0.4)]">
       <div className="flex justify-between items-center w-full max-w-7xl mx-auto px-6 md:px-12 h-20">
         
         {/* Brand Logo */}

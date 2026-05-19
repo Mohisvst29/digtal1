@@ -81,7 +81,7 @@ export default function HomePage() {
                 </div>
               );
             })}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950/80 z-0"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020d1f]/30 via-[#020d1f]/65 to-[#020d1f]/95 z-0"></div>
           </div>
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -239,7 +239,7 @@ export default function HomePage() {
           }
           const marqueeClass = isRtl ? 'animate-marquee-rtl' : 'animate-marquee-ltr';
           return (
-            <section className="py-12 border-y border-white/5 bg-slate-950/30 overflow-hidden select-none">
+            <section className="py-12 border-y border-cyan-400/8 bg-gradient-to-r from-[#020d1f] via-[#041428] to-[#020d1f] overflow-hidden select-none">
               <div className="max-w-7xl mx-auto px-6 md:px-12 mb-6">
                 <p className="text-center text-xs font-bold text-slate-400 tracking-wider">
                   {t('home_partners_title', 'قنوات وشراكات التسويق المعتمدة للعيادات')}
@@ -309,7 +309,7 @@ export default function HomePage() {
                 const delayClass = delays[idx] || '';
                 return (
                   <div key={serv.key} className={`glass-card p-8 rounded-2xl group hover:-translate-y-2 select-none flex flex-col reveal-on-scroll ${delayClass}`}>
-                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors duration-300 text-cyan-400">
+                    <div className="w-12 h-12 bg-cyan-400/10 border border-cyan-400/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-400 group-hover:text-slate-950 group-hover:border-transparent transition-all duration-300 text-cyan-400">
                       <span className="material-symbols-outlined text-2xl">{serv.icon}</span>
                     </div>
                     <h3 className={`text-xl font-bold text-white mb-3.5 ${isRtl ? 'text-right' : 'text-left'}`}>
@@ -334,7 +334,7 @@ export default function HomePage() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="py-24 bg-slate-950/30 overflow-hidden relative">
+        <section className="py-24 bg-gradient-to-b from-transparent via-[#041428]/60 to-transparent overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
              {/* Visual graphics */}
@@ -400,7 +400,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-20 border-y border-white/5 bg-slate-950/50 select-none">
+        <section className="py-20 border-y border-cyan-400/8 bg-gradient-to-r from-[#020d1f] via-[#041630]/80 to-[#020d1f] select-none">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
               <div className="reveal-scale delay-100">
