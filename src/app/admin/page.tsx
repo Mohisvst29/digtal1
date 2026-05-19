@@ -975,7 +975,7 @@ export default function AdminDashboardPage() {
     );
   };
 
-  const selectTab = (tab: 'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security') => {
+  const selectTab = (tab: 'leads' | 'content' | 'services' | 'faqs' | 'blog' | 'testimonials' | 'portfolio' | 'media' | 'team' | 'security' | 'doctors' | 'clinics') => {
     setActiveTab(tab);
     setIsSidebarOpen(false);
   };
@@ -1150,6 +1150,36 @@ export default function AdminDashboardPage() {
             >
               <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'team' ? "'FILL' 1" : '' }}>group</span>
               <span>فريق العمل</span>
+            </button>
+
+            <button
+              onClick={() => selectTab('doctors')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                activeTab === 'doctors' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'doctors' ? "'FILL' 1" : '' }}>stethoscope</span>
+              <span>إدارة الأطباء</span>
+              {doctors.length > 0 && (
+                <span className={`mr-auto px-2 py-0.5 text-[10px] rounded-full font-extrabold ${activeTab === 'doctors' ? 'bg-slate-950 text-cyan-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                  {doctors.length}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => selectTab('clinics')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                activeTab === 'clinics' ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold' : 'text-slate-400 hover:bg-slate-950 hover:text-white'
+              }`}
+            >
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: activeTab === 'clinics' ? "'FILL' 1" : '' }}>local_hospital</span>
+              <span>العيادات والمراكز</span>
+              {clinics.length > 0 && (
+                <span className={`mr-auto px-2 py-0.5 text-[10px] rounded-full font-extrabold ${activeTab === 'clinics' ? 'bg-slate-950 text-cyan-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                  {clinics.length}
+                </span>
+              )}
             </button>
 
             <button
