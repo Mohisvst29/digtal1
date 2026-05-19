@@ -257,6 +257,45 @@ const ENGLISH_DEFAULTS: Record<string, string> = {
   'thankyou_btn': 'Back to Home'
 };
 
+function isLightColor(colorStr: string): boolean {
+  if (!colorStr) return false;
+  const clean = colorStr.trim().toLowerCase();
+  if (clean === 'white' || clean === '#fff' || clean === '#ffffff') return true;
+  
+  // Hex matching
+  if (clean.startsWith('#')) {
+    const hex = clean.substring(1);
+    if (hex.length === 3) {
+      const r = parseInt(hex[0] + hex[0], 16);
+      const g = parseInt(hex[1] + hex[1], 16);
+      const b = parseInt(hex[2] + hex[2], 16);
+      return (r * 0.299 + g * 0.587 + b * 0.114) > 180;
+    } else if (hex.length === 6) {
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      return (r * 0.299 + g * 0.587 + b * 0.114) > 180;
+    }
+  }
+  
+  // RGB matching
+  if (clean.startsWith('rgb')) {
+    const match = clean.match(/\d+/g);
+    if (match && match.length >= 3) {
+      const r = parseInt(match[0], 10);
+      const g = parseInt(match[1], 10);
+      const b = parseInt(match[2], 10);
+      return (r * 0.299 + g * 0.587 + b * 0.114) > 180;
+    }
+  }
+
+  // Common light HTML colors
+  const lightColors = ['yellow', 'lightyellow', 'lightgrey', 'lightgray', 'beige', 'azure', 'aliceblue', 'floralwhite', 'ghostwhite', 'honeydew', 'ivory', 'lavender', 'linen', 'mintcream', 'mistyrose', 'oldlace', 'seashell', 'snow', 'white', 'whitesmoke'];
+  if (lightColors.includes(clean)) return true;
+
+  return false;
+}
+
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function ContentProvider({ children, initialLocale = 'ar' }: { children: React.ReactNode; initialLocale?: 'ar' | 'en' }) {
@@ -341,6 +380,18 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
       }
     }
   }, [locale, data]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentBg = data?.content?.['bg_color'] || '#020d1f';
+      const isLight = isLightColor(currentBg);
+      if (isLight) {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.remove('light-theme');
+      }
+    }
+  }, [data]);
 
   const t = (key: string, fallbackVal?: string): string => {
     const keyWithLocale = `${key}_${locale}`;

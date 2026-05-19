@@ -1333,6 +1333,7 @@ export default function AdminDashboardPage() {
                 { key: 'thankyou', label: '🎉 صفحة الشكر' },
                 { key: 'partners', label: '🤝 شركاء النجاح والقنوات' },
                 { key: 'images', label: '🖼️ صور أقسام الموقع' },
+                { key: 'doctors_clinics', label: '🩺 صفحة الأطباء والمراكز' },
               ].map((subTab) => {
                 const isActive = activeSubTab === subTab.key;
                 return (
@@ -1365,6 +1366,7 @@ export default function AdminDashboardPage() {
                   {activeSubTab === 'contact' && '📞 تعديل تفاصيل وموقع صفحة اتصل بنا'}
                   {activeSubTab === 'thankyou' && '🎉 تعديل رسالة شكر العملاء بعد إرسال التفاصيل'}
                   {activeSubTab === 'images' && '🖼️ إدارة صور أقسام الموقع بالكامل'}
+                  {activeSubTab === 'doctors_clinics' && '🩺 تعديل عناوين وهيدرات الأطباء والعيادات والمراكز'}
                 </h2>
                 <p className="text-[11px] text-slate-400 mt-1">تنعكس التحديثات فورياً بمجرد المزامنة والضغط على الحفظ.</p>
               </div>
