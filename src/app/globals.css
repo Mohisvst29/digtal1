@@ -315,10 +315,18 @@ body.light-theme .bg-slate-950 {
   border-color: rgba(0, 0, 0, 0.05) !important;
 }
 
+body.light-theme .bg-slate-950\/80 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .bg-slate-950\/10,
+body.light-theme .bg-slate-950\/20,
+body.light-theme .bg-slate-950\/30,
 body.light-theme .bg-slate-950\/40,
+body.light-theme .bg-slate-950\/50,
 body.light-theme .bg-slate-950\/60,
-body.light-theme .bg-slate-900\/60,
-body.light-theme .bg-slate-950\/50 {
+body.light-theme .bg-slate-900\/60 {
   background-color: rgba(0, 0, 0, 0.03) !important;
 }
 
@@ -337,6 +345,55 @@ body.light-theme .bg-white\/5 {
 body.light-theme .bg-cyan-500\/10 {
   background-color: rgba(0, 218, 243, 0.08) !important;
 }
+
+/* Hardcoded Gradients & Overlays (Light-theme overrides) */
+body.light-theme .from-\[\#020d1f\]\/30 {
+  --tw-gradient-from: rgba(255, 255, 255, 0.3) !important;
+}
+body.light-theme .via-\[\#020d1f\]\/65 {
+  --tw-gradient-via: rgba(255, 255, 255, 0.65) !important;
+}
+body.light-theme .to-\[\#020d1f\]\/95 {
+  --tw-gradient-to: rgba(255, 255, 255, 0.95) !important;
+}
+body.light-theme .from-cyan-950\/20 {
+  --tw-gradient-from: rgba(0, 218, 243, 0.08) !important;
+}
+body.light-theme .from-cyan-950\/40 {
+  --tw-gradient-from: rgba(0, 218, 243, 0.05) !important;
+}
+body.light-theme .to-slate-950 {
+  --tw-gradient-to: #ffffff !important;
+}
+body.light-theme .from-slate-950\/70 {
+  --tw-gradient-from: rgba(255, 255, 255, 0.7) !important;
+}
+body.light-theme .via-slate-950\/85 {
+  --tw-gradient-via: rgba(255, 255, 255, 0.85) !important;
+}
+body.light-theme .to-slate-950\/95 {
+  --tw-gradient-to: rgba(255, 255, 255, 0.95) !important;
+}
+body.light-theme .from-slate-950\/60 {
+  --tw-gradient-from: rgba(255, 255, 255, 0.6) !important;
+}
+body.light-theme .via-\[\#041428\]\/60 {
+  --tw-gradient-via: rgba(241, 245, 249, 0.6) !important;
+}
+body.light-theme .from-slate-950 {
+  --tw-gradient-from: #ffffff !important;
+}
+body.light-theme .via-slate-950\/10 {
+  --tw-gradient-via: rgba(255, 255, 255, 0.1) !important;
+}
+body.light-theme .bg-slate-900\/80 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+body.light-theme .bg-slate-700\/60 {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+
 
 /* Footer Specific Adjustments */
 body.light-theme footer {
