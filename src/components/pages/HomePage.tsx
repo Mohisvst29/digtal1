@@ -250,31 +250,31 @@ export default function HomePage() {
                 <div className={`flex gap-16 items-center whitespace-nowrap ${marqueeClass} duration-[30s] hover:[animation-play-state:paused] pointer-events-auto`}>
                   {/* First Set */}
                   {partners.map((partner, idx) => (
-                    <div key={`p1-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                    <div key={`p1-${idx}`} className="flex items-center gap-3 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
                       {partner.logo ? (
-                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                        <img src={partner.logo} alt={partner.name} className="h-12 md:h-20 object-contain" />
                       ) : (
-                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                        <span className="text-xl md:text-3xl font-black text-white tracking-wider font-mono">{partner.name}</span>
                       )}
                     </div>
                   ))}
                   {/* Duplicate Set for infinite loop */}
                   {partners.map((partner, idx) => (
-                    <div key={`p2-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                    <div key={`p2-${idx}`} className="flex items-center gap-3 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
                       {partner.logo ? (
-                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                        <img src={partner.logo} alt={partner.name} className="h-12 md:h-20 object-contain" />
                       ) : (
-                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                        <span className="text-xl md:text-3xl font-black text-white tracking-wider font-mono">{partner.name}</span>
                       )}
                     </div>
                   ))}
                   {/* Third Set */}
                   {partners.map((partner, idx) => (
-                    <div key={`p3-${idx}`} className="flex items-center gap-3 shrink-0 opacity-40 hover:opacity-85 transition-opacity">
+                    <div key={`p3-${idx}`} className="flex items-center gap-3 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
                       {partner.logo ? (
-                        <img src={partner.logo} alt={partner.name} className="h-7 md:h-9 object-contain grayscale invert" />
+                        <img src={partner.logo} alt={partner.name} className="h-12 md:h-20 object-contain" />
                       ) : (
-                        <span className="text-lg md:text-xl font-black text-white tracking-wider font-mono">{partner.name}</span>
+                        <span className="text-xl md:text-3xl font-black text-white tracking-wider font-mono">{partner.name}</span>
                       )}
                     </div>
                   ))}
@@ -339,19 +339,16 @@ export default function HomePage() {
             
              {/* Visual graphics */}
             <div className="relative order-2 lg:order-1 flex justify-center reveal-scale">
-              <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-cyan-950/40 to-slate-950 flex items-center justify-center border border-white/5 group hover:border-cyan-400/20 transition-all duration-500">
+              <div className="relative w-full max-w-lg md:max-w-xl aspect-square flex items-center justify-center transition-all duration-500">
                 {data?.content?.['home_why_img'] ? (
                   <img
                     src={data.content['home_why_img']}
                     alt="Why Choose Us"
-                    className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
+                    className="w-full h-full object-contain transition-all duration-700 hover:scale-105 animate-float-slow"
                   />
                 ) : (
-                  <span className="material-symbols-outlined text-8xl text-cyan-400/10 group-hover:text-cyan-400/20 group-hover:scale-110 transition-all duration-700">medical_services</span>
+                  <span className="material-symbols-outlined text-8xl text-cyan-400/10 hover:text-cyan-400/20 hover:scale-110 transition-all duration-700">medical_services</span>
                 )}
-                
-                {/* Visual glass overlay to keep premium dark-mode look */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent pointer-events-none z-10" />
  
                 {/* Years badge */}
                 <div className="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl select-none animate-bounce-subtle z-20">
@@ -364,19 +361,21 @@ export default function HomePage() {
             {/* Core Features */}
             <div className={`order-1 lg:order-2 flex flex-col ${isRtl ? 'items-start text-right' : 'items-start text-left'} reveal-on-scroll`}>
               <span className="text-xs font-bold text-cyan-400 tracking-wider uppercase mb-3">
-                {t('home_section_why_badge', 'ما يميز عيادتنا')}
+                {t('home_section_why_badge', 'لماذا Digital Health؟')}
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-8 leading-tight">
-                {t('home_section_why_title', 'نتحدث لغة الطب، وننفذ أسرع استراتيجيات النمو.')}
+                {t('home_section_why_title', 'لأن التسويق الطبي يحتاج شريك يفهم القطاع الصحي فعلاً وليس وكالة عامة.')}
               </h2>
               
               <div className="space-y-8 w-full">
                 {[
-                  { icon: 'biotech', titleKey: 'home_why_feat1_title', descKey: 'home_why_feat1_desc', titleDef: 'التوجيه العلمي القائم على التحليلات', descDef: 'نحن لا نخمن عشوائياً. نستخدم تحليلات دقيقة لتحديد المرضى ذوي الرغبة الحقيقية في العلاج بمركزك.' },
-                  { icon: 'gavel', titleKey: 'home_why_feat2_title', descKey: 'home_why_feat2_desc', titleDef: 'الامتثال القانوني الصحي التام', descDef: 'كل حملة نطلقها متوافقة 100% مع أنظمة وزارة الصحة السعودية ولوائح خصوصية البيانات الطبية للمريض.' },
-                  { icon: 'award_star', titleKey: 'home_why_feat3_title', descKey: 'home_why_feat3_desc', titleDef: 'خبرة عيادية سريرية حصرية', descDef: 'نحن لا نعمل في مجالات المطاعم أو البيع بالتجزئة. تركيزنا حصري 100% على الأطباء والعيادات فقط.' }
+                  { icon: 'psychology', titleKey: 'home_why_feat1_title', descKey: 'home_why_feat1_desc', titleDef: 'متخصصون في التسويق الطبي فقط', descDef: 'نفهم طريقة تفكير المرضى وما الذي يدفعهم للحجز والثقة' },
+                  { icon: 'public', titleKey: 'home_why_feat2_title', descKey: 'home_why_feat2_desc', titleDef: 'خبرة بالسوق السعودي', descDef: 'نعرف المنافسة وسلوك المرضى وكيف تبني حضورًا طبيًا قويًا في السعودية' },
+                  { icon: 'analytics', titleKey: 'home_why_feat3_title', descKey: 'home_why_feat3_desc', titleDef: 'قرارات مبنية على البيانات', descDef: 'كل حملة تعتمد على التحليل والأرقام لتحقيق نتائج قابلة للقياس' },
+                  { icon: 'gavel', titleKey: 'home_why_feat4_title', descKey: 'home_why_feat4_desc', titleDef: 'التزام بالمعايير الطبية', descDef: 'نلتزم بأخلاقيات التسويق الطبي ونحافظ على مصداقية العلامة الطبية' },
+                  { icon: 'track_changes', titleKey: 'home_why_feat5_title', descKey: 'home_why_feat5_desc', titleDef: 'استراتيجيات مخصصة لكل تخصص', descDef: 'لكل عيادة أو مركز طبي خطة تناسب تخصصه وأهدافه والجمهور المستهدف' }
                 ].map((item, idx) => {
-                  const delays = ['delay-100', 'delay-200', 'delay-300'];
+                  const delays = ['delay-100', 'delay-200', 'delay-300', 'delay-400', 'delay-500'];
                   const delayClass = delays[idx] || '';
                   return (
                     <div key={idx} className={`flex gap-4 items-start reveal-on-scroll ${delayClass}`}>
@@ -397,6 +396,98 @@ export default function HomePage() {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* How We Work Section (منهجية العمل) */}
+        <section className="py-24 max-w-7xl mx-auto px-6 md:px-12 border-t border-cyan-400/8">
+          <div className="text-center mb-16 reveal-on-scroll">
+            <span className="text-xs font-bold text-cyan-400 tracking-wider uppercase mb-3 block">
+              {isRtl ? 'منهجية العمل' : 'HOW WE WORK'}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+              {isRtl ? 'نعتمد على منهجية واضحة' : 'We Rely on a Clear Methodology'}
+            </h2>
+            <p className="text-sm md:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              {isRtl 
+                ? 'تحليل السوق والمنافسين، تحديد الجمهور المستهدف، بناء استراتيجية مخصصة لكل تخصص، تنفيذ الحملات، وقياس الأداء وتحسينه باستمرار.' 
+                : 'Market analysis, target audience definition, custom strategy design, campaign execution, and continuous optimization.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {[
+              { num: '1', titleAr: 'تحليل السوق والمنافسين', titleEn: 'Market & Competitor Analysis', descAr: 'دراسة السوق ومنافسيك لتحديد الفجوات والفرص المتاحة.', descEn: 'Studying the local market and direct competitors to locate gaps and opportunities.' },
+              { num: '2', titleAr: 'تحديد الجمهور المستهدف (المرضى)', titleEn: 'Targeting Patients', descAr: 'تحديد شريحة المرضى المثالية وسلوكهم واحتياجاتهم الطبية.', descEn: 'Defining selective target patient personas and their specific medical needs.' },
+              { num: '3', titleAr: 'بناء استراتيجية مخصصة لكل تخصص', titleEn: 'Specialty Strategy', descAr: 'تصميم خطة تسويقية فريدة تناسب عيادتك وتخصصك الطبي وأهدافك.', descEn: 'Designing a custom healthcare growth blueprint matching your clinic and specialty.' },
+              { num: '4', titleAr: 'تنفيذ الحملات', titleEn: 'Campaign Execution', descAr: 'إطلاق الإعلانات وصناعة المحتوى وتهيئة السيو بأعلى المعايير المهنية.', descEn: 'Launching compliant paid funnels, custom copy, and SEO schemas.' },
+              { num: '5', titleAr: 'قياس الأداء وتحسينه باستمرار', titleEn: 'Optimize & Scale', descAr: 'متابعة مؤشرات الأداء والتحليلات لزيادة عائد الاستثمار ونمو الحجوزات.', descEn: 'Analyzing clinical metrics and scaling profitable acquisition channels.' }
+            ].map((step, idx) => (
+              <div key={idx} className="glass-card p-6 rounded-2xl relative select-none flex flex-col group border border-white/5 hover:border-cyan-400/20 transition-all duration-300">
+                <div className="absolute top-4 right-4 text-5xl font-black text-cyan-400/10 group-hover:text-cyan-400/20 transition-colors font-mono">
+                  {step.num}
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 mb-6 font-mono font-black text-sm relative z-10">
+                  {step.num}
+                </div>
+                <h3 className="text-sm font-bold text-white mb-2 relative z-10">
+                  {isRtl ? step.titleAr : step.titleEn}
+                </h3>
+                <p className="text-[11px] text-slate-400 leading-relaxed relative z-10">
+                  {isRtl ? step.descAr : step.descEn}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Why Digital Marketing Section */}
+        <section className="py-24 bg-gradient-to-b from-[#041428]/40 to-transparent border-t border-cyan-400/8">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className={`${isRtl ? 'text-right' : 'text-left'} space-y-6`}>
+              <span className="text-xs font-bold text-cyan-400 tracking-wider uppercase">
+                {isRtl ? 'لماذا التسويق الرقمي الطبي؟' : 'WHY MEDICAL DIGITAL MARKETING?'}
+              </span>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                {isRtl 
+                  ? 'النجاح اليوم في القطاع الصحي يعتمد على الظهور الرقمي الذكي وليس فقط السمعة التقليدية.'
+                  : 'Success in healthcare today depends on smart digital presence, not just traditional reputation.'}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+              <div className="glass-card p-8 rounded-2xl border border-white/5 flex gap-4 items-start hover:border-cyan-400/20 transition-all">
+                <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
+                  <span className="material-symbols-outlined">search</span>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white mb-2">
+                    {isRtl ? 'البحث عن الأطباء عبر الإنترنت' : 'Patients Research Online'}
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    {isRtl 
+                      ? 'المرضى يبحثون عبر الإنترنت قبل الحجز والمنافسة عالية في الرياض.'
+                      : 'Patients research online before booking and competition in Riyadh is highly intense.'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="glass-card p-8 rounded-2xl border border-white/5 flex gap-4 items-start hover:border-cyan-400/20 transition-all">
+                <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 text-cyan-400">
+                  <span className="material-symbols-outlined">shield</span>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white mb-2">
+                    {isRtl ? 'بناء الثقة الرقمية والمصداقية' : 'Building Trust & Authority'}
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    {isRtl 
+                      ? 'التواجد الرقمي يزيد الثقة والمصداقية والتسويق الرقمي يجذب المرضى المناسبين بدقة.'
+                      : 'Digital presence increases trust and credibility, while digital marketing targets and attracts the right patients accurately.'}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

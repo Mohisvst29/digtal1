@@ -8,8 +8,13 @@ interface Lead {
   name: string;
   phone: string;
   email: string;
+  clientType?: string;
   specialty: string;
+  services?: string[];
+  budget?: string;
+  referrer?: string;
   message: string;
+  date?: string;
   createdAt: string;
 }
 
@@ -65,6 +70,8 @@ interface Doctor {
   desc_ar: string;
   desc_en: string;
   image_url: string;
+  certificates_ar?: string;
+  certificates_en?: string;
   order: number;
 }
 
@@ -77,6 +84,8 @@ interface Clinic {
   desc_ar: string;
   desc_en: string;
   image_url: string;
+  certificates_ar?: string;
+  certificates_en?: string;
   order: number;
 }
 
@@ -152,6 +161,7 @@ export default function AdminDashboardPage() {
 
   // Core website data states
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [content, setContent] = useState<Record<string, string>>({});
   const [articles, setArticles] = useState<Article[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -735,8 +745,29 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (res.ok && data.status === 'success') {
         showToast('✓ تم رفع الشريك وتحديث الشعار بنجاح!', 'success');
-        const copy = JSON.parse(content.home_partners_json || '[]');
-        copy[idx].logo = data.media.url;
+        let copy = [];
+        try {
+          const raw = content.home_partners_json || '';
+          if (raw) {
+            copy = JSON.parse(raw);
+          }
+        } catch (err) {}
+
+        if (!copy || copy.length === 0) {
+          copy = [
+            { name: 'Google Partners', logo: '' },
+            { name: 'Meta Business', logo: '' },
+            { name: 'TikTok Ads', logo: '' },
+            { name: 'Snapchat Ads', logo: '' },
+          ];
+        }
+
+        if (copy[idx]) {
+          copy[idx].logo = data.media.url;
+        } else {
+          copy[idx] = { name: `شريك جديد ${idx + 1}`, logo: data.media.url };
+        }
+
         setContent(prev => ({ ...prev, home_partners_json: JSON.stringify(copy) }));
         setMedia(prev => [data.media, ...prev]);
       } else {
@@ -1261,7 +1292,11 @@ export default function AdminDashboardPage() {
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {leads.map((lead) => (
-                  <div key={lead._id} className="bg-slate-900 border border-slate-800 p-6 rounded-[2rem] hover:border-cyan-400/30 transition-all relative overflow-hidden flex flex-col justify-between">
+                  <div 
+                    key={lead._id} 
+                    onClick={() => setSelectedLead(lead)}
+                    className="bg-slate-900 border border-slate-800 p-6 rounded-[2rem] hover:border-cyan-400/30 transition-all relative overflow-hidden flex flex-col justify-between cursor-pointer group hover:scale-[1.01]"
+                  >
                     <div>
                       <div className="flex justify-between items-start gap-4 mb-4">
                         <div className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-[10px] font-extrabold">
@@ -1271,25 +1306,25 @@ export default function AdminDashboardPage() {
                           {new Date(lead.createdAt).toLocaleString('ar-SA')}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-2">{lead.name}</h3>
+                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">{lead.name}</h3>
                       
                       <div className="space-y-1.5 mb-4 text-xs text-slate-300">
                         {lead.phone && (
                           <div className="flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 text-sm">call</span>
-                            <span>الهاتف: <a href={`tel:${lead.phone}`} className="hover:underline">{lead.phone}</a></span>
+                            <span>الهاتف: <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="hover:underline">{lead.phone}</a></span>
                           </div>
                         )}
                         {lead.email && (
                           <div className="flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 text-sm">mail</span>
-                            <span>البريد: <a href={`mailto:${lead.email}`} className="hover:underline">{lead.email}</a></span>
+                            <span>البريد: <a href={`mailto:${lead.email}`} onClick={(e) => e.stopPropagation()} className="hover:underline">{lead.email}</a></span>
                           </div>
                         )}
                       </div>
 
                       {lead.message && (
-                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-850 text-xs text-slate-400 leading-relaxed mb-6 whitespace-pre-wrap">
+                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-850 text-xs text-slate-400 leading-relaxed mb-6 line-clamp-3 overflow-hidden text-ellipsis whitespace-pre-wrap">
                           {lead.message}
                         </div>
                       )}
@@ -1299,6 +1334,7 @@ export default function AdminDashboardPage() {
                       href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all text-center flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -1840,11 +1876,11 @@ export default function AdminDashboardPage() {
                           <p className="text-[10px] text-slate-500 font-bold">معاينة حية للمظهر في الصفحة الرئيسية:</p>
                           <div className="py-4 border-y border-white/5 bg-slate-900/40 overflow-hidden select-none flex justify-center items-center gap-6">
                             {parsedPartners.slice(0, 4).map((p, idx) => (
-                              <div key={idx} className="flex items-center gap-1.5 opacity-60">
+                              <div key={idx} className="flex items-center gap-1.5 opacity-80">
                                 {p.logo ? (
-                                  <img src={p.logo} alt={p.name} className="h-5 object-contain grayscale invert" />
+                                  <img src={p.logo} alt={p.name} className="h-10 object-contain" />
                                 ) : (
-                                  <span className="text-[10px] font-extrabold text-white font-mono">{p.name}</span>
+                                  <span className="text-xs font-extrabold text-white font-mono">{p.name}</span>
                                 )}
                               </div>
                             ))}
@@ -3615,7 +3651,7 @@ export default function AdminDashboardPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold text-white">إدارة الأطباء ({doctors.length})</h2>
               <button
-                onClick={() => setDoctorForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', order: 0 })}
+                onClick={() => setDoctorForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', certificates_ar: '', certificates_en: '', order: 0 })}
                 className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer"
               >
                 <span className="material-symbols-outlined text-base">add</span>
@@ -3659,6 +3695,14 @@ export default function AdminDashboardPage() {
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-slate-300">الوصف بالإنجليزية</label>
                       <textarea rows={3} dir="ltr" value={doctorForm.desc_en || ''} onChange={e => setDoctorForm({ ...doctorForm, desc_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2 col-span-1 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-300">الشهادات والخبرات بالعربية (كل سطر بمثابة شهادة منفصلة)</label>
+                      <textarea rows={4} value={doctorForm.certificates_ar || ''} onChange={e => setDoctorForm({ ...doctorForm, certificates_ar: e.target.value })} placeholder="مثال:&#10;البورد السعودي لطب الأطفال&#10;زمالة جامعة الملك سعود لطب الأطفال" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2 col-span-1 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-300">الشهادات والخبرات بالإنجليزية (كل سطر بمثابة شهادة منفصلة)</label>
+                      <textarea rows={4} dir="ltr" value={doctorForm.certificates_en || ''} onChange={e => setDoctorForm({ ...doctorForm, certificates_en: e.target.value })} placeholder="e.g.:&#10;Saudi Board of Pediatrics&#10;King Saud University Fellowship" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
                     </div>
 
                     <div className="space-y-2">
@@ -3731,7 +3775,7 @@ export default function AdminDashboardPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold text-white">إدارة العيادات والمراكز ({clinics.length})</h2>
               <button
-                onClick={() => setClinicForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', order: 0 })}
+                onClick={() => setClinicForm({ name_ar: '', name_en: '', specialty_ar: '', specialty_en: '', desc_ar: '', desc_en: '', image_url: '', certificates_ar: '', certificates_en: '', order: 0 })}
                 className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer"
               >
                 <span className="material-symbols-outlined text-base">add</span>
@@ -3775,6 +3819,14 @@ export default function AdminDashboardPage() {
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-slate-300">الوصف بالإنجليزية</label>
                       <textarea rows={3} dir="ltr" value={clinicForm.desc_en || ''} onChange={e => setClinicForm({ ...clinicForm, desc_en: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2 col-span-1 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-300">الشهادات والاعتمادات بالعربية (كل سطر بمثابة شهادة منفصلة)</label>
+                      <textarea rows={4} value={clinicForm.certificates_ar || ''} onChange={e => setClinicForm({ ...clinicForm, certificates_ar: e.target.value })} placeholder="مثال:&#10;اعتماد سباهي (CBAHI)&#10;ترخيص وزارة الصحة السعودية" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
+                    </div>
+                    <div className="space-y-2 col-span-1 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-300">الشهادات والاعتمادات بالإنجليزية (كل سطر بمثابة شهادة منفصلة)</label>
+                      <textarea rows={4} dir="ltr" value={clinicForm.certificates_en || ''} onChange={e => setClinicForm({ ...clinicForm, certificates_en: e.target.value })} placeholder="e.g.:&#10;CBAHI Accreditation&#10;Saudi Ministry of Health License" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white"></textarea>
                     </div>
 
                     <div className="space-y-2">
@@ -3840,6 +3892,131 @@ export default function AdminDashboardPage() {
         )}
 
       </main>
+
+      {/* Modal: Detailed Lead Viewer */}
+      {selectedLead && (
+        <div className="fixed inset-0 z-[160] bg-slate-950/85 flex items-center justify-center p-4 md:p-6 backdrop-blur-sm animate-fade-in-slow">
+          <div className="bg-slate-900 border border-slate-800 max-w-2xl w-full p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between max-h-[90vh] shadow-2xl animate-scale-up">
+            
+            <div className="flex justify-between items-center mb-6 border-b border-slate-800 pb-4 select-none">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-cyan-400 text-2xl">patient_list</span>
+                <h3 className="text-xl font-bold text-white">تفاصيل طلب الاستشارة بالكامل</h3>
+              </div>
+              <button 
+                onClick={() => setSelectedLead(null)}
+                className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+            <div className="space-y-6 overflow-y-auto pr-1 flex-grow mb-6 text-right">
+              {/* Customer Basic Info Card */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">اسم العميل</span>
+                  <span className="text-sm font-bold text-white">{selectedLead.name}</span>
+                </div>
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">التخصص الطبي المطلوب</span>
+                  <span className="text-sm font-bold text-cyan-400">{selectedLead.specialty || 'تخصص عام'}</span>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">رقم الهاتف</span>
+                    <a href={`tel:${selectedLead.phone}`} className="text-sm font-bold text-white hover:underline hover:text-cyan-400">{selectedLead.phone}</a>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-500">call</span>
+                </div>
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">البريد الإلكتروني</span>
+                    <a href={`mailto:${selectedLead.email}`} className="text-sm font-bold text-white hover:underline hover:text-cyan-400">{selectedLead.email}</a>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-500">mail</span>
+                </div>
+              </div>
+
+              {/* Client Type & Date Preferences */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">نوع الكيان / العميل</span>
+                  <span className="text-sm font-bold text-white">{selectedLead.clientType || 'غير محدد'}</span>
+                </div>
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">التاريخ المفضل للاتصال</span>
+                  <span className="text-sm font-bold text-white">{selectedLead.date || 'غير محدد'}</span>
+                </div>
+              </div>
+
+              {/* Services & Budget */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">الميزانية التقديرية</span>
+                  <span className="text-sm font-bold text-cyan-400">{selectedLead.budget || 'غير محدد'}</span>
+                </div>
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-1">قناة التعرف علينا</span>
+                  <span className="text-sm font-bold text-white">{selectedLead.referrer || 'غير محدد'}</span>
+                </div>
+              </div>
+
+              {/* Services Requested */}
+              {selectedLead.services && selectedLead.services.length > 0 && (
+                <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850">
+                  <span className="text-[10px] text-slate-500 font-bold block mb-2">الخدمات التسويقية المطلوبة</span>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedLead.services.map((service, sidx) => (
+                      <span key={sidx} className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs px-3 py-1 rounded-full font-bold">
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Details Message */}
+              <div className="bg-slate-950 p-5 rounded-2xl border border-slate-850">
+                <span className="text-[10px] text-slate-500 font-bold block mb-2">تفاصيل إضافية / رسالة الاستفسار</span>
+                <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">
+                  {selectedLead.message || 'لا توجد تفاصيل إضافية أو رسالة مرفقة.'}
+                </p>
+              </div>
+
+              {/* Submission Date info */}
+              <div className="text-[10px] text-slate-500 text-center">
+                تم إرسال الطلب في: {new Date(selectedLead.createdAt).toLocaleString('ar-SA')}
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-800 select-none">
+              <a
+                href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-grow bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 px-6 rounded-2xl text-xs transition-all text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.25)]"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.993L2 22l5.233-1.371a9.936 9.936 0 0 0 4.779 1.21h.004c5.505 0 9.989-4.478 9.99-9.985A9.983 9.983 0 0 0 12.012 2zm5.799 14.123c-.253.712-1.463 1.307-2.022 1.362-.513.051-1.18.083-3.218-.762-2.599-1.079-4.247-3.722-4.377-3.894-.13-.171-1.05-1.398-1.05-2.667 0-1.269.664-1.892.901-2.148.236-.256.516-.32.688-.32.172 0 .344.001.494.009.157.008.368-.06.577.444.21.516.719 1.753.782 1.881.063.127.104.276.02.443-.083.167-.156.276-.312.459-.157.183-.328.406-.469.545-.157.155-.32.324-.138.636.182.311.808 1.334 1.733 2.158.93.829 1.716 1.085 2.037 1.241.32.155.507.13.69-.083.182-.213.782-.909.99-1.22.208-.311.416-.259.69-.156.276.104 1.752.825 2.054.977.302.151.503.228.577.355.074.127.074.739-.179 1.451z"/>
+                </svg>
+                <span>تواصل فوري عبر الواتساب</span>
+              </a>
+              <button
+                onClick={() => setSelectedLead(null)}
+                className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-8 rounded-2xl text-xs transition-colors cursor-pointer"
+              >
+                إغلاق النافذة
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

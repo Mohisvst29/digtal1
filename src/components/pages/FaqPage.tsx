@@ -62,6 +62,17 @@ export default function FaqPage() {
     }
   ];
 
+  const dbFaqs = data.faqs && data.faqs.length > 0 ? data.faqs : [];
+  const resolvedFaqs = dbFaqs.length > 0
+    ? dbFaqs.map((faq: any) => ({
+        q: isRtl ? faq.question_ar : faq.question_en,
+        a: isRtl ? faq.answer_ar : faq.answer_en
+      }))
+    : faqs.map(faq => ({
+        q: isRtl ? faq.qAr : faq.qEn,
+        a: isRtl ? faq.aAr : faq.aEn
+      }));
+
   return (
     <>
       <Header />
@@ -107,10 +118,8 @@ export default function FaqPage() {
 
           {/* FAQ Accordion container */}
           <div className="lg:col-span-9 space-y-4">
-            {faqs.map((faq, index) => {
+            {resolvedFaqs.map((faq, index) => {
               const isOpen = openIndex === index;
-              const question = isRtl ? faq.qAr : faq.qEn;
-              const answer = isRtl ? faq.aAr : faq.aEn;
               
               return (
                 <div 
@@ -120,7 +129,7 @@ export default function FaqPage() {
                 >
                   <div className="flex justify-between items-center gap-4">
                     <h4 className="text-base md:text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">
-                      {question}
+                      {faq.q}
                     </h4>
                     <span className="material-symbols-outlined text-cyan-400 transition-transform duration-300 shrink-0 select-none">
                       {isOpen ? 'expand_less' : 'add'}
@@ -129,7 +138,7 @@ export default function FaqPage() {
                   
                   {isOpen && (
                     <div className="mt-4 pt-4 border-t border-white/5 text-slate-300 text-xs md:text-sm leading-relaxed animate-fade-in-slow">
-                      {answer}
+                      {faq.a}
                     </div>
                   )}
                 </div>

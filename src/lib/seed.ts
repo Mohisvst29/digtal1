@@ -29,8 +29,8 @@ export async function seedDatabase() {
     // General Settings
     { key: 'contact_phone', value: '+9660541659332' },
     { key: 'contact_whatsapp', value: '+9660541659332' },
-    { key: 'contact_email', value: 'info@digitalhealth.agency' },
-    { key: 'contact_address', value: 'الرياض، المملكة العربية السعودية' },
+    { key: 'contact_email', value: 'Info@DigitalHealth-sa.com' },
+    { key: 'contact_address', value: 'الأمير عبد العزيز بن مساعد بن جلوي، المربع، الرياض 12626، المملكة العربية السعودية' },
     { key: 'contact_map_iframe', value: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.9782522502677!2d46.708890784999994!3d24.6589332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03f7e5d8f63b%3A0xe5a3c08cd4ad4e2c!2sPrince%20Abdulaziz%20Bin%20Musaid%20Bin%20Jalawi%20St%2C%20Al%20Murabba%2C%20Riyadh%2012628!5e0!3m2!1sen!2ssa!4v1700000000000' },
     { key: 'logo_text_ar', value: 'ديجيتال هيلث' },
     { key: 'logo_text_en', value: 'Digital Health' },
@@ -270,14 +270,14 @@ export async function seedDatabase() {
   ];
 
   // Bulk upsert keys to make sure they exist, preserving any values already edited by the user!
-  const operations = defaultContent.map((item) => {
-    return Content.findOneAndUpdate(
-      { key: item.key },
-      { $setOnInsert: { value: item.value } }, // Only write if the key does not already exist
-      { upsert: true, new: true }
-    );
-  });
-  await Promise.all(operations);
+  const bulkOps = defaultContent.map((item) => ({
+    updateOne: {
+      filter: { key: item.key },
+      update: { $setOnInsert: { value: item.value } }, // Only write if the key does not already exist
+      upsert: true,
+    },
+  }));
+  await Content.bulkWrite(bulkOps);
   console.log(`Successfully checked and verified all localized layout keys in MongoDB content collection.`);
 
   // 3. Seed default Articles if empty

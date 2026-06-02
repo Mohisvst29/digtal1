@@ -17,9 +17,10 @@ export default function ContactPage() {
   const [clientType, setClientType] = useState('طبيب');
   const [specialty, setSpecialty] = useState('');
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [budget, setBudget] = useState('أقل من 5,000 ريال');
-  const [referrer, setReferrer] = useState('جوجل');
+  const [budget, setBudget] = useState('أقل من 5K');
+  const [referrer, setReferrer] = useState('');
   const [message, setMessage] = useState('');
+  const [serviceDropdownOpen, setServiceDropdownOpen] = useState(false);
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -100,12 +101,12 @@ export default function ContactPage() {
   };
 
   const servicesList = [
-    { ar: 'الهوية الطبية الرقمية الفاخرة', en: 'Premium Digital Identity' },
-    { ar: 'إدارة السوشيال ميديا الطبية', en: 'Clinical Social Media' },
-    { ar: 'تحسين محركات البحث السيو الطبي', en: 'Practice SEO Dominance' },
-    { ar: 'الإعلانات الممولة والاستحواذ', en: 'Targeted Patient Ads' },
-    { ar: 'إدارة السيرة والسمعة الطبية', en: 'Reputation Governance' },
-    { ar: 'تصميم المواقع والتطبيقات الطبية', en: 'Luxury Medical Web' }
+    { ar: 'الهوية الطبية الرقمية', en: 'Digital Medical Identity' },
+    { ar: 'إدارة السوشيال ميديا الطبية', en: 'Medical Social Media' },
+    { ar: 'تحسين محركات البحث (Medical SEO)', en: 'Medical SEO' },
+    { ar: 'الإعلانات الممولة (Paid Ads)', en: 'Paid Ads' },
+    { ar: 'إدارة السيرة الطبية', en: 'Reputation Management' },
+    { ar: 'تصميم المواقع والتطبيقات الطبية', en: 'Medical Web & Apps Design' }
   ];
 
   return (
@@ -189,26 +190,40 @@ export default function ContactPage() {
                 />
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-slate-400" htmlFor="client-type">
-                  {isRtl ? 'نوع المرفق *' : 'Practice Type *'}
+              <div className="flex flex-col gap-2 md:col-span-2 select-none">
+                <label className="text-xs font-bold text-slate-400 mb-2">
+                  {isRtl ? 'نوع العميل *' : 'Client Type *'}
                 </label>
-                <select 
-                  id="client-type" 
-                  value={clientType}
-                  onChange={(e) => setClientType(e.target.value)}
-                  className="bg-slate-900 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm cursor-pointer"
-                >
-                  <option value="طبيب">{isRtl ? 'طبيب (عيادة فردية)' : 'Physician (Solo Practice)'}</option>
-                  <option value="مركز طبي">{isRtl ? 'مركز طبي تخصصي' : 'Medical Center'}</option>
-                  <option value="مستشفى">{isRtl ? 'مستشفى خاص' : 'Private Hospital'}</option>
-                  <option value="عيادة تخصصية">{isRtl ? 'عيادة تجميل/جلدية' : 'Aesthetic Clinic'}</option>
-                </select>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {[
+                    { val: 'طبيب', labelAr: 'طبيب', labelEn: 'Physician' },
+                    { val: 'مركز طبي', labelAr: 'مركز طبي', labelEn: 'Medical Center' },
+                    { val: 'مستشفى', labelAr: 'مستشفى', labelEn: 'Hospital' },
+                    { val: 'عيادة تخصصية', labelAr: 'عيادة تخصصية', labelEn: 'Specialized Clinic' }
+                  ].map((item, idx) => (
+                    <label 
+                      key={idx} 
+                      className={`flex items-center gap-3 p-4 bg-slate-950/20 rounded-xl border cursor-pointer hover:border-cyan-400 transition-all ${
+                        clientType === item.val ? 'border-cyan-500 bg-cyan-500/5' : 'border-white/10'
+                      }`}
+                    >
+                      <input 
+                        type="radio" 
+                        name="client-type"
+                        value={item.val}
+                        checked={clientType === item.val}
+                        onChange={() => setClientType(item.val)}
+                        className="text-cyan-400 focus:ring-cyan-400 bg-slate-950 border-white/20"
+                      />
+                      <span className="text-xs font-semibold text-white">{isRtl ? item.labelAr : item.labelEn}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 md:col-span-2">
                 <label className="text-xs font-bold text-slate-400" htmlFor="specialty">
-                  {isRtl ? 'التخصص الطبي *' : 'Clinical Specialty *'}
+                  {isRtl ? 'التخصص الطبي (اختياري)' : 'Clinical Specialty (Optional)'}
                 </label>
                 <input 
                   id="specialty" 
@@ -217,59 +232,94 @@ export default function ContactPage() {
                   className="bg-slate-950/40 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm" 
                   placeholder={isRtl ? "مثال: أسنان، جلدية، تجميل" : "e.g. Dentistry, Aesthetics, Laser"} 
                   type="text" 
-                  required
                 />
               </div>
               
-              <div className="flex flex-col gap-2 md:col-span-2">
+              <div className="flex flex-col gap-2 md:col-span-2 relative">
                 <label className="text-xs font-bold text-slate-400 mb-2">
                   {isRtl ? 'الخدمة المطلوبة (يمكنك اختيار أكثر من خدمة) *' : 'Required services (multiple choice) *'}
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {servicesList.map((item, idx) => {
-                    const label = isRtl ? item.ar : item.en;
-                    const value = item.ar;
-                    const isChecked = selectedServices.includes(value);
-                    return (
-                      <label 
-                        key={idx} 
-                        className={`flex items-center gap-3 p-3 bg-slate-950/20 rounded-xl border cursor-pointer hover:border-cyan-400 transition-all select-none ${
-                          isChecked ? 'border-cyan-500 bg-cyan-500/5' : 'border-white/10'
-                        }`}
-                      >
-                        <input 
-                          type="checkbox" 
-                          checked={isChecked}
-                          onChange={() => handleCheckboxChange(value)}
-                          className="rounded border-white/20 text-cyan-400 focus:ring-cyan-400 bg-slate-950"
-                        />
-                        <span className="text-xs font-semibold text-white">{label}</span>
-                      </label>
-                    );
-                  })}
+                
+                <button
+                  type="button"
+                  onClick={() => setServiceDropdownOpen(!serviceDropdownOpen)}
+                  className="w-full flex justify-between items-center bg-slate-950/40 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm cursor-pointer select-none text-right"
+                >
+                  <span className="truncate max-w-[90%] text-slate-200">
+                    {selectedServices.length === 0
+                      ? (isRtl ? 'اختر الخدمات المطلوبة...' : 'Select required services...')
+                      : servicesList
+                          .filter(item => selectedServices.includes(item.ar))
+                          .map(item => isRtl ? item.ar : item.en)
+                          .join('، ')
+                    }
+                  </span>
+                  <span className={`material-symbols-outlined text-slate-400 transition-transform duration-300 ${serviceDropdownOpen ? 'rotate-180' : ''}`}>
+                    keyboard_arrow_down
+                  </span>
+                </button>
+
+                {serviceDropdownOpen && (
+                  <div className="absolute top-full left-0 right-0 mt-2 z-30 bg-slate-900 border border-white/10 rounded-xl p-4 shadow-2xl max-h-60 overflow-y-auto space-y-2 animate-fade-in">
+                    {servicesList.map((item, idx) => {
+                      const label = isRtl ? item.ar : item.en;
+                      const value = item.ar;
+                      const isChecked = selectedServices.includes(value);
+                      return (
+                        <label 
+                          key={idx} 
+                          className={`flex items-center gap-3 p-3 bg-slate-950/20 rounded-xl border cursor-pointer hover:border-cyan-400 transition-all select-none ${
+                            isChecked ? 'border-cyan-500 bg-cyan-500/5' : 'border-white/10'
+                          }`}
+                        >
+                          <input 
+                            type="checkbox" 
+                            checked={isChecked}
+                            onChange={() => handleCheckboxChange(value)}
+                            className="rounded border-white/20 text-cyan-400 focus:ring-cyan-400 bg-slate-950"
+                          />
+                          <span className="text-xs font-semibold text-white">{label}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-2 md:col-span-2 select-none">
+                <label className="text-xs font-bold text-slate-400 mb-2">
+                  {isRtl ? 'الميزانية التقريبية *' : 'Approximate Budget *'}
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {[
+                    { val: 'أقل من 5K', labelAr: 'أقل من 5K', labelEn: 'Under 5K' },
+                    { val: '5K–10K', labelAr: '5K–10K', labelEn: '5K–10K' },
+                    { val: 'أكثر من 10K', labelAr: 'أكثر من 10K', labelEn: 'Over 10K' },
+                    { val: 'غير محدد', labelAr: 'غير محدد', labelEn: 'Undecided' }
+                  ].map((item, idx) => (
+                    <label 
+                      key={idx} 
+                      className={`flex items-center gap-3 p-4 bg-slate-950/20 rounded-xl border cursor-pointer hover:border-cyan-400 transition-all ${
+                        budget === item.val ? 'border-cyan-500 bg-cyan-500/5' : 'border-white/10'
+                      }`}
+                    >
+                      <input 
+                        type="radio" 
+                        name="budget"
+                        value={item.val}
+                        checked={budget === item.val}
+                        onChange={() => setBudget(item.val)}
+                        className="text-cyan-400 focus:ring-cyan-400 bg-slate-950 border-white/20"
+                      />
+                      <span className="text-xs font-semibold text-white">{isRtl ? item.labelAr : item.labelEn}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-slate-400" htmlFor="budget">
-                  {isRtl ? 'الميزانية التقريبية *' : 'Monthly Marketing Budget *'}
-                </label>
-                <select 
-                  id="budget" 
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  className="bg-slate-900 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm cursor-pointer"
-                >
-                  <option value="أقل من 5,000 ريال">{isRtl ? 'أقل من 5,000 ريال سعودي' : 'Under 5,000 SAR'}</option>
-                  <option value="5,000 - 10,000 ريال">{isRtl ? '5,000 – 10,000 ريال سعودي' : '5,000 - 10,000 SAR'}</option>
-                  <option value="أكثر من 10,000 ريال">{isRtl ? 'أكثر من 10,000 ريال سعودي' : 'Over 10,000 SAR'}</option>
-                  <option value="غير محدد">{isRtl ? 'غير محدد' : 'Undecided'}</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 md:col-span-2">
                 <label className="text-xs font-bold text-slate-400" htmlFor="referrer">
-                  {isRtl ? 'كيف عرفت عنا؟ *' : 'How did you find us? *'}
+                  {isRtl ? 'كيف عرفت عنا؟ (اختياري)' : 'How did you find us? (Optional)'}
                 </label>
                 <select 
                   id="referrer" 
@@ -277,16 +327,17 @@ export default function ContactPage() {
                   onChange={(e) => setReferrer(e.target.value)}
                   className="bg-slate-900 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm cursor-pointer"
                 >
-                  <option value="جوجل">{isRtl ? 'محرك البحث جوجل' : 'Google Search'}</option>
-                  <option value="سوشيال ميديا">{isRtl ? 'منصات التواصل الاجتماعي' : 'Social Platforms'}</option>
-                  <option value="توصية">{isRtl ? 'توصية من ممارس طبي زميل' : 'Clinical Peer referral'}</option>
-                  <option value="إعلان">{isRtl ? 'إعلان ممول' : 'Paid Ad'}</option>
+                  <option value="">{isRtl ? 'اختر خياراً...' : 'Select an option...'}</option>
+                  <option value="جوجل">{isRtl ? 'جوجل' : 'Google'}</option>
+                  <option value="سوشيال ميديا">{isRtl ? 'سوشيال ميديا' : 'Social Media'}</option>
+                  <option value="توصية">{isRtl ? 'توصية' : 'Recommendation'}</option>
+                  <option value="إعلان">{isRtl ? 'إعلان' : 'Ad'}</option>
                 </select>
               </div>
 
               <div className="flex flex-col gap-2 md:col-span-2">
                 <label className="text-xs font-bold text-slate-400" htmlFor="message">
-                  {isRtl ? 'الرسالة' : 'Additional Message details'}
+                  {isRtl ? 'رسالتك (اختياري)' : 'Your Message (Optional)'}
                 </label>
                 <textarea 
                   id="message" 
@@ -295,6 +346,7 @@ export default function ContactPage() {
                   className="bg-slate-950/40 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-cyan-400 text-sm resize-none" 
                   placeholder={isRtl ? "اشرح لنا أهداف عيادتك والنتائج التي تطمح لتحقيقها..." : "Tell us about your clinic scale target, monthly bookings goal..."} 
                   rows={4}
+                  maxLength={500}
                 />
               </div>
 

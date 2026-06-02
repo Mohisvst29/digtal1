@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { Tajawal, Plus_Jakarta_Sans } from 'next/font/google';
+import { IBM_Plex_Sans_Arabic, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { ContentProvider } from '@/components/ContentProvider';
 import ScrollReveal from '@/components/ScrollReveal';
 
-const tajawal = Tajawal({
+const ibmPlex = IBM_Plex_Sans_Arabic({
   subsets: ['arabic'],
-  weight: ['300', '400', '500', '700', '800', '900'],
-  variable: '--font-tajawal',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
   display: 'swap',
 });
 
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${tajawal.variable} ${jakarta.variable} h-full`}>
+    <html lang="ar" dir="rtl" className={`${ibmPlex.variable} ${jakarta.variable} h-full`}>
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
       </head>

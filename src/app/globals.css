@@ -5,8 +5,8 @@
   --secondary-color: #0aebff;
   --bg-color: #020d1f;
   --surface-color: #061428;
-  --font-family-ar: 'Tajawal', sans-serif;
-  --font-family-en: 'Plus Jakarta Sans', sans-serif;
+  --font-family-ar: var(--font-ibm-plex-arabic), 'IBM Plex Sans Arabic', sans-serif;
+  --font-family-en: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
@@ -15,8 +15,10 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   background-image: 
+    radial-gradient(rgba(0, 218, 243, 0.18) 2px, transparent 2px),
     radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0, 218, 243, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 80% 100%, rgba(6, 30, 70, 0.4) 0%, transparent 60%);
+  background-size: 32px 32px, 100% 100%, 100% 100%;
 }
 
 /* Premium Blue-tinted Glass Cards */
@@ -207,8 +209,10 @@ body {
 body.light-theme {
   color: #1e293b !important;
   background-image: 
+    radial-gradient(rgba(0, 218, 243, 0.22) 2px, transparent 2px),
     radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0, 218, 243, 0.08) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0, 218, 243, 0.04) 0%, transparent 60%) !important;
+  background-size: 32px 32px, 100% 100%, 100% 100% !important;
 }
 
 body.light-theme ::selection {
@@ -237,6 +241,14 @@ body.light-theme .text-slate-500 {
 
 body.light-theme .text-cyan-400 {
   color: #008ca3 !important; /* Darker cyan for better readability on white */
+}
+
+/* Force colors to bypass global light-theme overrides inside dark containers */
+.text-white-force {
+  color: #ffffff !important;
+}
+.text-cyan-400-force {
+  color: #00daf3 !important;
 }
 
 /* Glass Card Overrides */
@@ -420,6 +432,23 @@ body.light-theme ::-webkit-scrollbar-track {
 }
 body.light-theme ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Typography & Spacing Optimization
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.35 !important;
+}
+
+p {
+  line-height: 1.8 !important;
+}
+
+/* Fix Arabic disconnected letters caused by tracking classes */
+html[lang="ar"] *,
+[dir="rtl"] * {
+  letter-spacing: 0px !important;
 }
 
 

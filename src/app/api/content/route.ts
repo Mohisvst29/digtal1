@@ -34,7 +34,10 @@ export async function GET() {
     await dbConnect();
     
     // Auto-seed if database is empty on first load
-    await seedDatabase();
+    const contentCount = await Content.countDocuments();
+    if (contentCount === 0) {
+      await seedDatabase();
+    }
 
     // 1. Fetch content table (key-value store)
     const contentRows = await Content.find({});
@@ -112,14 +115,14 @@ export async function PUT(request: Request) {
     const { content } = body;
 
     if (content && typeof content === 'object') {
-      const operations = Object.entries(content).map(([key, value]) => {
-        return Content.findOneAndUpdate(
-          { key },
-          { value: String(value) },
-          { upsert: true, new: true }
-        );
-      });
-      await Promise.all(operations);
+      const bulkOps = Object.entries(content).map(([key, value]) => ({
+        updateOne: {
+          filter: { key },
+          update: { $set: { value: String(value) } },
+          upsert: true,
+        },
+      }));
+      await Content.bulkWrite(bulkOps);
       
       return NextResponse.json({
         status: 'success',

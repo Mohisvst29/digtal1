@@ -18,6 +18,13 @@ export default function ClinicsPage() {
 
   const dbClinics = data.clinics || [];
 
+  const getHref = (path: string) => {
+    if (locale === 'en') {
+      return path === '' ? '/en' : `/en/${path}`;
+    }
+    return path === '' ? '/' : `/${path}`;
+  };
+
   return (
     <>
       <Header />
@@ -64,16 +71,17 @@ export default function ClinicsPage() {
                 const desc = isRtl ? clinic.desc_ar : clinic.desc_en;
                 
                 return (
-                  <div 
-                    key={idx} 
-                    className="glass-card rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative hover:-translate-y-2"
+                  <Link 
+                    key={clinic._id || idx} 
+                    href={getHref(`clinics/${clinic._id}`)}
+                    className="glass-card rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative hover:-translate-y-2 cursor-pointer"
                   >
-                    <div className="aspect-[4/3] w-full bg-slate-950/40 flex items-center justify-center relative overflow-hidden p-4">
+                    <div className="aspect-[4/3] w-full bg-transparent flex items-center justify-center relative overflow-hidden p-4">
                       {clinic.image_url ? (
                         <img 
                           src={clinic.image_url} 
                           alt={name} 
-                          className="w-full h-full object-cover rounded-2xl shadow-inner group-hover:scale-105 transition-transform duration-700 ease-out"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                       ) : (
                         <div className="w-full h-full bg-slate-900/60 rounded-2xl flex items-center justify-center">
@@ -84,7 +92,7 @@ export default function ClinicsPage() {
                       )}
 
                       {/* Gradient Overlay for aesthetic */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl m-4 pointer-events-none"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     </div>
                     
                     <div className="p-6 pt-4 flex-grow flex flex-col justify-between text-center relative z-10">
@@ -102,7 +110,7 @@ export default function ClinicsPage() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

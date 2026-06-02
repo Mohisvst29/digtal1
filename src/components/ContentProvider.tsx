@@ -28,8 +28,8 @@ interface ContentContextType {
 const ARABIC_DEFAULTS: Record<string, string> = {
   'contact_phone': '+9660541659332',
   'contact_whatsapp': '+9660541659332',
-  'contact_email': 'info@digitalhealth.agency',
-  'contact_address': 'الرياض، المملكة العربية السعودية',
+  'contact_email': 'Info@DigitalHealth-sa.com',
+  'contact_address': 'الأمير عبد العزيز بن مساعد بن جلوي، المربع، الرياض 12626، المملكة العربية السعودية',
   'home_badge': 'الوكالة الأولى للتسويق الطبي في الرياض',
   'hero_title': 'شريك النمو الطبي الاستراتيجي',
   'hero_tagline': 'نهتم بالهوية الرقمية للعيادات الطبية المتخصصة، تحسين محركات البحث، وجذب المرضى بأعلى معايير المصداقية المهنية.',
@@ -142,8 +142,8 @@ const ENGLISH_DEFAULTS: Record<string, string> = {
   // Header / general
   'contact_phone': '+9660541659332',
   'contact_whatsapp': '+9660541659332',
-  'contact_email': 'info@digitalhealth.agency',
-  'contact_address': 'Riyadh, Saudi Arabia',
+  'contact_email': 'Info@DigitalHealth-sa.com',
+  'contact_address': 'Prince Abdulaziz Bin Musaid Bin Jalawi, Al Murabba, Riyadh 12626, Saudi Arabia',
   
   // Home Page
   'home_badge': "Riyadh's Premier Medical Marketing Agency",
@@ -428,8 +428,11 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
   const secondaryColor = data.content['secondary_color'] || '#0aebff';
   const bgColor = data.content['bg_color'] || '#020d1f';
   const surfaceColor = data.content['surface_color'] || '#061428';
-  const fontAr = data.content['font_family_ar'] || 'Tajawal';
+  const fontAr = data.content['font_family_ar'] || 'IBM Plex Sans Arabic';
   const fontEn = data.content['font_family_en'] || 'Plus Jakarta Sans';
+
+  const isLight = isLightColor(bgColor);
+  const dotOpacity = isLight ? '0.22' : '0.18';
 
   const styleHtml = `
     :root {
@@ -437,15 +440,17 @@ export function ContentProvider({ children, initialLocale = 'ar' }: { children: 
       --secondary-color: ${secondaryColor};
       --bg-color: ${bgColor};
       --surface-color: ${surfaceColor};
-      --font-family-ar: '${fontAr}', sans-serif;
-      --font-family-en: '${fontEn}', sans-serif;
-      --font-family: ${locale === 'ar' ? `'${fontAr}', sans-serif` : `'${fontEn}', sans-serif`};
+      --font-family-ar: var(--font-ibm-plex-arabic), '${fontAr}', sans-serif;
+      --font-family-en: var(--font-jakarta), '${fontEn}', sans-serif;
+      --font-family: ${locale === 'ar' ? `var(--font-ibm-plex-arabic), '${fontAr}', sans-serif` : `var(--font-jakarta), '${fontEn}', sans-serif`};
     }
     body {
       background-color: var(--bg-color) !important;
       background-image:
+        radial-gradient(rgba(0, 218, 243, ${dotOpacity}) 2px, transparent 2px),
         radial-gradient(ellipse 80% 60% at 50% -20%, color-mix(in srgb, ${primaryColor} 6%, transparent) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(6, 30, 70, 0.4) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(6, 30, 70, 0.4) 0%, transparent 60%) !important;
+      background-size: 32px 32px, 100% 100%, 100% 100% !important;
       color: #f0f8ff;
       font-family: var(--font-family) !important;
       transition: background-color 0.5s ease;

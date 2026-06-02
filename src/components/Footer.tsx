@@ -12,10 +12,10 @@ export default function Footer() {
     : (data.content['logo_text_en'] || 'Digital Health');
 
   const phone = data.content['contact_phone'] || '+9660541659332';
-  const email = data.content['contact_email'] || 'info@digitalhealth.agency';
+  const email = data.content['contact_email'] || 'Info@DigitalHealth-sa.com';
   const address = locale === 'ar' 
-    ? (data.content['contact_address'] || 'طريق الملك فهد، العليا، الرياض، المملكة العربية السعودية')
-    : 'King Fahd Road, Al Olaya, Riyadh, Saudi Arabia';
+    ? (data.content['contact_address'] || 'الأمير عبد العزيز بن مساعد بن جلوي، المربع، الرياض 12626، المملكة العربية السعودية')
+    : (data.content['contact_address_en'] || 'Prince Abdulaziz Bin Musaid Bin Jalawi, Al Murabba, Riyadh 12626, Saudi Arabia');
 
   const getHref = (path: string) => {
     if (locale === 'en') {

@@ -275,11 +275,35 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
     return text;
   };
 
+  const INCLUSIONS: Record<string, string[]> = {
+    identity: isRtl 
+      ? ['بناء البراند الشخصي للأطباء', 'تصميم الهوية البصرية الطبية (شعار، ألوان، خطوط...)']
+      : ['Personal Branding for Doctors', 'Medical Visual Identity Design (Logo, Colors, Fonts...)'],
+    social: isRtl
+      ? ['إنتاج محتوى بصري عالي الدقة', 'فيديوهات قصيرة احترافية (Shorts & Reels)', 'إدارة الحملات الإعلانية والتفاعل مع الجمهور', 'محتوى طبي موثوق وجذاب يبني الثقة ويزيد الوصول']
+      : ['High-Resolution Visual Content', 'Professional Short Videos (Shorts & Reels)', 'Ad Campaigns Management & Engagement', 'Trusted & Compelling Medical Content'],
+    seo: isRtl
+      ? ['تصدر نتائج البحث في Google', 'استهداف كلمات بحث المرضى', 'زيادة الزيارات والحجوزات']
+      : ['Ranking High on Google Search', 'Targeting Patient Search Keywords', 'Increasing Visits & Bookings'],
+    ppc: isRtl
+      ? ['Google Ads للحجوزات المباشرة', 'حملات Meta: Instagram & Facebook', 'حملات TikTok, Snapchat, X, LinkedIn', 'استهداف دقيق للمرضى المحتملين']
+      : ['Google Ads for Direct Bookings', 'Meta Campaigns: Instagram & Facebook', 'TikTok, Snapchat, X, LinkedIn Campaigns', 'Precise Patient Targeting'],
+    reputation: isRtl
+      ? ['تحسين تقييمات Google', 'إدارة آراء المرضى', 'بناء الثقة الرقمية']
+      : ['Improving Google Reviews', 'Managing Patient Feedback', 'Building Digital Trust'],
+    web: isRtl
+      ? ['مواقع متوافقة مع تجربة المريض', 'حجز مواعيد أونلاين', 'صفحات خدمات محسّنة للتحويل']
+      : ['Websites Optimized for Patient Experience', 'Online Appointment Bookings', 'Conversion-Optimized Service Pages']
+  };
+
   const currentService = rawService || dbService ? {
     icon: dbService?.icon || rawService?.icon || 'clinical_notes',
     tag: dbService ? (isRtl ? dbService.tag_ar : dbService.tag_en) : (rawService?.tag ? selectLocalText(rawService.tag) : ''),
     title: dbService ? (isRtl ? dbService.title_ar : dbService.title_en) : (rawService?.title ? selectLocalText(rawService.title) : ''),
     desc: dbService ? (isRtl ? dbService.desc_ar : dbService.desc_en) : (rawService?.desc ? selectLocalText(rawService.desc) : ''),
+    includes: dbService && dbService.tags_ar && dbService.tags_ar.length > 0
+      ? (isRtl ? dbService.tags_ar : dbService.tags_en)
+      : (INCLUSIONS[normalizedSlug] || []),
     btnText: dbService ? (isRtl ? dbService.btnText_ar : dbService.btnText_en) : (rawService?.btnText ? selectLocalText(rawService.btnText) : ''),
     benefitTitle: dbService ? (isRtl ? dbService.benefitTitle_ar : dbService.benefitTitle_en) : (rawService?.benefitTitle ? selectLocalText(rawService.benefitTitle) : ''),
     benefitDesc: dbService ? (isRtl ? dbService.benefitDesc_ar : dbService.benefitDesc_en) : (rawService?.benefitDesc ? selectLocalText(rawService.benefitDesc) : ''),
@@ -372,6 +396,22 @@ export default function ServiceDetailPage({ slug }: ServiceDetailProps) {
               <p className={`text-base md:text-lg text-slate-300 leading-relaxed ${isRtl ? 'text-right' : 'text-left'}`}>
                 {currentService.desc}
               </p>
+              
+              {currentService.includes && currentService.includes.length > 0 && (
+                <div className="space-y-4 pt-2">
+                  <h3 className="text-xs font-black tracking-widest text-cyan-400 uppercase">
+                    {isRtl ? 'ما تشمله الخدمة:' : 'What this service includes:'}
+                  </h3>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {currentService.includes.map((item: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-300">
+                        <span className="material-symbols-outlined text-cyan-400 text-lg shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               
               <div className="pt-4">
                 <Link 

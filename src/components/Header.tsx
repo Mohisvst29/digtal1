@@ -19,9 +19,9 @@ export default function Header() {
   const navItems = [
     { name_ar: 'الرئيسية', name_en: 'Home', path: '' },
     { name_ar: 'من نحن', name_en: 'About Us', path: 'about' },
-    { name_ar: 'الأطباء', name_en: 'Doctors', path: 'doctors' },
-    { name_ar: 'العيادات والمراكز', name_en: 'Clinics & Centers', path: 'clinics' },
     { name_ar: 'خدماتنا', name_en: 'Services', path: 'services' },
+    { name_ar: 'العيادات والمراكز', name_en: 'Clinics & Centers', path: 'clinics' },
+    { name_ar: 'الأطباء', name_en: 'Doctors', path: 'doctors' },
     { name_ar: 'أعمالنا', name_en: 'Portfolio', path: 'portfolio' },
     { name_ar: 'مقالات', name_en: 'Blog', path: 'blog' },
     { name_ar: 'أسئلة', name_en: 'FAQ', path: 'faq' },
